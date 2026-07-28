@@ -176,12 +176,41 @@ def remove_meal(meal_id):
 def add_food():
     meal_id = request.form.get('meal_id')
     meal_date = request.form.get('meal_date', get_today_date_str())
+    food_source = request.form.get('food_source', 'taco') # 'taco' or 'custom'
     taco_food_id = request.form.get('taco_food_id')
     amount_g = request.form.get('amount_g', 100)
 
+    # Custom food fields
+    custom_name = request.form.get('custom_name', '').strip()
+    custom_kcal = request.form.get('custom_kcal', 0)
+    custom_p = request.form.get('custom_p', 0)
+    custom_c = request.form.get('custom_c', 0)
+    custom_f = request.form.get('custom_f', 0)
+
     try:
-        taco_id = int(taco_food_id) if taco_food_id and taco_food_id.isdigit() else None
-        success, result = add_food_to_meal(meal_id, taco_id, amount_g)
+        if food_source == 'custom':
+            if not custom_name:
+                flash('Informe o nome do alimento personalizado.', 'danger')
+                return redirect(url_for('main.diet', date=meal_date))
+                
+            success, result = add_food_to_meal(
+                meal_id,
+                taco_food_id=None,
+                amount_g=amount_g,
+                custom_name=custom_name,
+                custom_kcal=custom_kcal,
+                custom_p=custom_p,
+                custom_c=custom_c,
+                custom_f=custom_f
+            )
+        else:
+            taco_id = int(taco_food_id) if taco_food_id and taco_food_id.isdigit() else None
+            if not taco_id:
+                flash('Selecione um alimento da Tabela TACO.', 'warning')
+                return redirect(url_for('main.diet', date=meal_date))
+                
+            success, result = add_food_to_meal(meal_id, taco_id, amount_g)
+
         if success:
             flash('Alimento adicionado à refeição!', 'success')
         else:

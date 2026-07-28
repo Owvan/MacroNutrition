@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const foodModalEl = document.getElementById('addFoodModal');
     if (!foodModalEl) return;
 
+    const foodSourceInput = document.getElementById('food_source');
     const searchInput = document.getElementById('taco_search_input');
     const searchResults = document.getElementById('taco_search_results');
     const selectedFoodBox = document.getElementById('selected_food_box');
@@ -9,6 +10,13 @@ document.addEventListener('DOMContentLoaded', function () {
     const selectedFoodCategory = document.getElementById('selected_food_category');
     const tacoFoodIdInput = document.getElementById('taco_food_id');
     const amountInput = document.getElementById('amount_g');
+
+    // Custom Food Inputs
+    const customNameInput = document.getElementById('custom_name');
+    const customKcalInput = document.getElementById('custom_kcal');
+    const customCInput = document.getElementById('custom_c');
+    const customPInput = document.getElementById('custom_p');
+    const customFInput = document.getElementById('custom_f');
 
     // Live Preview Elements inside Modal
     const previewKcal = document.getElementById('preview_kcal');
@@ -19,12 +27,16 @@ document.addEventListener('DOMContentLoaded', function () {
     let currentSelectedFood = null;
     let debounceTimer = null;
 
-    // Open Modal for Specific Meal
+    window.switchFoodSource = function (type) {
+        if (foodSourceInput) foodSourceInput.value = type;
+        updateFoodPreview();
+    };
+
     window.openAddFoodModal = function (mealId, mealName) {
         document.getElementById('modal_meal_id').value = mealId;
         document.getElementById('modal_meal_title').textContent = mealName;
 
-        // Reset fields
+        if (foodSourceInput) foodSourceInput.value = 'taco';
         if (searchInput) searchInput.value = '';
         if (searchResults) {
             searchResults.innerHTML = '';
@@ -33,7 +45,22 @@ document.addEventListener('DOMContentLoaded', function () {
         if (selectedFoodBox) selectedFoodBox.classList.add('d-none');
         if (tacoFoodIdInput) tacoFoodIdInput.value = '';
         if (amountInput) amountInput.value = 100;
+        
+        if (customNameInput) customNameInput.value = '';
+        if (customKcalInput) customKcalInput.value = '250';
+        if (customCInput) customCInput.value = '30';
+        if (customPInput) customPInput.value = '10';
+        if (customFInput) customFInput.value = '10';
+
         currentSelectedFood = null;
+
+        // Reset to first tab
+        const tacoTabBtn = document.getElementById('taco-tab');
+        if (tacoTabBtn && typeof bootstrap !== 'undefined') {
+            const tab = new bootstrap.Tab(tacoTabBtn);
+            tab.show();
+        }
+
         updateFoodPreview();
 
         if (typeof bootstrap !== 'undefined') {
@@ -119,7 +146,28 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function updateFoodPreview() {
         const amount = parseFloat(amountInput.value) || 0;
+        const source = foodSourceInput ? foodSourceInput.value : 'taco';
 
+        if (source === 'custom') {
+            const customKcal = parseFloat(customKcalInput ? customKcalInput.value : 0) || 0;
+            const customC = parseFloat(customCInput ? customCInput.value : 0) || 0;
+            const customP = parseFloat(customPInput ? customPInput.value : 0) || 0;
+            const customF = parseFloat(customFInput ? customFInput.value : 0) || 0;
+
+            const factor = amount / 100.0;
+            const kcal = Math.round(customKcal * factor);
+            const carbs = (customC * factor).toFixed(1);
+            const protein = (customP * factor).toFixed(1);
+            const fat = (customF * factor).toFixed(1);
+
+            if (previewKcal) previewKcal.textContent = `${kcal} kcal`;
+            if (previewCarbs) previewCarbs.textContent = `${carbs}g`;
+            if (previewProtein) previewProtein.textContent = `${protein}g`;
+            if (previewFat) previewFat.textContent = `${fat}g`;
+            return;
+        }
+
+        // TACO Food Mode
         if (!currentSelectedFood || amount <= 0) {
             if (previewKcal) previewKcal.textContent = '0 kcal';
             if (previewCarbs) previewCarbs.textContent = '0g';
@@ -140,7 +188,8 @@ document.addEventListener('DOMContentLoaded', function () {
         if (previewFat) previewFat.textContent = `${fat}g`;
     }
 
-    if (amountInput) {
-        amountInput.addEventListener('input', updateFoodPreview);
-    }
+    if (amountInput) amountInput.addEventListener('input', updateFoodPreview);
+    [customKcalInput, customCInput, customPInput, customFInput].forEach(inp => {
+        if (inp) inp.addEventListener('input', updateFoodPreview);
+    });
 });
