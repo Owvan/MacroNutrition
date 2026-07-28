@@ -8,6 +8,15 @@ from app.services.macro_services import (
     PRESETS,
     OMS_PRESET
 )
+from app.services.taco_services import search_taco_foods, get_taco_food_by_id
+from app.services.diet_services import (
+    get_daily_diet_summary,
+    add_user_meal,
+    delete_user_meal,
+    add_food_to_meal,
+    delete_meal_item,
+    get_today_date_str
+)
 
 main = Blueprint('main', __name__)
 
@@ -46,12 +55,10 @@ def calculator():
             'targets': targets
         }
         
-        # Save BMR calculation to database
         save_bmr_record(user_id, gender, weight, height, age, activity_level)
         flash('Cálculo corporal salvo com sucesso! Agora defina a divisão dos seus macronutrientes abaixo.', 'success')
         return redirect(url_for('main.macronutrients'))
         
-    # If GET request and user has a previous record, load it into result
     if not calculation_result and latest_bmr:
         tdee = latest_bmr['tdee']
         calculation_result = {
@@ -80,10 +87,8 @@ def macronutrients():
     latest_bmr = get_latest_user_bmr(user_id)
     latest_macro = get_latest_user_macro(user_id)
 
-    # Base target calories from latest TDEE or default to 2000 kcal
     base_calories = latest_bmr['tdee'] if latest_bmr else 2000.0
     
-    # Preset selections or latest user saved macros
     current_carb_pct = latest_macro['carb_pct'] if latest_macro else OMS_PRESET['carb_pct']
     current_protein_pct = latest_macro['protein_pct'] if latest_macro else OMS_PRESET['protein_pct']
     current_fat_pct = latest_macro['fat_pct'] if latest_macro else OMS_PRESET['fat_pct']
@@ -110,31 +115,100 @@ def save_macros():
     fat_pct = request.form.get('fat_pct', 30)
 
     try:
-        # Validate total percentage equals 100
         total_pct = float(carb_pct) + float(protein_pct) + float(fat_pct)
         if abs(total_pct - 100.0) > 0.5:
             flash('A soma das porcentagens dos macronutrientes deve ser igual a 100%.', 'danger')
             return redirect(url_for('main.macronutrients'))
 
         save_macro_record(user_id, target_calories, carb_pct, protein_pct, fat_pct)
-        flash('Divisão de Macronutrientes salva no seu perfil com sucesso!', 'success')
+        flash('Divisão de Macronutrientes salva no seu perfil com sucesso! Agora você pode montar sua dieta diária.', 'success')
+        return redirect(url_for('main.diet'))
     except Exception as e:
         flash(f'Erro ao salvar macronutrientes: {str(e)}', 'danger')
 
     return redirect(url_for('main.macronutrients'))
 
 
-@main.route('/api/calculate-macros', methods=['POST'])
+# ================= DIET & MEALS ROUTES =================
+
+@main.route('/dieta', methods=['GET'])
 @login_required
-def api_calculate_macros():
-    data = request.get_json() or {}
-    target_calories = data.get('target_calories', 2000)
-    carb_pct = data.get('carb_pct', 50)
-    protein_pct = data.get('protein_pct', 20)
-    fat_pct = data.get('fat_pct', 30)
+def diet():
+    user_id = session.get('user_id')
+    meal_date = request.args.get('date', get_today_date_str())
+    
+    diet_data = get_daily_diet_summary(user_id, meal_date)
+    return render_template('diet.html', diet=diet_data, current_date=meal_date)
+
+
+@main.route('/dieta/adicionar-refeicao', methods=['POST'])
+@login_required
+def add_meal():
+    user_id = session.get('user_id')
+    meal_name = request.form.get('meal_name', '').strip()
+    meal_date = request.form.get('meal_date', get_today_date_str())
+    
+    success, result = add_user_meal(user_id, meal_name, meal_date)
+    if success:
+        flash(f'Refeição "{meal_name}" adicionada com sucesso!', 'success')
+    else:
+        flash(result, 'danger')
+        
+    return redirect(url_for('main.diet', date=meal_date))
+
+
+@main.route('/dieta/remover-refeicao/<int:meal_id>', methods=['POST'])
+@login_required
+def remove_meal(meal_id):
+    user_id = session.get('user_id')
+    meal_date = request.form.get('meal_date', get_today_date_str())
+    
+    if delete_user_meal(user_id, meal_id):
+        flash('Refeição removida da dieta.', 'success')
+    else:
+        flash('Não foi possível remover a refeição.', 'danger')
+        
+    return redirect(url_for('main.diet', date=meal_date))
+
+
+@main.route('/dieta/adicionar-alimento', methods=['POST'])
+@login_required
+def add_food():
+    meal_id = request.form.get('meal_id')
+    meal_date = request.form.get('meal_date', get_today_date_str())
+    taco_food_id = request.form.get('taco_food_id')
+    amount_g = request.form.get('amount_g', 100)
 
     try:
-        res = calculate_macros(target_calories, carb_pct, protein_pct, fat_pct)
-        return jsonify({'success': True, 'data': res})
+        taco_id = int(taco_food_id) if taco_food_id and taco_food_id.isdigit() else None
+        success, result = add_food_to_meal(meal_id, taco_id, amount_g)
+        if success:
+            flash('Alimento adicionado à refeição!', 'success')
+        else:
+            flash(result, 'danger')
     except Exception as e:
-        return jsonify({'success': False, 'error': str(e)}), 400
+        flash(f'Erro ao registrar alimento: {str(e)}', 'danger')
+
+    return redirect(url_for('main.diet', date=meal_date))
+
+
+@main.route('/dieta/remover-item/<int:item_id>', methods=['POST'])
+@login_required
+def remove_food_item(item_id):
+    user_id = session.get('user_id')
+    meal_date = request.form.get('meal_date', get_today_date_str())
+
+    if delete_meal_item(user_id, item_id):
+        flash('Alimento removido da refeição.', 'success')
+    else:
+        flash('Erro ao remover alimento.', 'danger')
+
+    return redirect(url_for('main.diet', date=meal_date))
+
+
+@main.route('/api/taco/search', methods=['GET'])
+@login_required
+def api_taco_search():
+    query = request.args.get('q', '')
+    foods = search_taco_foods(query)
+    return jsonify({'success': True, 'foods': foods})
