@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     };
 
-    // Autocomplete Search for TACO & TBCA
+    // Local Autocomplete Search for TACO, TBCA & Auto-Saved OFF items (350ms debounce)
     if (searchInput) {
         searchInput.addEventListener('input', function () {
             const query = this.value.trim();
@@ -114,13 +114,13 @@ document.addEventListener('DOMContentLoaded', function () {
                             renderSearchResults(data.foods);
                         } else {
                             if (searchResults) {
-                                searchResults.innerHTML = '<div class="p-3 text-muted text-center small"><i class="bi bi-search me-1"></i> Nenhum alimento encontrado em TACO ou TBCA.</div>';
+                                searchResults.innerHTML = '<div class="p-3 text-muted text-center small"><i class="bi bi-search me-1"></i> Nenhum alimento encontrado no banco local. Use a aba "Código de Barras" para consultar itens industrializados.</div>';
                                 searchResults.classList.remove('d-none');
                             }
                         }
                     })
                     .catch(err => console.error('Erro na busca alimentícia:', err));
-            }, 250);
+            }, 350);
         });
     }
 
@@ -129,8 +129,16 @@ document.addEventListener('DOMContentLoaded', function () {
         searchResults.innerHTML = '';
 
         foods.forEach(food => {
-            const sourceLabel = food.source === 'TBCA' ? 'TBCA (USP)' : 'TACO';
-            const sourceBadgeClass = food.source === 'TBCA' ? 'bg-primary text-white' : 'bg-teal text-white';
+            let sourceLabel = 'TACO';
+            let sourceBadgeClass = 'bg-teal text-white';
+
+            if (food.source === 'TBCA') {
+                sourceLabel = 'TBCA (USP)';
+                sourceBadgeClass = 'bg-primary text-white';
+            } else if (food.source === 'OFF') {
+                sourceLabel = 'Open Food Facts';
+                sourceBadgeClass = 'bg-purple text-white bg-dark';
+            }
 
             const item = document.createElement('a');
             item.href = '#';
@@ -167,8 +175,16 @@ document.addEventListener('DOMContentLoaded', function () {
         if (selectedFoodCategory) selectedFoodCategory.textContent = food.category;
         
         if (selectedFoodSource) {
-            selectedFoodSource.textContent = food.source === 'TBCA' ? 'TBCA (USP)' : 'TACO';
-            selectedFoodSource.className = food.source === 'TBCA' ? 'badge bg-primary text-white me-1' : 'badge bg-teal text-white me-1';
+            if (food.source === 'TBCA') {
+                selectedFoodSource.textContent = 'TBCA (USP)';
+                selectedFoodSource.className = 'badge bg-primary text-white me-1';
+            } else if (food.source === 'OFF') {
+                selectedFoodSource.textContent = 'Open Food Facts';
+                selectedFoodSource.className = 'badge bg-dark text-white me-1';
+            } else {
+                selectedFoodSource.textContent = 'TACO';
+                selectedFoodSource.className = 'badge bg-teal text-white me-1';
+            }
         }
 
         if (selectedFoodBox) selectedFoodBox.classList.remove('d-none');
@@ -197,7 +213,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
 
                 if (data.found) {
-                    // Populate hidden fields
                     if (customNameInput) customNameInput.value = data.name;
                     if (customKcalInput) customKcalInput.value = data.energy_kcal;
                     if (customCInput) customCInput.value = data.carbs_g;
@@ -212,7 +227,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     updateFoodPreview();
                 } else {
-                    // Show fallback error box
                     if (barcodeResultBox) barcodeResultBox.classList.add('d-none');
                     if (barcodeErrorMsg) barcodeErrorMsg.textContent = data.error || 'Código de barras não localizado.';
                     if (barcodeFallbackBox) barcodeFallbackBox.classList.remove('d-none');
@@ -224,7 +238,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     btnSearchBarcode.disabled = false;
                     btnSearchBarcode.innerHTML = '<i class="bi bi-search me-1"></i> Consultar EAN';
                 }
-                if (barcodeErrorMsg) barcodeErrorMsg.textContent = 'Erro de conexão ao consultar código de barras.';
+                if (barcodeErrorMsg) barcodeErrorMsg.textContent = 'Erro ao consultar código de barras.';
                 if (barcodeFallbackBox) barcodeFallbackBox.classList.remove('d-none');
             });
     }
@@ -241,13 +255,37 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Fallback Name Search in Open Food Facts API
+    // Fallback Name Search in Open Food Facts API (Solution 2: 600ms Debounce & Min 3 chars)
+    function executeFallbackSearch() {
+        const query = fallbackNameInput ? fallbackNameInput.value.trim() : '';
+        if (query.length < 3) return;
+
+        if (fallbackSearchResults) {
+            fallbackSearchResults.innerHTML = '<div class="p-2 text-muted text-center small"><span class="spinner-border spinner-border-sm me-1"></span> Consultando API Open Food Facts...</div>';
+            fallbackSearchResults.classList.remove('d-none');
+        }
+
+        fetch(`/api/openfoodfacts/search?q=${encodeURIComponent(query)}`)
+            .then(res => res.json())
+            .then(data => {
+                if (data.success && data.foods.length > 0) {
+                    renderFallbackResults(data.foods);
+                } else {
+                    if (fallbackSearchResults) {
+                        fallbackSearchResults.innerHTML = '<div class="p-2 text-muted text-center small"><i class="bi bi-search me-1"></i> Nenhum produto encontrado na API.</div>';
+                        fallbackSearchResults.classList.remove('d-none');
+                    }
+                }
+            })
+            .catch(err => console.error('Erro no fallback OFF:', err));
+    }
+
     if (fallbackNameInput) {
         fallbackNameInput.addEventListener('input', function () {
             const query = this.value.trim();
 
             clearTimeout(fallbackDebounceTimer);
-            if (query.length < 2) {
+            if (query.length < 3) {
                 if (fallbackSearchResults) {
                     fallbackSearchResults.innerHTML = '';
                     fallbackSearchResults.classList.add('d-none');
@@ -255,21 +293,16 @@ document.addEventListener('DOMContentLoaded', function () {
                 return;
             }
 
-            fallbackDebounceTimer = setTimeout(() => {
-                fetch(`/api/openfoodfacts/search?q=${encodeURIComponent(query)}`)
-                    .then(res => res.json())
-                    .then(data => {
-                        if (data.success && data.foods.length > 0) {
-                            renderFallbackResults(data.foods);
-                        } else {
-                            if (fallbackSearchResults) {
-                                fallbackSearchResults.innerHTML = '<div class="p-2 text-muted text-center small"><i class="bi bi-search me-1"></i> Nenhum produto industrializado encontrado na API.</div>';
-                                fallbackSearchResults.classList.remove('d-none');
-                            }
-                        }
-                    })
-                    .catch(err => console.error('Erro no fallback OFF:', err));
-            }, 300);
+            // 600ms Debounce to prevent rate-limiting Open Food Facts servers
+            fallbackDebounceTimer = setTimeout(executeFallbackSearch, 600);
+        });
+
+        fallbackNameInput.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                clearTimeout(fallbackDebounceTimer);
+                executeFallbackSearch();
+            }
         });
     }
 
@@ -284,7 +317,7 @@ document.addEventListener('DOMContentLoaded', function () {
             item.innerHTML = `
                 <div>
                     <strong class="d-block text-dark small">${food.name}</strong>
-                    <small class="text-muted fs-7">Open Food Facts</small>
+                    <small class="text-muted fs-7">Open Food Facts &bull; Salvo no app</small>
                 </div>
                 <div class="text-end">
                     <span class="badge bg-primary bg-opacity-10 text-primary fs-7 fw-bold">${Math.round(food.energy_kcal)} kcal</span>
@@ -301,7 +334,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (customFInput) customFInput.value = food.fat_g;
 
                 if (barcodeProductName) barcodeProductName.textContent = food.name;
-                if (barcodeNumberLabel) barcodeNumberLabel.textContent = 'Open Food Facts API';
+                if (barcodeNumberLabel) barcodeNumberLabel.textContent = 'Open Food Facts (Salvo)';
                 if (barcodeResultBox) barcodeResultBox.classList.remove('d-none');
                 if (fallbackSearchResults) fallbackSearchResults.classList.add('d-none');
 

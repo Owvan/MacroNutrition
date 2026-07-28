@@ -2,6 +2,7 @@ import urllib.request
 import urllib.parse
 import json
 import re
+from app.database import get_db
 
 HEADERS = {
     'User-Agent': 'MacroNutritionApp/1.0 (contact@macronutrition.app - Python/Flask)',
@@ -14,17 +15,55 @@ DOMAINS = [
     'https://fr.openfoodfacts.org'
 ]
 
+def save_off_product_to_db(name, category, energy_kcal, protein_g, carbs_g, fat_g, fiber_g=0):
+    """Salva um produto do Open Food Facts no banco de dados SQLite local para buscas futuras sem API."""
+    try:
+        db = get_db()
+        cursor = db.cursor()
+        cursor.execute('''
+            INSERT OR IGNORE INTO taco_foods (name, category, energy_kcal, protein_g, carbs_g, fat_g, fiber_g, source)
+            VALUES (?, ?, ?, ?, ?, ?, ?, 'OFF')
+        ''', (name, category, energy_kcal, protein_g, carbs_g, fat_g, fiber_g))
+        db.commit()
+    except Exception as e:
+        print(f"Erro ao salvar produto no SQLite: {e}")
+
 def fetch_product_by_barcode(barcode):
-    """Consulta um produto na API Open Food Facts pelo Código de Barras (EAN)."""
-    barcode = re.sub(r'\D', '', str(barcode))
-    if not barcode:
+    """Consulta um produto no SQLite local primeiro ou na API Open Food Facts pelo Código de Barras (EAN)."""
+    barcode_clean = re.sub(r'\D', '', str(barcode))
+    if not barcode_clean:
         return {'found': False, 'error': 'Código de barras inválido.'}
 
+    # 1. Check local SQLite first
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute('''
+        SELECT id, name, category, energy_kcal, protein_g, carbs_g, fat_g, fiber_g, source
+        FROM taco_foods
+        WHERE name LIKE ?
+        LIMIT 1
+    ''', (f"%{barcode_clean}%",))
+    row = cursor.fetchone()
+    if row:
+        r = dict(row)
+        return {
+            'found': True,
+            'name': r['name'],
+            'barcode': barcode_clean,
+            'energy_kcal': r['energy_kcal'],
+            'protein_g': r['protein_g'],
+            'carbs_g': r['carbs_g'],
+            'fat_g': r['fat_g'],
+            'fiber_g': r['fiber_g'],
+            'category': r['category']
+        }
+
+    # 2. Fetch from API with domain redundancy
     for domain in DOMAINS:
-        url = f"{domain}/api/v0/product/{barcode}.json"
+        url = f"{domain}/api/v0/product/{barcode_clean}.json"
         try:
             req = urllib.request.Request(url, headers=HEADERS)
-            with urllib.request.urlopen(req, timeout=6) as response:
+            with urllib.request.urlopen(req, timeout=5) as response:
                 if response.status == 200:
                     data = json.loads(response.read().decode('utf-8'))
                     if data.get('status') == 1 and 'product' in data:
@@ -45,10 +84,10 @@ def fetch_product_by_barcode(barcode):
                         fat_g = nutriments.get('fat_100g', 0)
                         fiber_g = nutriments.get('fiber_100g', 0)
 
-                        return {
+                        result_item = {
                             'found': True,
                             'name': full_name.strip(),
-                            'barcode': barcode,
+                            'barcode': barcode_clean,
                             'energy_kcal': round(float(energy_kcal or 0), 1),
                             'protein_g': round(float(protein_g or 0), 1),
                             'carbs_g': round(float(carbs_g or 0), 1),
@@ -56,13 +95,26 @@ def fetch_product_by_barcode(barcode):
                             'fiber_g': round(float(fiber_g or 0), 1),
                             'category': 'Open Food Facts'
                         }
+
+                        # Auto-persist into local SQLite database
+                        save_off_product_to_db(
+                            result_item['name'],
+                            result_item['category'],
+                            result_item['energy_kcal'],
+                            result_item['protein_g'],
+                            result_item['carbs_g'],
+                            result_item['fat_g'],
+                            result_item['fiber_g']
+                        )
+
+                        return result_item
         except Exception:
             continue
 
-    return {'found': False, 'error': f'Nenhum produto localizado para o código EAN {barcode}.'}
+    return {'found': False, 'error': f'Nenhum produto localizado para o código EAN {barcode_clean}.'}
 
 def search_openfoodfacts_by_name(query, limit=12):
-    """Busca produtos de supermercado por nome na API Open Food Facts com fallbacks de espelho."""
+    """Busca produtos por nome na API Open Food Facts e auto-salva no SQLite local."""
     if not query or len(query.strip()) < 2:
         return []
 
@@ -92,7 +144,7 @@ def search_openfoodfacts_by_name(query, limit=12):
                                 energy_kj = nutriments.get('energy_100g', 0)
                                 energy_kcal = (float(energy_kj) / 4.184) if energy_kj else 0
 
-                            results.append({
+                            item = {
                                 'id': None,
                                 'name': full_name.strip(),
                                 'category': 'Open Food Facts',
@@ -102,7 +154,20 @@ def search_openfoodfacts_by_name(query, limit=12):
                                 'fat_g': round(float(nutriments.get('fat_100g', 0) or 0), 1),
                                 'fiber_g': round(float(nutriments.get('fiber_100g', 0) or 0), 1),
                                 'source': 'OFF'
-                            })
+                            }
+                            results.append(item)
+
+                            # Auto-persist into SQLite for instant future offline searches
+                            save_off_product_to_db(
+                                item['name'],
+                                item['category'],
+                                item['energy_kcal'],
+                                item['protein_g'],
+                                item['carbs_g'],
+                                item['fat_g'],
+                                item['fiber_g']
+                            )
+
                         if results:
                             return results
         except Exception:
