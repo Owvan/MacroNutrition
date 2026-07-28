@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}Login - MacroNutrition{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center my-4 py-3">
+    <div class="col-md-6 col-lg-5">
+        <div class="card card-custom p-4 p-md-5">
+            <div class="text-center mb-4">
+                <div class="brand-icon mx-auto d-flex align-items-center justify-content-center mb-3 shadow-sm" style="width: 54px; height: 54px; font-size: 1.75rem;">
+                    <i class="bi bi-person-badge"></i>
+                </div>
+                <h2 class="fw-bold text-dark mb-1">Acessar Conta</h2>
+                <p class="text-muted small">Informe suas credenciais para acessar o painel e calculadoras</p>
+            </div>
+
+            <form method="POST" action="{{ url_for('auth.login') }}">
+                <div class="mb-3">
+                    <label for="identifier" class="form-label fw-semibold">Usuário ou E-mail</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-person"></i></span>
+                        <input type="text" class="form-control border-start-0 ps-0" id="identifier" name="identifier" placeholder="Seu usuário ou e-mail" required autofocus>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label for="password" class="form-label fw-semibold">Senha</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-lock"></i></span>
+                        <input type="password" class="form-control border-start-0 ps-0" id="password" name="password" placeholder="Sua senha" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-teal w-100 py-2 fs-6 mb-3">
+                    <i class="bi bi-box-arrow-in-right me-2"></i>Entrar
+                </button>
+            </form>
+
+            <div class="text-center mt-3 pt-3 border-top">
+                <p class="text-muted small mb-0">Ainda não tem uma conta? 
+                    <a href="{{ url_for('auth.register') }}" class="text-teal fw-bold text-decoration-none ms-1">Cadastre-se gratuitamente</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
