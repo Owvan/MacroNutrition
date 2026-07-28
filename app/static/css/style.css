@@ -112,7 +112,7 @@ h1, h2, h3, h4, h5, h6, .brand-text {
     color: #ffffff;
 }
 
-/* Form Controls */
+/* Form Controls & Inputs Polish */
 .form-control, .form-select {
     border: 1.5px solid #cbd5e1;
     border-radius: 10px;
@@ -124,6 +124,28 @@ h1, h2, h3, h4, h5, h6, .brand-text {
 .form-control:focus, .form-select:focus {
     border-color: var(--primary-teal);
     box-shadow: 0 0 0 4px rgba(13, 148, 136, 0.15);
+}
+
+/* Input group padding & alignment adjustments */
+.input-group .form-control {
+    padding-left: 0.85rem;
+    padding-right: 0.85rem;
+}
+
+.input-group-text {
+    padding-left: 0.85rem;
+    padding-right: 0.85rem;
+    border-color: #cbd5e1;
+}
+
+/* Remove default number input spinner arrows to prevent text truncation */
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type=number] {
+    -moz-appearance: textfield;
 }
 
 /* Gender Selector Radio Buttons */
@@ -183,29 +205,6 @@ h1, h2, h3, h4, h5, h6, .brand-text {
 
 .target-card.gain {
     border-left: 4px solid #10b981;
-}
-
-/* Table Styling */
-.table-custom {
-    border-collapse: separate;
-    border-spacing: 0;
-    width: 100%;
-}
-
-.table-custom th {
-    background-color: #f1f5f9;
-    color: #475569;
-    font-weight: 600;
-    text-transform: uppercase;
-    font-size: 0.75rem;
-    letter-spacing: 0.05em;
-    padding: 0.85rem 1rem;
-}
-
-.table-custom td {
-    padding: 0.95rem 1rem;
-    border-bottom: 1px solid #f1f5f9;
-    vertical-align: middle;
 }
 
 /* Footer */
