@@ -65,12 +65,13 @@ h1, h2, h3, h4, h5, h6, .brand-text {
     background-color: #f0fdfa;
 }
 
-/* Custom Cards */
+/* Custom Cards with Rounded Corners */
 .card-custom {
     background: #ffffff;
     border: 1px solid var(--border-color);
     border-radius: var(--border-radius);
     box-shadow: var(--card-shadow);
+    overflow: hidden; /* Ensures child headers/tables respect rounded corners */
     transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
@@ -205,6 +206,46 @@ input[type=number] {
 
 .target-card.gain {
     border-left: 4px solid #10b981;
+}
+
+/* Table Styling & Rounded Corners */
+.table-custom {
+    border-collapse: separate;
+    border-spacing: 0;
+    width: 100%;
+    margin-bottom: 0;
+}
+
+.table-custom th {
+    background-color: #f8fafc;
+    color: #475569;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    padding: 1rem 1.35rem !important; /* Generous internal padding */
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.table-custom td {
+    padding: 1.1rem 1.35rem !important; /* Generous internal cell padding */
+    border-bottom: 1px solid #f1f5f9;
+    vertical-align: middle;
+}
+
+.table-custom tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.table-custom tbody tr:hover {
+    background-color: #f8fafc;
+}
+
+.table-responsive-custom {
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+    background: #ffffff;
 }
 
 /* Footer */
