@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const proteinRange = document.getElementById('protein_range');
     const fatRange = document.getElementById('fat_range');
 
+    const presetSelect = document.getElementById('preset_select');
     const totalPctBadge = document.getElementById('total-pct-badge');
 
     // Display elements for grams & kcal
@@ -21,11 +22,24 @@ document.addEventListener('DOMContentLoaded', function () {
     const fatGramsEl = document.getElementById('fat-grams');
     const fatKcalEl = document.getElementById('fat-kcal');
 
+    // Modal elements
+    const customMacroModalEl = document.getElementById('customMacroModal');
+    let customModal = null;
+    if (customMacroModalEl && typeof bootstrap !== 'undefined') {
+        customModal = new bootstrap.Modal(customMacroModalEl);
+    }
+
+    const modalCarbInput = document.getElementById('modal_carb');
+    const modalProteinInput = document.getElementById('modal_protein');
+    const modalFatInput = document.getElementById('modal_fat');
+    const modalTotalBadge = document.getElementById('modal-total-pct-badge');
+    const modalErrorMsg = document.getElementById('modal-error-msg');
+    const btnApplyModal = document.getElementById('btn-apply-modal-custom');
+
     // Chart Canvas
     const canvas = document.getElementById('macroChart');
     let macroChart = null;
 
-    // Initialize Chart.js Donut Chart
     if (canvas && typeof Chart !== 'undefined') {
         const ctx = canvas.getContext('2d');
         macroChart = new Chart(ctx, {
@@ -114,7 +128,6 @@ document.addEventListener('DOMContentLoaded', function () {
         newOther1 = Math.max(0, Math.min(100, newOther1));
         newOther2 = Math.max(0, Math.min(100, newOther2));
 
-        // Update inputs & ranges
         inputs[changedType].value = newValue;
         ranges[changedType].value = newValue;
 
@@ -136,7 +149,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const totalPct = carbPct + proteinPct + fatPct;
 
-        // Update Total Percentage Badge
         if (totalPctBadge) {
             totalPctBadge.textContent = `${totalPct.toFixed(0)}%`;
             if (Math.abs(totalPct - 100) < 0.1) {
@@ -146,7 +158,6 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
 
-        // Calculate kcal and grams
         const carbKcal = totalCalories * (carbPct / 100);
         const proteinKcal = totalCalories * (proteinPct / 100);
         const fatKcal = totalCalories * (fatPct / 100);
@@ -155,7 +166,6 @@ document.addEventListener('DOMContentLoaded', function () {
         const proteinGrams = Math.round(proteinKcal / 4);
         const fatGrams = Math.round(fatKcal / 9);
 
-        // Update Text Elements
         if (carbGramsEl) carbGramsEl.textContent = `${carbGrams}g`;
         if (carbKcalEl) carbKcalEl.textContent = `${Math.round(carbKcal)} kcal`;
 
@@ -165,11 +175,83 @@ document.addEventListener('DOMContentLoaded', function () {
         if (fatGramsEl) fatGramsEl.textContent = `${fatGrams}g`;
         if (fatKcalEl) fatKcalEl.textContent = `${Math.round(fatKcal)} kcal`;
 
-        // Update Chart
         if (macroChart) {
             macroChart.data.datasets[0].data = [carbGrams, proteinGrams, fatGrams];
             macroChart.update();
         }
+    }
+
+    // Dropdown Preset Change Event
+    if (presetSelect) {
+        presetSelect.addEventListener('change', function () {
+            const val = this.value;
+            if (val === 'oms') {
+                applyPreset(50, 20, 30);
+            } else if (val === 'sports') {
+                applyPreset(40, 30, 30);
+            } else if (val === 'lowcarb') {
+                applyPreset(25, 40, 35);
+            } else if (val === 'keto') {
+                applyPreset(5, 25, 70);
+            } else if (val === 'custom') {
+                // Populate Modal with current values
+                if (modalCarbInput) modalCarbInput.value = carbPctInput.value;
+                if (modalProteinInput) modalProteinInput.value = proteinPctInput.value;
+                if (modalFatInput) modalFatInput.value = fatPctInput.value;
+
+                validateModalPercentages();
+
+                if (customModal) {
+                    customModal.show();
+                } else if (customMacroModalEl && typeof bootstrap !== 'undefined') {
+                    customModal = new bootstrap.Modal(customMacroModalEl);
+                    customModal.show();
+                }
+            }
+        });
+    }
+
+    // Modal Live Validation
+    function validateModalPercentages() {
+        if (!modalCarbInput || !modalProteinInput || !modalFatInput) return;
+
+        const c = parseFloat(modalCarbInput.value) || 0;
+        const p = parseFloat(modalProteinInput.value) || 0;
+        const f = parseFloat(modalFatInput.value) || 0;
+        const sum = c + p + f;
+
+        if (modalTotalBadge) {
+            modalTotalBadge.textContent = `${sum.toFixed(0)}%`;
+            if (Math.abs(sum - 100) < 0.1) {
+                modalTotalBadge.className = 'badge bg-success bg-opacity-10 text-success fs-5 fw-bold';
+                if (modalErrorMsg) modalErrorMsg.classList.add('d-none');
+                if (btnApplyModal) btnApplyModal.disabled = false;
+            } else {
+                modalTotalBadge.className = 'badge bg-danger bg-opacity-10 text-danger fs-5 fw-bold';
+                if (modalErrorMsg) modalErrorMsg.classList.remove('d-none');
+                if (btnApplyModal) btnApplyModal.disabled = true;
+            }
+        }
+    }
+
+    [modalCarbInput, modalProteinInput, modalFatInput].forEach(inp => {
+        if (inp) {
+            inp.addEventListener('input', validateModalPercentages);
+        }
+    });
+
+    // Apply Custom Modal Values
+    if (btnApplyModal) {
+        btnApplyModal.addEventListener('click', function () {
+            const c = parseFloat(modalCarbInput.value) || 0;
+            const p = parseFloat(modalProteinInput.value) || 0;
+            const f = parseFloat(modalFatInput.value) || 0;
+
+            if (Math.abs((c + p + f) - 100) < 0.1) {
+                applyPreset(c, p, f);
+                if (customModal) customModal.hide();
+            }
+        });
     }
 
     // Attach listener for auto balancing
@@ -194,7 +276,7 @@ document.addEventListener('DOMContentLoaded', function () {
         targetCalInput.addEventListener('input', updateMacroCalculations);
     }
 
-    // Presets
+    // Helper to apply preset values
     window.applyPreset = function (carb, protein, fat) {
         isBalancing = true;
         if (carbPctInput) carbPctInput.value = carb;
@@ -210,6 +292,5 @@ document.addEventListener('DOMContentLoaded', function () {
         updateMacroCalculations();
     };
 
-    // Initial Calculation Run
     updateMacroCalculations();
 });
