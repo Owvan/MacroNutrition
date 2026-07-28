@@ -82,7 +82,7 @@ def init_db():
             carbs_g REAL NOT NULL,
             fat_g REAL NOT NULL,
             fiber_g REAL DEFAULT 0,
-            source TEXT DEFAULT 'TACO'
+            source TEXT DEFAULT 'TBCA'
         );
     ''')
 
@@ -90,7 +90,7 @@ def init_db():
     cursor.execute("PRAGMA table_info(taco_foods)")
     columns = [row[1] for row in cursor.fetchall()]
     if 'source' not in columns:
-        cursor.execute("ALTER TABLE taco_foods ADD COLUMN source TEXT DEFAULT 'TACO'")
+        cursor.execute("ALTER TABLE taco_foods ADD COLUMN source TEXT DEFAULT 'TBCA'")
 
     # Create fast index for food search
     cursor.execute("CREATE INDEX IF NOT EXISTS idx_taco_foods_name ON taco_foods(name);")
@@ -126,14 +126,14 @@ def init_db():
 
     conn.commit()
 
-    # Seed TACO & TBCA foods from JSON dataset
+    # Seed TBCA foods from JSON dataset
     seed_foods_from_json(cursor)
 
     conn.commit()
     conn.close()
 
 def seed_foods_from_json(cursor):
-    """Carrega o acervo estruturado de alimentos TACO e TBCA do arquivo foods_database.json para o SQLite."""
+    """Carrega o acervo da TBCA (USP) do arquivo foods_database.json para o SQLite."""
     base_dir = os.path.dirname(os.path.abspath(__file__))
     json_path = os.path.join(base_dir, 'data', 'foods_database.json')
 
@@ -153,10 +153,13 @@ def seed_foods_from_json(cursor):
                 float(item['carbs_g']),
                 float(item['fat_g']),
                 float(item.get('fiber_g', 0)),
-                item.get('source', 'TACO')
+                item.get('source', 'TBCA')
             )
             for item in foods_list
         ]
+
+        # Reset previous TACO records to focus purely on TBCA USP
+        cursor.execute("DELETE FROM taco_foods WHERE source = 'TACO'")
 
         cursor.executemany('''
             INSERT OR IGNORE INTO taco_foods (name, category, energy_kcal, protein_g, carbs_g, fat_g, fiber_g, source)
