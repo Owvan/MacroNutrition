@@ -16,6 +16,9 @@
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+    
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
@@ -44,8 +47,8 @@
                             </a>
                         </li>
                         <li class="nav-item ms-lg-2">
-                            <a class="nav-link {% if request.path == '/historico' %}active{% endif %}" href="{{ url_for('main.history') }}">
-                                <i class="bi bi-clock-history me-1"></i> Meu Histórico
+                            <a class="nav-link {% if request.path == '/macronutrientes' %}active{% endif %}" href="{{ url_for('main.macronutrients') }}">
+                                <i class="bi bi-pie-chart-fill me-1"></i> Macronutrientes
                             </a>
                         </li>
                         
@@ -129,6 +132,7 @@
     
     <!-- Custom JS -->
     <script src="{{ url_for('static', filename='js/bmr.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/macros.js') }}"></script>
 
     {% block scripts %}{% endblock %}
 </body>

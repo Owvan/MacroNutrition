@@ -1,0 +1,179 @@
+{% extends "base.html" %}
+
+{% block title %}Painel Administrativo{% endblock %}
+
+{% block content %}
+<div class="row align-items-center mb-4">
+    <div class="col-md-8">
+        <h2 class="fw-bold mb-1"><i class="bi bi-shield-lock-fill text-primary me-2"></i>Controle de Usuários</h2>
+        <p class="text-muted mb-0">Gerencie o cadastro de usuários, aprove o acesso ou altere os privilégios das contas.</p>
+    </div>
+    <div class="col-md-4 text-md-end mt-3 mt-md-0">
+        <a href="{{ url_for('main.home') }}" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left me-1"></i> Voltar à Análise
+        </a>
+    </div>
+</div>
+
+<div class="row g-4 mb-5">
+    
+    <!-- Left Column: Metrics and Instructions -->
+    <div class="col-lg-3">
+        <!-- Stats Card: Total Users -->
+        <div class="card shadow-sm border-0 mb-3 p-3 primary metric-card">
+            <div class="card-body">
+                <span class="text-muted small text-uppercase fw-semibold">Contas Registradas</span>
+                <h2 class="fw-bold text-dark mt-2 mb-1 display-6" id="totalCount">{{ users|length }}</h2>
+                <p class="text-muted small mb-0">Contas comuns e administradores auxiliares (excluindo admin master).</p>
+            </div>
+        </div>
+
+        <!-- Info / Tip Card -->
+        <div class="card shadow-sm border-0 bg-light p-3">
+            <div class="card-body">
+                <h6 class="fw-bold text-dark mb-2"><i class="bi bi-info-circle text-primary me-2"></i>Níveis de Acesso</h6>
+                <p class="text-muted small mb-2"><strong>Admin:</strong> Pode gerenciar usuários, banco de CEPs e visualizar/analisar relatórios.</p>
+                <p class="text-muted small mb-0"><strong>Comum:</strong> Apenas analisa planilhas e monta rotas, sem acesso ao banco de dados bruto de CEPs ou painel administrativo.</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Right Column: Users List -->
+    <div class="col-lg-9">
+        <div class="card shadow-sm border-0 h-100 d-flex flex-column p-3">
+            <div class="card-body p-0 d-flex flex-column h-100">
+                
+                <!-- Table Controls -->
+                <div class="d-flex align-items-center justify-content-between mb-3 px-2">
+                    <h5 class="fw-bold mb-0"><i class="bi bi-people-fill text-primary me-2"></i>Relação de Contas</h5>
+                    <input 
+                        type="text" 
+                        id="userSearch" 
+                        class="form-control form-control-sm w-50" 
+                        placeholder="Buscar por usuário..."
+                    >
+                </div>
+                
+                <!-- Users Table -->
+                <div class="table-responsive border rounded-3 flex-grow-1 overflow-auto" style="max-height: 450px;">
+                    <table class="table table-hover align-middle" id="usersTable">
+                        <thead>
+                            <tr>
+                                <th>Nome de Usuário</th>
+                                <th>Data de Cadastro</th>
+                                <th>Cargo</th>
+                                <th>Status</th>
+                                <th class="text-end">Ações de Controle</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for u in users %}
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="avatar bg-light text-secondary rounded-circle d-flex align-items-center justify-content-center me-2" style="width: 32px; height: 32px;">
+                                            <i class="bi bi-person-fill"></i>
+                                        </div>
+                                        <span class="fw-bold text-dark fs-6">{{ u.username }}</span>
+                                    </div>
+                                </td>
+                                <td class="text-muted small">{{ u.created_at }}</td>
+                                <td>
+                                    {% if u.is_admin %}
+                                        <span class="badge bg-primary-subtle text-primary border border-primary-subtle d-inline-flex align-items-center">
+                                            <i class="bi bi-shield-lock-fill me-1"></i> Admin
+                                        </span>
+                                    {% else %}
+                                        <span class="badge bg-light text-muted border d-inline-flex align-items-center">
+                                            <i class="bi bi-person me-1"></i> Comum
+                                        </span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if u.approved %}
+                                        <span class="badge bg-success-subtle text-success d-inline-flex align-items-center">
+                                            <i class="bi bi-patch-check-fill me-1"></i> Aprovado
+                                        </span>
+                                    {% else %}
+                                        <span class="badge bg-secondary-subtle text-secondary d-inline-flex align-items-center">
+                                            <i class="bi bi-clock-history me-1"></i> Pendente
+                                        </span>
+                                    {% endif %}
+                                </td>
+                                <td class="text-end">
+                                    <div class="d-flex justify-content-end gap-2">
+                                        <!-- Botão Aprovar (Apenas para contas pendentes) -->
+                                        {% if not u.approved %}
+                                        <form action="{{ url_for('auth.aprovar_usuario', user_id=u.id) }}" method="POST" class="d-inline">
+                                            <button type="submit" class="btn btn-sm btn-success bg-gradient d-inline-flex align-items-center py-1 px-3" title="Aprovar Usuário">
+                                                <i class="bi bi-check-lg me-1"></i> Aprovar
+                                            </button>
+                                        </form>
+                                        {% endif %}
+                                        
+                                        <!-- Alterar Cargo (Promover/Rebaixar) -->
+                                        <form action="{{ url_for('auth.alterar_cargo_usuario', user_id=u.id) }}" method="POST" class="d-inline">
+                                            {% if u.is_admin %}
+                                            <button type="submit" class="btn btn-sm btn-outline-secondary d-inline-flex align-items-center py-1 px-2" title="Rebaixar para Usuário Comum" onclick="return confirm('Deseja realmente rebaixar os privilégios de \'{{ u.username }}\'?')">
+                                                <i class="bi bi-person-down me-1"></i> Rebaixar
+                                            </button>
+                                            {% else %}
+                                            <button type="submit" class="btn btn-sm btn-outline-primary d-inline-flex align-items-center py-1 px-2" title="Promover para Administrador">
+                                                <i class="bi bi-shield-plus me-1"></i> Promover
+                                            </button>
+                                            {% endif %}
+                                        </form>
+                                        
+                                        <!-- Botão Excluir (Disponível para qualquer conta comum/admin auxiliar) -->
+                                        <form action="{{ url_for('auth.deletar_usuario', user_id=u.id) }}" method="POST" class="d-inline" onsubmit="return confirm('Deseja realmente deletar a conta de \'{{ u.username }}\' permanentemente?')">
+                                            <button type="submit" class="btn btn-sm btn-outline-danger d-inline-flex align-items-center py-1 px-2" title="Excluir Usuário">
+                                                <i class="bi bi-trash3-fill"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="5" class="text-center py-5 text-muted">
+                                    <i class="bi bi-people fs-2 d-block mb-2"></i>
+                                    Nenhum usuário registrado no banco de dados.
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const userSearch = document.getElementById('userSearch');
+        const tableRows = document.querySelectorAll('#usersTable tbody tr');
+
+        // Busca rápida textual
+        userSearch.addEventListener('input', function(e) {
+            const query = e.target.value.toLowerCase().trim();
+            
+            tableRows.forEach(row => {
+                const usernameCell = row.querySelector('.fw-bold');
+                if (usernameCell) {
+                    const text = usernameCell.innerText.toLowerCase();
+                    if (text.includes(query)) {
+                        row.classList.remove('d-none');
+                    } else {
+                        row.classList.add('d-none');
+                    }
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

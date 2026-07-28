@@ -1,0 +1,774 @@
+{% extends "base.html" %}
+
+{% block title %}Planejador de Rotas{% endblock %}
+
+{% block content %}
+<div class="row align-items-center mb-4">
+    <div class="col-md-8">
+        <h2 class="fw-bold mb-1"><i class="bi bi-map-fill text-primary me-2"></i>Planejamento de Rotas</h2>
+        <p class="text-muted mb-0">Trace rotas reais por estradas rodoviárias e otimize a sequência de visitas para economizar tempo e combustível.</p>
+    </div>
+</div>
+
+<div class="row g-4 mb-5">
+    
+    <!-- Left Column: Controls & Itinerary -->
+    <div class="col-lg-5 col-12">
+        
+        <!-- Tab Navigation (Active Analysis vs Manual Route) -->
+        <ul class="nav nav-pills mb-3 bg-white p-1 rounded-3 shadow-sm border border-light" id="routeTabs" role="tablist">
+            <li class="nav-item flex-grow-1" role="presentation">
+                <button class="nav-link w-100 py-2 fw-semibold {% if has_active_analysis %}active{% else %}disabled{% endif %}" id="analysis-tab" data-bs-toggle="tab" data-bs-target="#analysis-panel" type="button" role="tab" aria-selected="true">
+                    <i class="bi bi-file-earmark-spreadsheet me-1"></i> Usar Análise Ativa
+                </button>
+            </li>
+            <li class="nav-item flex-grow-1" role="presentation">
+                <button class="nav-link w-100 py-2 fw-semibold {% if not has_active_analysis %}active{% endif %}" id="manual-tab" data-bs-toggle="tab" data-bs-target="#manual-panel" type="button" role="tab" aria-selected="false">
+                    <i class="bi bi-pencil-square me-1"></i> Montagem Manual
+                </button>
+            </li>
+        </ul>
+        
+        <!-- Tab Content -->
+        <div class="tab-content" id="routeTabsContent">
+            
+            <!-- Panel 1: Active Analysis -->
+            <div class="tab-pane fade {% if has_active_analysis %}show active{% endif %}" id="analysis-panel" role="tabpanel" aria-labelledby="analysis-tab">
+                <!-- Select Origin Matrix -->
+                <div class="card shadow-sm border-0 mb-3 p-3">
+                    <div class="card-body">
+                        <label for="selectMatriz" class="form-label fw-bold text-dark small">Unidade de Origem (Matriz/Filial)</label>
+                        <select class="form-select" id="selectMatriz">
+                            {% for m in matrizes %}
+                                <option value="{{ m.cep }}" data-lat="{{ m.latitude }}" data-lon="{{ m.longitude }}" data-nome="{{ m.nome }}">
+                                    {{ m.nome }} ({{ m.municipio }}-{{ m.uf }})
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Destinations Checklist -->
+                <div class="card shadow-sm border-0 mb-3 p-3">
+                    <div class="card-body p-0">
+                        <div class="d-flex align-items-center justify-content-between mb-2">
+                            <label class="form-label fw-bold text-dark small mb-0">Destinos (Selecione os Clientes)</label>
+                            <div class="form-check small mb-0">
+                                <input class="form-check-input" type="checkbox" id="selectAllClients">
+                                <label class="form-check-label text-muted small fw-semibold" for="selectAllClients">Todos</label>
+                            </div>
+                        </div>
+                        
+                        <input type="text" id="clientSearch" class="form-control form-control-sm mb-3 bg-light border-0" placeholder="Filtrar clientes...">
+                        
+                        <div class="overflow-auto border rounded-3 p-2 bg-light" style="max-height: 240px;" id="clientsChecklist">
+                            {% for c in clientes %}
+                            <div class="form-check border-bottom py-2 client-check-item">
+                                <input class="form-check-input client-route-check" type="checkbox" value="{{ c.id }}" id="chk-{{ c.id }}"
+                                       data-nome="{{ c.nome }}" data-lat="{{ c.latitude }}" data-lon="{{ c.longitude }}" data-cep="{{ c.cep_limpo }}" data-cidade="{{ c.municipio }}">
+                                <label class="form-check-label w-100" for="chk-{{ c.id }}">
+                                    <div class="fw-bold text-dark text-truncate" style="max-width: 250px;">{{ c.nome }}</div>
+                                    <span class="text-muted small">CEP: {{ c.cep }} &bull; {{ c.municipio }}-{{ c.uf }}</span>
+                                </label>
+                            </div>
+                            {% else %}
+                            <div class="text-center py-4 text-muted small">Nenhum cliente disponível. Realize uma análise primeiro na aba Analisar.</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Panel 2: Manual Route -->
+            <div class="tab-pane fade {% if not has_active_analysis %}show active{% endif %}" id="manual-panel" role="tabpanel" aria-labelledby="manual-tab">
+                
+                <!-- Manual Origin -->
+                <div class="card shadow-sm border-0 mb-3 p-3">
+                    <div class="card-body">
+                        <label class="form-label fw-bold text-dark small"><i class="bi bi-play-circle-fill text-primary me-1"></i>Ponto de Partida (Origem)</label>
+                        <div class="input-group">
+                            <input type="text" id="manualOriginCep" class="form-control cep-input-mask border-2" placeholder="CEP (Ex: 01310-100)" maxlength="9">
+                            <button class="btn btn-primary" type="button" id="resolveOriginBtn">Definir</button>
+                        </div>
+                        <div id="originResultText" class="form-text text-success small mt-1 d-none"></div>
+                    </div>
+                </div>
+
+                <!-- Manual Destinations List Builder -->
+                <div class="card shadow-sm border-0 mb-3 p-3">
+                    <div class="card-body">
+                        <label class="form-label fw-bold text-dark small"><i class="bi bi-geo-alt-fill text-danger me-1"></i>Adicionar Destino Avulso</label>
+                        
+                        <div class="mb-3">
+                            <input type="text" id="manualDestName" class="form-control mb-2" placeholder="Nome do Destino (Ex: Entrega A)">
+                            <div class="input-group">
+                                <input type="text" id="manualDestCep" class="form-control cep-input-mask border-2" placeholder="CEP do Destino" maxlength="9">
+                                <button class="btn btn-outline-primary" type="button" id="addManualDestBtn">Adicionar</button>
+                            </div>
+                        </div>
+
+                        <label class="form-label fw-semibold text-muted small mb-2">Destinos Adicionados (<span id="manualDestCount">0</span>)</label>
+                        <div class="list-group overflow-auto border rounded-3 p-1 bg-light" style="max-height: 180px;" id="manualStopsList">
+                            <!-- Inserido dinamicamente via JS -->
+                            <div class="text-center py-4 text-muted small" id="noManualDestMsg">Nenhum destino adicionado à rota manual.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Common Route Settings -->
+        <div class="card shadow-sm border-0 mb-4 p-3">
+            <div class="card-body py-1">
+                <div class="form-check form-switch mb-3">
+                    <input class="form-check-input" type="checkbox" id="chkReturnToStart" checked>
+                    <label class="form-check-label fw-semibold text-dark small" for="chkReturnToStart">Retornar ao ponto de partida ao final da rota (Circuito Fechado)</label>
+                </div>
+                
+                <div class="row g-2">
+                    <div class="col-6">
+                        <button type="button" class="btn btn-primary w-100 py-3 d-flex flex-column align-items-center justify-content-center bg-gradient" id="btnCalculateOrder">
+                            <span class="fs-6 fw-bold"><i class="bi bi-signpost-split me-1"></i> Calcular Rota</span>
+                            <span class="small text-white-50" style="font-size: 0.75rem;">Ordem Selecionada</span>
+                        </button>
+                    </div>
+                    <div class="col-6">
+                        <button type="button" class="btn btn-success w-100 py-3 d-flex flex-column align-items-center justify-content-center bg-gradient" id="btnOptimizeRoute">
+                            <span class="fs-6 fw-bold"><i class="bi bi-lightning-charge me-1"></i> Otimizar Rota</span>
+                            <span class="small text-white-50" style="font-size: 0.75rem;">Menor Distância (TSP)</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <button type="button" class="btn btn-outline-danger w-100 mt-2 py-2 small" id="btnClearRoute">
+                    <i class="bi bi-trash"></i> Limpar Rota
+                </button>
+            </div>
+        </div>
+
+        <!-- Route Summary results (Initially Hidden) -->
+        <div class="card shadow-sm border-0 mb-4 p-3 d-none" id="routeSummaryCard">
+            <div class="card-body">
+                <h5 class="fw-bold mb-3 border-bottom pb-2 text-dark"><i class="bi bi-info-circle text-primary me-2"></i>Resultados do Trajeto</h5>
+                
+                <!-- Summary Metrics -->
+                <div class="row g-2 mb-3">
+                    <div class="col-6">
+                        <div class="p-2 border rounded-3 bg-light text-center">
+                            <span class="text-muted small d-block">Distância Rodoviária</span>
+                            <span class="fs-4 fw-bold text-dark" id="summaryDistance">0.0 km</span>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="p-2 border rounded-3 bg-light text-center">
+                            <span class="text-muted small d-block">Tempo de Viagem</span>
+                            <span class="fs-4 fw-bold text-dark" id="summaryDuration">0 min</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Timeline Stops sequential -->
+                <label class="form-label fw-bold text-dark small mb-2"><i class="bi bi-sign-turn-right me-1"></i>Sequência das Paradas</label>
+                <div class="timeline-stops-container p-2" id="timelineStops">
+                    <!-- Gerado dinamicamente -->
+                </div>
+            </div>
+        </div>
+
+    </div>
+    
+    <!-- Right Column: Leaflet Map -->
+    <div class="col-lg-7 col-12">
+        <div class="card border-0 shadow-sm">
+            <div class="card-body p-2">
+                <div id="map" style="height: 600px;"></div>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+<!-- Estilos inline específicos para os marcadores numéricos Leaflet -->
+<style>
+    .custom-numbered-marker {
+        width: 26px !important;
+        height: 26px !important;
+        margin-left: -13px !important;
+        margin-top: -13px !important;
+        border-radius: 50%;
+        border: 2px solid white;
+        font-family: 'Outfit', sans-serif;
+        font-size: 0.85rem;
+        font-weight: 700;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.25);
+    }
+    
+    .timeline-stop-row {
+        position: relative;
+        padding-left: 30px;
+        margin-bottom: 12px;
+    }
+    .timeline-stop-row::before {
+        content: '';
+        position: absolute;
+        left: 9px;
+        top: 22px;
+        bottom: -20px;
+        width: 2px;
+        background-color: #cbd5e1;
+    }
+    .timeline-stop-row:last-child::before {
+        display: none;
+    }
+    .timeline-stop-badge {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        font-size: 0.75rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+</style>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        
+        // --- 1. CONFIGURAÇÕES INICIAIS DO MAPA ---
+        // Coordenadas padrão inicial (São Paulo) se não houver análise ativa
+        let initialLat = -23.5505;
+        let initialLon = -46.6333;
+        
+        const hasActiveAnalysis = {{ 'true' if has_active_analysis else 'false' }};
+        const matrizes = {{ matrizes|tojson if has_active_analysis else '[]' }};
+        
+        if (hasActiveAnalysis && matrizes.length > 0) {
+            initialLat = matrizes[0].latitude;
+            initialLon = matrizes[0].longitude;
+        }
+        
+        const map = L.map('map').setView([initialLat, initialLon], 9);
+        
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+        
+        // Elementos UI
+        const clientSearch = document.getElementById('clientSearch');
+        const checklistItems = document.querySelectorAll('.client-check-item');
+        const selectAllClients = document.getElementById('selectAllClients');
+        const selectMatriz = document.getElementById('selectMatriz');
+        
+        // Listas globais de controle
+        let routeMarkers = [];
+        let routePolyline = null;
+        let manualDestinations = [];
+        let activeOrigin = null; // { nome, lat, lon }
+        
+        // --- 2. REGRA DINÂMICA DE MÁSCARA DE CEP ---
+        document.addEventListener('input', function(e) {
+            if (e.target.classList.contains('cep-input-mask')) {
+                let value = e.target.value.replace(/\D/g, '');
+                if (value.length > 5) {
+                    value = value.substring(0, 5) + '-' + value.substring(5, 8);
+                }
+                e.target.value = value;
+            }
+        });
+        
+        // --- 3. REGRAS DO MODO DE ANÁLISE ATIVA (TAB 1) ---
+        if (hasActiveAnalysis) {
+            // Selecionar todos os clientes
+            selectAllClients.addEventListener('change', function(e) {
+                const checks = document.querySelectorAll('.client-route-check');
+                checks.forEach(chk => {
+                    const parent = chk.closest('.client-check-item');
+                    // Apenas seleciona se o item não estiver escondido pelo filtro de busca
+                    if (parent && !parent.classList.contains('d-none')) {
+                        chk.checked = e.target.checked;
+                    }
+                });
+            });
+            
+            // Busca rápida dos clientes
+            clientSearch.addEventListener('input', function(e) {
+                const query = e.target.value.toLowerCase().trim();
+                checklistItems.forEach(item => {
+                    const text = item.innerText.toLowerCase();
+                    if (text.includes(query)) {
+                        item.classList.remove('d-none');
+                    } else {
+                        item.classList.add('d-none');
+                    }
+                });
+            });
+        }
+        
+        // --- 4. REGRAS DO MODO MANUAL (TAB 2) ---
+        const manualOriginCep = document.getElementById('manualOriginCep');
+        const resolveOriginBtn = document.getElementById('resolveOriginBtn');
+        const originResultText = document.getElementById('originResultText');
+        const manualDestName = document.getElementById('manualDestName');
+        const manualDestCep = document.getElementById('manualDestCep');
+        const addManualDestBtn = document.getElementById('addManualDestBtn');
+        const manualStopsList = document.getElementById('manualStopsList');
+        const manualDestCount = document.getElementById('manualDestCount');
+        const noManualDestMsg = document.getElementById('noManualDestMsg');
+        
+        // Resolver o CEP de origem da Rota Manual usando BrasilAPI
+        resolveOriginBtn.addEventListener('click', async function() {
+            const cep = manualOriginCep.value.replace(/\D/g, '');
+            if (cep.length !== 8) {
+                alert("Por favor, digite um CEP válido de 8 dígitos.");
+                return;
+            }
+            
+            resolveOriginBtn.disabled = true;
+            resolveOriginBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>';
+            
+            try {
+                const response = await fetch(`https://brasilapi.com.br/api/cep/v2/${cep}`);
+                if (response.status !== 200) throw new Error("CEP não encontrado");
+                
+                const data = await response.json();
+                const city = data.city;
+                const state = data.state;
+                const lat = parseFloat(data.location.coordinates.latitude);
+                const lon = parseFloat(data.location.coordinates.longitude);
+                
+                if (isNaN(lat) || isNaN(lon)) {
+                    throw new Error("API não retornou coordenadas geográficas.");
+                }
+                
+                activeOrigin = {
+                    nome: `Partida (${city}-${state})`,
+                    lat: lat,
+                    lon: lon,
+                    cep: cep
+                };
+                
+                originResultText.innerText = `Ponto definido: ${city}-${state} (${lat.toFixed(4)}, ${lon.toFixed(4)})`;
+                originResultText.classList.remove('d-none');
+                originResultText.className = 'form-text text-success small mt-1';
+                
+                // Mover mapa para a origem manual definida
+                map.setView([lat, lon], 12);
+                
+            } catch (err) {
+                activeOrigin = null;
+                originResultText.innerText = "Erro ao localizar CEP. Digite outro CEP ou verifique a conexão.";
+                originResultText.classList.remove('d-none');
+                originResultText.className = 'form-text text-danger small mt-1';
+                alert(`Erro na busca do CEP: ${err.message}`);
+            } finally {
+                resolveOriginBtn.disabled = false;
+                resolveOriginBtn.innerHTML = 'Definir';
+            }
+        });
+        
+        // Adicionar Destino Avulso à Rota Manual
+        addManualDestBtn.addEventListener('click', async function() {
+            const nome = manualDestName.value.trim();
+            const cep = manualDestCep.value.replace(/\D/g, '');
+            
+            if (!nome) {
+                alert("Por favor, preencha o Nome do Destino.");
+                return;
+            }
+            if (cep.length !== 8) {
+                alert("Por favor, preencha um CEP de destino válido.");
+                return;
+            }
+            
+            addManualDestBtn.disabled = true;
+            addManualDestBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>';
+            
+            try {
+                const response = await fetch(`https://brasilapi.com.br/api/cep/v2/${cep}`);
+                if (response.status !== 200) throw new Error("CEP não encontrado");
+                
+                const data = await response.json();
+                const city = data.city;
+                const state = data.state;
+                const lat = parseFloat(data.location.coordinates.latitude);
+                const lon = parseFloat(data.location.coordinates.longitude);
+                
+                if (isNaN(lat) || isNaN(lon)) {
+                    throw new Error("Não foi possível geolocalizar este CEP.");
+                }
+                
+                // Adicionar destino à lista
+                const id = 'man-' + Date.now();
+                manualDestinations.push({
+                    id: id,
+                    nome: nome,
+                    cep: cep,
+                    cidade: `${city}-${state}`,
+                    lat: lat,
+                    lon: lon
+                });
+                
+                renderManualDestinationsList();
+                
+                // Reset campos
+                manualDestName.value = '';
+                manualDestCep.value = '';
+                
+            } catch (err) {
+                alert(`Erro ao adicionar destino: ${err.message}`);
+            } finally {
+                addManualDestBtn.disabled = false;
+                addManualDestBtn.innerHTML = 'Adicionar';
+            }
+        });
+        
+        // Renderizar a lista de destinos adicionados no painel manual
+        function renderManualDestinationsList() {
+            manualStopsList.innerHTML = '';
+            
+            if (manualDestinations.length === 0) {
+                noManualDestMsg.style.display = 'block';
+                manualStopsList.appendChild(noManualDestMsg);
+                manualDestCount.innerText = '0';
+                return;
+            }
+            
+            noManualDestMsg.style.display = 'none';
+            manualDestCount.innerText = manualDestinations.length;
+            
+            manualDestinations.forEach((dest, index) => {
+                const item = document.createElement('div');
+                item.className = 'list-group-item d-flex align-items-center justify-content-between py-2 border-bottom';
+                item.innerHTML = `
+                    <div>
+                        <div class="fw-bold text-dark text-truncate" style="max-width: 220px;">${dest.nome}</div>
+                        <span class="text-muted small">CEP: ${dest.cep} &bull; ${dest.cidade}</span>
+                    </div>
+                    <button class="btn btn-sm btn-link text-danger border-0 p-0 remove-manual-stop" data-idx="${index}">
+                        <i class="bi bi-trash-fill"></i>
+                    </button>
+                `;
+                manualStopsList.appendChild(item);
+            });
+            
+            // Ouvir evento de clique de remoção
+            const removeBtns = manualStopsList.querySelectorAll('.remove-manual-stop');
+            removeBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const idx = parseInt(btn.getAttribute('data-idx'));
+                    manualDestinations.splice(idx, 1);
+                    renderManualDestinationsList();
+                });
+            });
+        }
+        
+        // --- 5. LÓGICA DE PROCESSO DE ROTEIRIZAÇÃO E ALGORITMOS ---
+        
+        // Limpar todos os marcadores e linhas do mapa
+        function clearMapLayers() {
+            routeMarkers.forEach(m => map.removeLayer(m));
+            routeMarkers = [];
+            
+            if (routePolyline) {
+                map.removeLayer(routePolyline);
+                routePolyline = null;
+            }
+            
+            document.getElementById('routeSummaryCard').classList.add('d-none');
+        }
+        
+        // Ouvir botão de limpar rota
+        document.getElementById('btnClearRoute').addEventListener('click', function() {
+            clearMapLayers();
+            
+            // Limpar estados específicos
+            if (hasActiveAnalysis) {
+                const checks = document.querySelectorAll('.client-route-check');
+                checks.forEach(c => c.checked = false);
+                selectAllClients.checked = false;
+            }
+            
+            manualDestinations = [];
+            activeOrigin = null;
+            manualOriginCep.value = '';
+            manualDestName.value = '';
+            manualDestCep.value = '';
+            originResultText.classList.add('d-none');
+            renderManualDestinationsList();
+            
+            map.setView([initialLat, initialLon], 9);
+        });
+        
+        // Coleta e compila os pontos na ordem em que foram selecionados/adicionados
+        function getStopsSequence() {
+            let startNode = null;
+            let destNodes = [];
+            
+            // Verifica qual aba está ativa (Análise Ativa vs Manual)
+            const activeTab = document.querySelector('#routeTabs button.active');
+            
+            if (activeTab && activeTab.id === 'analysis-tab') {
+                // Modo Análise Ativa
+                const selectedOpt = selectMatriz.options[selectMatriz.selectedIndex];
+                if (!selectedOpt) {
+                    alert("Selecione um ponto de partida.");
+                    return null;
+                }
+                startNode = {
+                    nome: selectedOpt.getAttribute('data-nome'),
+                    lat: parseFloat(selectedOpt.getAttribute('data-lat')),
+                    lon: parseFloat(selectedOpt.getAttribute('data-lon')),
+                    cep: selectedOpt.value
+                };
+                
+                // Destinos
+                const checked = document.querySelectorAll('.client-route-check:checked');
+                checked.forEach(chk => {
+                    destNodes.push({
+                        id: chk.value,
+                        nome: chk.getAttribute('data-nome'),
+                        cep: chk.getAttribute('data-cep'),
+                        cidade: chk.getAttribute('data-cidade'),
+                        lat: parseFloat(chk.getAttribute('data-lat')),
+                        lon: parseFloat(chk.getAttribute('data-lon'))
+                    });
+                });
+                
+            } else {
+                // Modo Manual
+                if (!activeOrigin) {
+                    alert("Defina o CEP do Ponto de Partida antes de traçar a rota.");
+                    return null;
+                }
+                startNode = activeOrigin;
+                
+                if (manualDestinations.length === 0) {
+                    alert("Adicione pelo menos um CEP de destino.");
+                    return null;
+                }
+                destNodes = [...manualDestinations];
+            }
+            
+            if (destNodes.length === 0) {
+                alert("Selecione pelo menos um cliente/destino.");
+                return null;
+            }
+            
+            return {
+                origem: startNode,
+                destinos: destNodes
+            };
+        }
+        
+        // Evento de clique para rodar cálculo da rota na ordem selecionada
+        document.getElementById('btnCalculateOrder').addEventListener('click', function() {
+            const data = getStopsSequence();
+            if (!data) return;
+            
+            renderRoute(data.origem, data.destinos);
+        });
+        
+        // Evento de clique para rodar cálculo otimizado da rota (Menor Caminho - TSP)
+        document.getElementById('btnOptimizeRoute').addEventListener('click', function() {
+            const data = getStopsSequence();
+            if (!data) return;
+            
+            // Otimizar a ordem dos destinos pelo algoritmo do Vizinho Mais Próximo
+            const optimizedDestinations = runTspGreedy(data.origem, data.destinos);
+            renderRoute(data.origem, optimizedDestinations);
+        });
+        
+        // Algoritmo Vizinho Mais Próximo para Otimização de Rota (TSP)
+        function runTspGreedy(origem, destinos) {
+            let unvisited = [...destinos];
+            let current = [origem.lat, origem.lon];
+            let ordered = [];
+            
+            while (unvisited.length > 0) {
+                let nearestIdx = -1;
+                let minDistance = Infinity;
+                
+                for (let i = 0; i < unvisited.length; i++) {
+                    const dist = getGeodesicEstimate(current, [unvisited[i].lat, unvisited[i].lon]);
+                    if (dist < minDistance) {
+                        minDistance = dist;
+                        nearestIdx = i;
+                    }
+                }
+                
+                // Mover para o ponto mais próximo encontrado
+                current = [unvisited[nearestIdx].lat, unvisited[nearestIdx].lon];
+                ordered.push(unvisited[nearestIdx]);
+                unvisited.splice(nearestIdx, 1);
+            }
+            
+            return ordered;
+        }
+        
+        // Cálculo rápido da distância geodésica linear (Haversine)
+        function getGeodesicEstimate(coord1, coord2) {
+            const R = 6371; // Raio da Terra em km
+            const dLat = (coord2[0] - coord1[0]) * Math.PI / 180;
+            const dLon = (coord2[1] - coord1[1]) * Math.PI / 180;
+            
+            const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                      Math.cos(coord1[0] * Math.PI / 180) * Math.cos(coord2[0] * Math.PI / 180) * 
+                      Math.sin(dLon/2) * Math.sin(dLon/2);
+            
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+            return R * c;
+        }
+        
+        // --- 6. INTEGRAÇÃO OSRM E PLOTAGEM DE RESULTADOS ---
+        
+        async function renderRoute(origem, destinos) {
+            clearMapLayers();
+            
+            const checkReturn = document.getElementById('chkReturnToStart').checked;
+            
+            // Montar lista completa de coordenadas na ordem de visitação
+            // OSRM aceita formato: longitude,latitude separados por ponto e vírgula
+            let coordsParam = `${origem.lon},${origem.lat}`;
+            
+            // Paradas intermediárias
+            destinos.forEach(dest => {
+                coordsParam += `;${dest.lon},${dest.lat}`;
+            });
+            
+            // Retorno à origem
+            if (checkReturn) {
+                coordsParam += `;${origem.lon},${origem.lat}`;
+            }
+            
+            // Bloquear botão durante carregamento
+            const btnCalc = document.getElementById('btnCalculateOrder');
+            const btnOpt = document.getElementById('btnOptimizeRoute');
+            btnCalc.disabled = true;
+            btnOpt.disabled = true;
+            
+            try {
+                // Chamar API OSRM pública para calcular a rota rodoviária real
+                const url = `https://router.project-osrm.org/route/v1/driving/${coordsParam}?overview=full&geometries=geojson`;
+                const response = await fetch(url);
+                
+                if (response.status !== 200) throw new Error("Erro ao traçar rota por estradas.");
+                
+                const data = await response.json();
+                
+                if (!data.routes || data.routes.length === 0) {
+                    throw new Error("Nenhuma rota encontrada pelas estradas locais.");
+                }
+                
+                const route = data.routes[0];
+                const routeGeometry = route.geometry; // GeoJSON geometry (LineString)
+                const routeDistanceKm = (route.distance / 1000).toFixed(1);
+                
+                // Formatar duração (em minutos/horas)
+                const durationMinutes = Math.round(route.duration / 60);
+                let durationText = `${durationMinutes} min`;
+                if (durationMinutes > 60) {
+                    const hours = Math.floor(durationMinutes / 60);
+                    const remainingMins = durationMinutes % 60;
+                    durationText = `${hours}h ${remainingMins}min`;
+                }
+                
+                // --- PLOTAR ROTA NO MAPA ---
+                // Desenhar a linha do trajeto rodoviário real (Jejun do Leaflet GeoJSON)
+                routePolyline = L.geoJSON(routeGeometry, {
+                    style: {
+                        color: '#4f46e5',
+                        weight: 5,
+                        opacity: 0.8
+                    }
+                }).addTo(map);
+                
+                // Adicionar Marcadores Numéricos de sequência nas paradas
+                // Ponto 1: Origem
+                createNumberedMarker(1, [origem.lat, origem.lon], `<b>Origem: ${origem.nome}</b><br>CEP: ${origem.cep}`, '#1e3a8a');
+                
+                // Pontos intermediários
+                destinos.forEach((dest, index) => {
+                    const pointNum = index + 2;
+                    createNumberedMarker(pointNum, [dest.lat, dest.lon], `<b>Parada ${pointNum}: ${dest.nome}</b><br>CEP: ${dest.cep}<br>${dest.cidade}`, '#10b981');
+                });
+                
+                // Ponto final de retorno se houver
+                if (checkReturn) {
+                    const lastPointNum = destinos.length + 2;
+                    createNumberedMarker(lastPointNum, [origem.lat, origem.lon], `<b>Retorno: ${origem.nome}</b><br>CEP: ${origem.cep}`, '#1e3a8a');
+                }
+                
+                // Enquadrar o mapa nos limites do trajeto
+                map.fitBounds(routePolyline.getBounds(), { padding: [50, 50] });
+                
+                // --- EXIBIR DADOS NO PAINEL ---
+                document.getElementById('summaryDistance').innerText = `${routeDistanceKm} km`;
+                document.getElementById('summaryDuration').innerText = durationText;
+                
+                // Gerar timeline visual das paradas
+                const timelineContainer = document.getElementById('timelineStops');
+                timelineContainer.innerHTML = '';
+                
+                // Origem
+                appendTimelineStopRow(1, origem.nome, origem.cep, '#1e3a8a');
+                
+                // Destinos
+                destinos.forEach((dest, index) => {
+                    appendTimelineStopRow(index + 2, dest.nome, dest.cep, '#10b981');
+                });
+                
+                // Retorno à origem
+                if (checkReturn) {
+                    appendTimelineStopRow(destinos.length + 2, `${origem.nome} (Fim)`, origem.cep, '#1e3a8a');
+                }
+                
+                // Mostrar os resultados
+                document.getElementById('routeSummaryCard').classList.remove('d-none');
+                
+            } catch (err) {
+                alert(`Erro ao planejar trajeto: ${err.message}`);
+                console.error(err);
+            } finally {
+                btnCalc.disabled = false;
+                btnOpt.disabled = false;
+            }
+        }
+        
+        // Criar marcador circular com o número interno correspondente
+        function createNumberedMarker(num, latlng, popupText, colorHex) {
+            const numMarker = L.marker(latlng, {
+                icon: L.divIcon({
+                    className: 'custom-numbered-marker-icon',
+                    html: `<div class="custom-numbered-marker text-white d-flex align-items-center justify-content-center" style="background-color: ${colorHex};">${num}</div>`,
+                    iconSize: [26, 26],
+                    iconAnchor: [13, 13]
+                })
+            }).addTo(map);
+            
+            numMarker.bindPopup(popupText);
+            routeMarkers.push(numMarker);
+        }
+        
+        // Adicionar uma linha visual de parada no painel do itinerário
+        function appendTimelineStopRow(num, nome, cep, colorHex) {
+            const container = document.getElementById('timelineStops');
+            const row = document.createElement('div');
+            row.className = 'timeline-stop-row';
+            row.innerHTML = `
+                <div class="timeline-stop-badge text-white" style="background-color: ${colorHex};">${num}</div>
+                <div class="fw-bold text-dark" style="font-size: 0.9rem;">${nome}</div>
+                <div class="text-muted small">CEP: ${cep}</div>
+            `;
+            container.appendChild(row);
+        }
+    });
+</script>
+{% endblock %}

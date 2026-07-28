@@ -9,10 +9,6 @@ ACTIVITY_LABELS = {
 }
 
 def calculate_bmr_and_tdee(gender, weight, height, age, activity_level):
-    """
-    Calcula a Taxa Metabólica Basal (TMB) e o Gasto Calórico Total Diário (TDEE)
-    utilizando a equação de Mifflin-St Jeor.
-    """
     weight = float(weight)
     height = float(height)
     age = int(age)
@@ -20,7 +16,7 @@ def calculate_bmr_and_tdee(gender, weight, height, age, activity_level):
     
     if gender.lower() == 'female' or gender.lower() == 'feminino':
         bmr = (10 * weight) + (6.25 * height) - (5 * age) - 161
-    else: # Male / Masculino
+    else:
         bmr = (10 * weight) + (6.25 * height) - (5 * age) + 5
         
     tdee = bmr * activity_level
@@ -42,8 +38,21 @@ def save_bmr_record(user_id, gender, weight, height, age, activity_level):
     db.commit()
     return cursor.lastrowid
 
+def get_latest_user_bmr(user_id):
+    """Busca o cálculo mais recente de TMB e TDEE do usuário."""
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute('''
+        SELECT id, gender, weight, height, age, activity_level, activity_label, bmr, tdee, created_at
+        FROM bmr_records
+        WHERE user_id = ?
+        ORDER BY created_at DESC
+        LIMIT 1
+    ''', (user_id,))
+    record = cursor.fetchone()
+    return dict(record) if record else None
+
 def get_user_bmr_records(user_id):
-    """Retorna o histórico de cálculos exclusivo do usuário logado (Isolamento de dados)."""
     db = get_db()
     cursor = db.cursor()
     cursor.execute('''
@@ -56,7 +65,6 @@ def get_user_bmr_records(user_id):
     return [dict(row) for row in records]
 
 def delete_bmr_record(user_id, record_id):
-    """Remove um registro de TMB garantindo que pertença ao usuário logado."""
     db = get_db()
     cursor = db.cursor()
     cursor.execute('DELETE FROM bmr_records WHERE id = ? AND user_id = ?', (record_id, user_id))

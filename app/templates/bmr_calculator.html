@@ -10,14 +10,14 @@
             <div class="d-md-flex align-items-center justify-content-between">
                 <div>
                     <span class="badge bg-teal-light text-teal px-3 py-2 rounded-pill fw-semibold mb-2">
-                        <i class="bi bi-fire me-1"></i> Fórmula Mifflin-St Jeor
+                        <i class="bi bi-fire me-1"></i> Passo 1 de 2 &bull; Fórmula Mifflin-St Jeor
                     </span>
                     <h1 class="fw-extrabold text-dark mb-1">Calculadora de Taxa Metabólica Basal (TMB)</h1>
                     <p class="text-muted mb-0">Calcule as calorias que seu corpo queima em repouso e seu gasto calórico total diário (TDEE).</p>
                 </div>
                 <div class="mt-3 mt-md-0">
-                    <a href="{{ url_for('main.history') }}" class="btn btn-outline-teal btn-sm">
-                        <i class="bi bi-clock-history me-1"></i> Ver Meu Histórico
+                    <a href="{{ url_for('main.macronutrients') }}" class="btn btn-outline-teal btn-sm">
+                        <i class="bi bi-pie-chart-fill me-1"></i> Ir para Macronutrientes
                     </a>
                 </div>
             </div>
@@ -34,7 +34,7 @@
             <form id="bmr-form" method="POST" action="{{ url_for('main.calculator') }}">
                 <!-- Gênero -->
                 <div class="mb-4">
-                    <label class="form-label fw-semibold">Gênero BIológico</label>
+                    <label class="form-label fw-semibold">Gênero Biológico</label>
                     <div class="row g-2 gender-selector">
                         <div class="col-6">
                             <input type="radio" class="btn-check" name="gender" id="female" value="female" {% if result and result.gender == 'female' %}checked{% elif not result %}checked{% endif %}>
@@ -92,11 +92,9 @@
                     </select>
                 </div>
 
-                <input type="hidden" name="save_record" id="save_record" value="true">
-
                 <div class="d-grid gap-2">
                     <button type="submit" class="btn btn-teal py-3 fs-6">
-                        <i class="bi bi-bookmark-check-fill me-2"></i>Calcular e Salvar no Histórico
+                        <i class="bi bi-arrow-right-circle-fill me-2"></i>Calcular e Avançar para Macronutrientes
                     </button>
                 </div>
             </form>
@@ -176,6 +174,12 @@
                         {{ result.targets.weight_gain_mild|round|int if result else '2.293' }} kcal
                     </span>
                 </div>
+            </div>
+
+            <div class="mt-auto text-end pt-2">
+                <a href="{{ url_for('main.macronutrients') }}" class="btn btn-teal w-100">
+                    Ir Calcular Macronutrientes <i class="bi bi-arrow-right ms-1"></i>
+                </a>
             </div>
         </div>
     </div>

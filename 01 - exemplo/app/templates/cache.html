@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+
+{% block title %}Gerenciador de Banco de CEPs{% endblock %}
+
+{% block content %}
+<div class="row align-items-center mb-4">
+    <div class="col-md-8">
+        <h2 class="fw-bold mb-1"><i class="bi bi-database-fill-gear text-primary me-2"></i>Banco de CEPs Local</h2>
+        <p class="text-muted mb-0">Relação de municípios geocodificados armazenada no banco SQLite local para otimização de consultas.</p>
+    </div>
+    <div class="col-md-4 text-md-end mt-3 mt-md-0">
+        <form action="{{ url_for('main.cache_limpar') }}" method="POST" onsubmit="return confirm('Deseja realmente deletar todos os registros de CEP local? Consultas futuras precisarão acessar as APIs externas novamente.')">
+            <button type="submit" class="btn btn-outline-danger">
+                <i class="bi bi-trash3-fill me-1"></i> Limpar Todo o Cache
+            </button>
+        </form>
+    </div>
+</div>
+
+<div class="row g-4 mb-5">
+    
+    <!-- Left Column: Add / Stats Panel -->
+    <div class="col-lg-4">
+        
+        <!-- Stats Card -->
+        <div class="card shadow-sm border-0 mb-4 p-3 primary metric-card">
+            <div class="card-body">
+                <span class="text-muted small text-uppercase fw-semibold">Total em Cache</span>
+                <h2 class="fw-bold text-dark mt-2 mb-1 display-5">{{ total }}</h2>
+                <p class="text-muted small mb-0">CEPs com municípios e coordenadas geográficas salvos localmente.</p>
+            </div>
+        </div>
+        
+        <!-- Add Custom CEP Form -->
+        <div class="card shadow-sm border-0 p-3">
+            <div class="card-body">
+                <h5 class="fw-bold mb-3"><i class="bi bi-plus-circle-fill text-primary me-2"></i>Adicionar Novo CEP</h5>
+                <form action="{{ url_for('main.cache_adicionar') }}" method="POST">
+                    <div class="mb-3">
+                        <label for="cep" class="form-label text-muted small fw-semibold">Digite o CEP</label>
+                        <input 
+                            type="text" 
+                            class="form-control form-control-lg border-2" 
+                            id="cepInput" 
+                            name="cep" 
+                            placeholder="Ex: 08673-000"
+                            maxlength="9" 
+                            required
+                        >
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary bg-gradient py-2">
+                            <i class="bi bi-search me-1"></i> Buscar e Registrar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+    </div>
+    
+    <!-- Right Column: Cached CEPs List -->
+    <div class="col-lg-8">
+        <div class="card shadow-sm border-0 h-100 d-flex flex-column p-3">
+            <div class="card-body p-0 d-flex flex-column h-100">
+                <div class="d-flex align-items-center justify-content-between mb-3 px-2">
+                    <h5 class="fw-bold mb-0"><i class="bi bi-card-list text-primary me-2"></i>Registros Recentes (Últimos 100)</h5>
+                    <input 
+                        type="text" 
+                        id="cacheSearch" 
+                        class="form-control form-control-sm w-50" 
+                        placeholder="Buscar por CEP, cidade ou UF..."
+                    >
+                </div>
+                
+                <div class="table-responsive border rounded-3 flex-grow-1 overflow-auto" style="max-height: 450px;">
+                    <table class="table table-hover align-middle" id="cacheTable">
+                        <thead>
+                            <tr>
+                                <th>CEP</th>
+                                <th>Município / UF</th>
+                                <th>Coordenadas (Lat, Lon)</th>
+                                <th>Criado Em</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for c in ceps %}
+                            <tr>
+                                <td class="fw-bold text-dark">{{ c.cep[:5] }}-{{ c.cep[5:] }}</td>
+                                <td>{{ c.municipio }} - <span class="badge bg-secondary-subtle text-dark">{{ c.uf }}</span></td>
+                                <td class="font-monospace small">
+                                    {% if c.latitude is not none and c.longitude is not none %}
+                                        {{ "%.6f"|format(c.latitude) }}, {{ "%.6f"|format(c.longitude) }}
+                                    </td>
+                                    {% else %}
+                                        <span class="text-muted">Sem Coordenadas</span>
+                                    {% endif %}
+                                </td>
+                                <td class="text-muted small">{{ c.created_at }}</td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="4" class="text-center py-4 text-muted">
+                                    <i class="bi bi-database-exclamation fs-3 d-block mb-2"></i>
+                                    Nenhum CEP em cache no momento. Faça uma análise para registrar CEPs.
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const cepInput = document.getElementById('cepInput');
+        const cacheSearch = document.getElementById('cacheSearch');
+        const tableRows = document.querySelectorAll('#cacheTable tbody tr');
+
+        // Formatar campo de CEP (adicionar hífen)
+        cepInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 5) {
+                value = value.substring(0, 5) + '-' + value.substring(5, 8);
+            }
+            e.target.value = value;
+        });
+
+        // Filtro em tempo real na tabela de cache
+        cacheSearch.addEventListener('input', function(e) {
+            const query = e.target.value.toLowerCase().trim();
+            
+            tableRows.forEach(row => {
+                const text = row.innerText.toLowerCase();
+                if (text.includes(query)) {
+                    row.classList.remove('d-none');
+                } else {
+                    row.classList.add('d-none');
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

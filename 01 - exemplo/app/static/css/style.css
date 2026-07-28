@@ -1,0 +1,283 @@
+/* Custom Design System - GabyGeo App */
+
+:root {
+    --primary-color: #3b82f6;
+    --primary-hover: #2563eb;
+    --primary-light: #eff6ff;
+    --dark-bg: #0f172a;
+    --body-bg: #f8fafc;
+    --card-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.05), 0 4px 12px -5px rgba(0, 0, 0, 0.03);
+    --border-radius: 12px;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--body-bg);
+    color: #334155;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+h1, h2, h3, h4, h5, h6, .logo-text {
+    font-family: 'Outfit', sans-serif;
+    color: #1e293b;
+    font-weight: 600;
+}
+
+/* Navbar */
+.navbar {
+    background-color: var(--dark-bg) !important;
+    padding: 0.75rem 0;
+}
+
+.logo-icon {
+    width: 32px;
+    height: 32px;
+    font-size: 1.1rem;
+}
+
+.logo-text {
+    font-size: 1.3rem;
+    letter-spacing: -0.5px;
+    color: #ffffff;
+}
+
+.navbar-nav .nav-link {
+    color: #94a3b8 !important;
+    font-weight: 500;
+    padding: 0.5rem 1rem !important;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.navbar-nav .nav-link:hover, 
+.navbar-nav .nav-link.active {
+    color: #ffffff !important;
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+/* Cards */
+.card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card.hover-lift:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.08), 0 8px 20px -8px rgba(0, 0, 0, 0.04);
+}
+
+.card-title {
+    font-weight: 700;
+    letter-spacing: -0.3px;
+}
+
+/* Buttons */
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    font-weight: 600;
+    padding: 0.6rem 1.5rem;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-hover);
+    border-color: var(--primary-hover);
+    transform: translateY(-1px);
+}
+
+/* File Upload Zone */
+.upload-zone {
+    border: 2px dashed #cbd5e1;
+    background-color: #f8fafc;
+    border-radius: var(--border-radius);
+    padding: 2.5rem 1.5rem;
+    text-align: center;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.upload-zone:hover {
+    border-color: var(--primary-color);
+    background-color: var(--primary-light);
+}
+
+.upload-zone i {
+    font-size: 3rem;
+    color: #64748b;
+    margin-bottom: 1rem;
+    display: inline-block;
+    transition: transform 0.3s ease;
+}
+
+.upload-zone:hover i {
+    color: var(--primary-color);
+    transform: translateY(-5px);
+}
+
+.upload-zone input[type="file"] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* Custom file selected view */
+.file-selected-text {
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+/* Map Containers */
+#map {
+    height: 520px;
+    width: 100%;
+    border-radius: var(--border-radius);
+    border: 1px solid #e2e8f0;
+    box-shadow: var(--card-shadow);
+    z-index: 1;
+}
+
+/* Table Style */
+.table-responsive {
+    border-radius: var(--border-radius);
+    border: 1px solid #e2e8f0;
+    background: white;
+}
+
+.table {
+    margin-bottom: 0;
+}
+
+.table th {
+    background-color: #f1f5f9;
+    color: #475569;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
+    padding: 1rem;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.table td {
+    padding: 0.85rem 1rem;
+    vertical-align: middle;
+    font-size: 0.875rem;
+    border-bottom: 1px solid #f1f5f9;
+    color: #475569;
+}
+
+.table tbody tr {
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+.table tbody tr:hover {
+    background-color: #f8fafc;
+}
+
+.table tbody tr.active-row {
+    background-color: #eff6ff !important;
+}
+
+/* Badge styles */
+.badge {
+    font-weight: 600;
+    padding: 0.4em 0.7em;
+    border-radius: 6px;
+}
+
+/* Summary metrics cards */
+.metric-card {
+    border-bottom: 4px solid #cbd5e1;
+}
+
+.metric-card.primary { border-bottom-color: var(--primary-color); }
+.metric-card.success { border-bottom-color: #10b981; }
+.metric-card.danger { border-bottom-color: #ef4444; }
+.metric-card.warning { border-bottom-color: #f59e0b; }
+
+.metric-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+/* Loading Overlay */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(8px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    z-index: 9999;
+}
+
+.spinner-container {
+    text-align: center;
+}
+
+.spinner-glow {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin: 0 auto 1.5rem auto;
+    border: 4px solid rgba(59, 130, 246, 0.1);
+    border-top: 4px solid var(--primary-color);
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.loading-step-text {
+    font-weight: 500;
+    color: #64748b;
+    margin-top: 0.5rem;
+    font-size: 0.95rem;
+}
+
+/* Leaflet map popup style overrides */
+.leaflet-popup-content-wrapper {
+    border-radius: 8px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+.leaflet-popup-content {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    line-height: 1.4;
+}
+
+/* Footer position */
+footer {
+    margin-top: auto;
+}
+
+.fs-7 {
+    font-size: 0.8rem;
+}

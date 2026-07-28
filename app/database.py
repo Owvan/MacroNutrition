@@ -5,7 +5,6 @@ from flask import current_app, g
 DB_NAME = "macronutrition.db"
 
 def get_db_path():
-    # Store database in the root folder or instance folder
     base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     return os.path.join(base_dir, DB_NAME)
 
@@ -36,7 +35,7 @@ def init_db():
         );
     ''')
 
-    # BMR Records table (tied to user_id for multi-user isolation)
+    # BMR Records table
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS bmr_records (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -49,6 +48,23 @@ def init_db():
             activity_label TEXT NOT NULL,
             bmr REAL NOT NULL,
             tdee REAL NOT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
+        );
+    ''')
+
+    # Macro Records table
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS macro_records (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL,
+            target_calories REAL NOT NULL,
+            carb_pct REAL NOT NULL,
+            protein_pct REAL NOT NULL,
+            fat_pct REAL NOT NULL,
+            carb_g REAL NOT NULL,
+            protein_g REAL NOT NULL,
+            fat_g REAL NOT NULL,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
         );

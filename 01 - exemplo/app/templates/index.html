@@ -1,0 +1,330 @@
+{% extends "base.html" %}
+
+{% block title %}Análise de Cobertura{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        
+        <!-- Welcome / Title Header -->
+        <div class="text-center mb-5 mt-3">
+            <h1 class="display-6 fw-bold">Verificador de Cobertura de Clientes</h1>
+            <p class="text-muted fs-5">Cadastre suas unidades, insira o raio de atuação e analise a cobertura de entrega em segundos.</p>
+        </div>
+        
+        <div class="card shadow border-0 p-3 p-md-4">
+            <div class="card-body">
+                <form id="uploadForm" method="POST" enctype="multipart/form-data">
+                    
+                    <!-- Unidades da Empresa (Matrizes/Filiais) -->
+                    <div class="mb-4">
+                        <div class="d-flex align-items-center justify-content-between mb-3 border-bottom pb-2">
+                            <label class="form-label fw-bold mb-0 text-dark fs-5">
+                                <i class="bi bi-buildings-fill text-primary me-2"></i> Unidades da Empresa (Matrizes / Filiais)
+                            </label>
+                            <button type="button" class="btn btn-sm btn-outline-primary px-3" id="addMatrixBtn">
+                                <i class="bi bi-plus-lg me-1"></i> Adicionar Unidade
+                            </button>
+                        </div>
+                        
+                        <!-- Container para as linhas dinâmicas de Matrizes -->
+                        <div id="matricesContainer">
+                            <!-- Primeira unidade padrão (obrigatória) -->
+                            <div class="row matrix-row g-2 align-items-center mb-3">
+                                <div class="col-md-7 col-12">
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light text-muted border-2"><i class="bi bi-building"></i></span>
+                                        <input 
+                                            type="text" 
+                                            name="nome_unidade[]" 
+                                            class="form-control form-control-lg border-2" 
+                                            placeholder="Nome da Unidade (Ex: Matriz São Paulo)"
+                                            value="Matriz"
+                                            required
+                                        >
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-10">
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light text-muted border-2"><i class="bi bi-geo-alt"></i></span>
+                                        <input 
+                                            type="text" 
+                                            name="cep_unidade[]" 
+                                            class="form-control form-control-lg border-2 cep-input-mask" 
+                                            placeholder="CEP (Ex: 01310-100)" 
+                                            maxlength="9"
+                                            required
+                                        >
+                                    </div>
+                                </div>
+                                <div class="col-md-1 col-2 text-center">
+                                    <!-- A primeira unidade não pode ser removida -->
+                                    <button type="button" class="btn btn-lg btn-outline-secondary border-0" disabled title="Não é possível remover a unidade principal.">
+                                        <i class="bi bi-trash text-muted"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-text text-muted">Cadastre os CEPs das suas unidades físicas de atendimento para mapear as distâncias.</div>
+                    </div>
+                    
+                    <div class="row">
+                        <!-- Raio de Atuação -->
+                        <div class="col-md-12 mb-4">
+                            <label for="raio" class="form-label fw-bold text-dark fs-6">
+                                <i class="bi bi-circle-range text-primary me-2"></i> Raio de Atuação Cobertura (km)
+                            </label>
+                            <div class="input-group input-group-lg border-2 rounded-3">
+                                <input 
+                                    type="number" 
+                                    id="raio"
+                                    name="raio" 
+                                    class="form-control border-2" 
+                                    value="300" 
+                                    min="1"
+                                    required
+                                >
+                                <span class="input-group-text bg-light border-2 text-muted">km</span>
+                            </div>
+                            <div class="form-text text-muted">Clientes localizados a uma distância superior de todas as unidades serão marcados como fora de cobertura.</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Drag and Drop Upload Zone -->
+                    <div class="mb-4">
+                        <label class="form-label fw-bold text-dark fs-6">
+                            <i class="bi bi-file-earmark-excel-fill text-success me-2"></i> Planilha de Clientes
+                        </label>
+                        
+                        <div class="upload-zone border-2" id="dropzone">
+                            <i class="bi bi-cloud-arrow-up-fill"></i>
+                            <h5 class="fw-bold mb-1">Arraste seu arquivo aqui</h5>
+                            <p class="text-muted small mb-3">Suporta planilhas Excel (.xlsx, .xls) ou arquivos CSV</p>
+                            <span class="btn btn-sm btn-outline-primary px-4 py-2">Selecionar Arquivo</span>
+                            
+                            <input type="file" name="planilha" id="planilhaInput" accept=".xlsx, .xls, .csv" required>
+                        </div>
+                        
+                        <!-- File info container (initially hidden) -->
+                        <div id="fileInfo" class="mt-3 p-3 bg-light rounded-3 d-none align-items-center justify-content-between">
+                            <div class="d-flex align-items-center">
+                                <i class="bi bi-file-earmark-spreadsheet-fill text-success fs-3 me-2"></i>
+                                <div>
+                                    <div class="fw-bold text-dark file-name-display" id="fileName">nome_do_arquivo.xlsx</div>
+                                    <div class="text-muted small" id="fileSize">0 KB</div>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-sm btn-link text-danger" id="removeFileBtn">
+                                <i class="bi bi-trash3-fill"></i> Remover
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Form Actions -->
+                    <div class="d-grid mt-4">
+                        <button type="submit" class="btn btn-primary btn-lg bg-gradient py-3">
+                            <i class="bi bi-lightning-charge-fill me-1"></i> Iniciar Análise de Cobertura Múltipla
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Ajuda / Guia de Planilha -->
+        <div class="mt-5 mb-4">
+            <div class="card bg-light border-0">
+                <div class="card-body p-4">
+                    <h5 class="fw-bold text-dark mb-3"><i class="bi bi-info-circle-fill text-primary me-2"></i>Como preparar sua planilha?</h5>
+                    <p class="mb-2">O sistema é inteligente e busca identificar as colunas automaticamente. Para melhores resultados, certifique-se de que a planilha contenha:</p>
+                    <ul class="mb-0 text-muted">
+                        <li>Uma coluna com o <strong>Nome do Cliente</strong> (Ex: <em>Nome, Cliente, Razão Social, Empresa</em>).</li>
+                        <li>Uma coluna contendo o <strong>CEP de entrega/físico</strong> (Ex: <em>CEP, C.E.P., Código Postal</em>).</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+<!-- Loading Overlay -->
+<div class="loading-overlay" id="loader">
+    <div class="spinner-container">
+        <div class="spinner-glow"></div>
+        <h4 class="fw-bold text-dark mb-1">Processando Geolocalização</h4>
+        <p class="text-muted mb-0">Esta operação pode levar alguns instantes.</p>
+        <div class="loading-step-text" id="loader-step">Lendo arquivo da planilha...</div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const dropzone = document.getElementById('dropzone');
+        const fileInput = document.getElementById('planilhaInput');
+        const fileInfo = document.getElementById('fileInfo');
+        const fileName = document.getElementById('fileName');
+        const fileSize = document.getElementById('fileSize');
+        const removeFileBtn = document.getElementById('removeFileBtn');
+        const uploadForm = document.getElementById('uploadForm');
+        const loader = document.getElementById('loader');
+        const loaderStep = document.getElementById('loader-step');
+        const addMatrixBtn = document.getElementById('addMatrixBtn');
+        const matricesContainer = document.getElementById('matricesContainer');
+
+        // Formatação dinâmica dos CEPs adicionados (Delegação de Eventos no input)
+        document.addEventListener('input', function(e) {
+            if (e.target.classList.contains('cep-input-mask')) {
+                let value = e.target.value.replace(/\D/g, '');
+                if (value.length > 5) {
+                    value = value.substring(0, 5) + '-' + value.substring(5, 8);
+                }
+                e.target.value = value;
+            }
+        });
+
+        // Botão para adicionar dinamicamente novas unidades
+        addMatrixBtn.addEventListener('click', function() {
+            const numUnidades = matricesContainer.querySelectorAll('.matrix-row').length + 1;
+            
+            // Criar a estrutura HTML da nova linha da unidade
+            const newRow = document.createElement('div');
+            newRow.className = 'row matrix-row g-2 align-items-center mb-3';
+            newRow.innerHTML = `
+                <div class="col-md-7 col-12">
+                    <div class="input-group">
+                        <span class="input-group-text bg-light text-muted border-2"><i class="bi bi-building"></i></span>
+                        <input 
+                            type="text" 
+                            name="nome_unidade[]" 
+                            class="form-control form-control-lg border-2" 
+                            placeholder="Nome da Unidade (Ex: Filial ${numUnidades})"
+                            value="Filial ${numUnidades}"
+                            required
+                        >
+                    </div>
+                </div>
+                <div class="col-md-4 col-10">
+                    <div class="input-group">
+                        <span class="input-group-text bg-light text-muted border-2"><i class="bi bi-geo-alt"></i></span>
+                        <input 
+                            type="text" 
+                            name="cep_unidade[]" 
+                            class="form-control form-control-lg border-2 cep-input-mask" 
+                            placeholder="CEP (Ex: 01310-100)" 
+                            maxlength="9"
+                            required
+                        >
+                    </div>
+                </div>
+                <div class="col-md-1 col-2 text-center">
+                    <button type="button" class="btn btn-lg btn-outline-danger border-0 remove-matrix-btn" title="Remover Unidade">
+                        <i class="bi bi-trash-fill text-danger"></i>
+                    </button>
+                </div>
+            `;
+            
+            matricesContainer.appendChild(newRow);
+        });
+
+        // Remover linha de unidade quando clicar no botão lixeira
+        matricesContainer.addEventListener('click', function(e) {
+            // Verifica se clicou no botão lixeira ou no ícone da lixeira dentro dele
+            const btn = e.target.closest('.remove-matrix-btn');
+            if (btn) {
+                const row = btn.closest('.matrix-row');
+                if (row) {
+                    row.remove();
+                    reorganizarNomesPadrao();
+                }
+            }
+        });
+
+        // Atualizar os nomes padrão sugeridos (Filial 2, Filial 3...) após exclusão
+        function reorganizarNomesPadrao() {
+            const rows = matricesContainer.querySelectorAll('.matrix-row');
+            rows.forEach((row, index) => {
+                if (index > 0) { // Ignora a primeira linha (Matriz)
+                    const inputNome = row.querySelector('input[name="nome_unidade[]"]');
+                    // Apenas atualiza se o valor atual for correspondente ao padrão anterior
+                    if (inputNome && inputNome.value.startsWith('Filial ')) {
+                        inputNome.value = `Filial ${index + 1}`;
+                        inputNome.placeholder = `Nome da Unidade (Ex: Filial ${index + 1})`;
+                    }
+                }
+            });
+        }
+
+        // Eventos do Drag and Drop de arquivos
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropzone.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                dropzone.style.borderColor = '#3b82f6';
+                dropzone.style.backgroundColor = '#eff6ff';
+            }, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropzone.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                dropzone.style.borderColor = '#cbd5e1';
+                dropzone.style.backgroundColor = '#f8fafc';
+            }, false);
+        });
+
+        dropzone.addEventListener('drop', (e) => {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            if (files.length) {
+                fileInput.files = files;
+                handleFileSelection(files[0]);
+            }
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length) {
+                handleFileSelection(e.target.files[0]);
+            }
+        });
+
+        function handleFileSelection(file) {
+            fileName.textContent = file.name;
+            
+            let size = file.size / 1024;
+            if (size > 1024) {
+                fileSize.textContent = (size / 1024).toFixed(2) + ' MB';
+            } else {
+                fileSize.textContent = size.toFixed(1) + ' KB';
+            }
+            
+            dropzone.classList.add('d-none');
+            fileInfo.classList.remove('d-none');
+        }
+
+        removeFileBtn.addEventListener('click', () => {
+            fileInput.value = '';
+            fileInfo.classList.add('d-none');
+            dropzone.classList.remove('d-none');
+        });
+
+        // Mostrar loading spinner animado ao submeter
+        uploadForm.addEventListener('submit', () => {
+            loader.style.display = 'flex';
+            
+            setTimeout(() => {
+                loaderStep.textContent = "Geolocalizando unidades e clientes através das APIs e Banco Local...";
+            }, 1500);
+            
+            setTimeout(() => {
+                loaderStep.textContent = "Calculando distâncias mínimas para as filiais...";
+            }, 4000);
+
+            setTimeout(() => {
+                loaderStep.textContent = "Estruturando mapeamentos e linhas de conexão...";
+            }, 6500);
+        });
+    });
+</script>
+{% endblock %}
