@@ -10,7 +10,7 @@
             <div class="d-md-flex align-items-center justify-content-between">
                 <div>
                     <span class="badge bg-teal-light text-teal px-3 py-2 rounded-pill fw-semibold mb-2">
-                        <i class="bi bi-egg-fried me-1"></i> Tabela TACO &bull; Controle de Refeições
+                        <i class="bi bi-egg-fried me-1"></i> Tabela TACO & TBCA (USP) &bull; Controle de Refeições
                     </span>
                     <h1 class="fw-extrabold text-dark mb-1">Planejador de Dieta Diário</h1>
                     <p class="text-muted mb-0">Registre seus alimentos por refeição e acompanhe seu saldo de calorias e macronutrientes.</p>
@@ -193,7 +193,7 @@
     </div>
 </div>
 
-<!-- Modal 1: Adicionar Alimento (Tabela TACO ou Alimento Personalizado) -->
+<!-- Modal 1: Adicionar Alimento (Tabela TACO & TBCA USP ou Alimento Personalizado) -->
 <div class="modal fade" id="addFoodModal" tabindex="-1" aria-labelledby="addFoodModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content border-0 shadow" style="border-radius: 14px; overflow: hidden;">
@@ -211,11 +211,11 @@
                 <input type="hidden" name="taco_food_id" id="taco_food_id" value="">
 
                 <div class="modal-body p-4">
-                    <!-- Alternador de Abas: Tabela TACO vs Alimento Personalizado -->
+                    <!-- Alternador de Abas: Tabela TACO/TBCA vs Alimento Personalizado -->
                     <ul class="nav nav-pills nav-justified mb-4 p-1 bg-light rounded-3 border" id="foodTypeTabs" role="tablist">
                         <li class="nav-item" role="presentation">
                             <button class="nav-link active fw-semibold py-2" id="taco-tab" data-bs-toggle="pill" data-bs-target="#taco-pane" type="button" role="tab" onclick="switchFoodSource('taco')">
-                                <i class="bi bi-search me-1"></i> Tabela TACO (UNICAMP)
+                                <i class="bi bi-search me-1"></i> Tabela TACO & TBCA (USP)
                             </button>
                         </li>
                         <li class="nav-item" role="presentation">
@@ -226,13 +226,13 @@
                     </ul>
 
                     <div class="tab-content" id="foodTypeTabContent">
-                        <!-- Aba 1: Tabela TACO -->
+                        <!-- Aba 1: Tabela TACO & TBCA -->
                         <div class="tab-pane fade show active" id="taco-pane" role="tabpanel">
                             <div class="mb-3 position-relative">
-                                <label for="taco_search_input" class="form-label fw-semibold">Buscar na Tabela TACO</label>
+                                <label for="taco_search_input" class="form-label fw-semibold">Buscar em TACO & TBCA (USP)</label>
                                 <div class="input-group">
                                     <span class="input-group-text bg-light text-muted"><i class="bi bi-search"></i></span>
-                                    <input type="text" class="form-control px-3" id="taco_search_input" placeholder="Digite o nome do alimento (ex: Arroz, Frango, Ovo, Banana...)" autocomplete="off">
+                                    <input type="text" class="form-control px-3" id="taco_search_input" placeholder="Digite o nome do alimento (ex: Arroz, Pizza, Strogonoff, Pão de queijo...)" autocomplete="off">
                                 </div>
                                 <div id="taco_search_results" class="list-group position-absolute w-100 shadow-sm border-0 mt-1 d-none" style="z-index: 1050; max-height: 220px; overflow-y: auto;"></div>
                             </div>
@@ -240,7 +240,8 @@
                             <div id="selected_food_box" class="p-3 rounded-3 bg-light border border-teal mb-3 d-none">
                                 <div class="d-flex align-items-center justify-content-between">
                                     <div>
-                                        <small class="badge bg-teal text-white me-1" id="selected_food_category">Categoria</small>
+                                        <span class="badge bg-teal text-white me-1" id="selected_food_source">TACO</span>
+                                        <small class="text-muted me-1" id="selected_food_category">Categoria</small>
                                         <h6 class="fw-bold text-dark mb-0 mt-1" id="selected_food_name">Alimento Selecionado</h6>
                                     </div>
                                     <span class="badge bg-success bg-opacity-10 text-success fs-7">Selecionado</span>

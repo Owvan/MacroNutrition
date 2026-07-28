@@ -1,7 +1,7 @@
 from app.database import get_db
 
-def search_taco_foods(query, limit=15):
-    """Busca alimentos na tabela TACO por termo de busca."""
+def search_taco_foods(query, limit=20):
+    """Busca alimentos nas tabelas TACO e TBCA (USP) por termo de busca."""
     if not query or len(query.strip()) == 0:
         return []
     
@@ -9,12 +9,14 @@ def search_taco_foods(query, limit=15):
     db = get_db()
     cursor = db.cursor()
     cursor.execute('''
-        SELECT id, name, category, energy_kcal, protein_g, carbs_g, fat_g, fiber_g
+        SELECT id, name, category, energy_kcal, protein_g, carbs_g, fat_g, fiber_g, source
         FROM taco_foods
         WHERE name LIKE ? OR category LIKE ?
-        ORDER BY name ASC
+        ORDER BY 
+            CASE WHEN name LIKE ? THEN 0 ELSE 1 END,
+            name ASC
         LIMIT ?
-    ''', (query, query, limit))
+    ''', (query, query, query, limit))
     rows = cursor.fetchall()
     return [dict(row) for row in rows]
 
@@ -23,7 +25,7 @@ def get_taco_food_by_id(food_id):
     db = get_db()
     cursor = db.cursor()
     cursor.execute('''
-        SELECT id, name, category, energy_kcal, protein_g, carbs_g, fat_g, fiber_g
+        SELECT id, name, category, energy_kcal, protein_g, carbs_g, fat_g, fiber_g, source
         FROM taco_foods
         WHERE id = ?
     ''', (food_id,))
@@ -31,7 +33,7 @@ def get_taco_food_by_id(food_id):
     return dict(row) if row else None
 
 def get_all_taco_categories():
-    """Retorna todas as categorias disponíveis na tabela TACO."""
+    """Retorna todas as categorias disponíveis nas tabelas TACO e TBCA."""
     db = get_db()
     cursor = db.cursor()
     cursor.execute('SELECT DISTINCT category FROM taco_foods ORDER BY category ASC')

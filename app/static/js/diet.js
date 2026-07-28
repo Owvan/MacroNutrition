@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const selectedFoodBox = document.getElementById('selected_food_box');
     const selectedFoodName = document.getElementById('selected_food_name');
     const selectedFoodCategory = document.getElementById('selected_food_category');
+    const selectedFoodSource = document.getElementById('selected_food_source');
     const tacoFoodIdInput = document.getElementById('taco_food_id');
     const amountInput = document.getElementById('amount_g');
 
@@ -54,7 +55,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         currentSelectedFood = null;
 
-        // Reset to first tab
         const tacoTabBtn = document.getElementById('taco-tab');
         if (tacoTabBtn && typeof bootstrap !== 'undefined') {
             const tab = new bootstrap.Tab(tacoTabBtn);
@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     };
 
-    // TACO Search Autocomplete
+    // Autocomplete Search for TACO & TBCA
     if (searchInput) {
         searchInput.addEventListener('input', function () {
             const query = this.value.trim();
@@ -91,12 +91,12 @@ document.addEventListener('DOMContentLoaded', function () {
                             renderSearchResults(data.foods);
                         } else {
                             if (searchResults) {
-                                searchResults.innerHTML = '<div class="p-3 text-muted text-center small"><i class="bi bi-search me-1"></i> Nenhum alimento encontrado na Tabela TACO.</div>';
+                                searchResults.innerHTML = '<div class="p-3 text-muted text-center small"><i class="bi bi-search me-1"></i> Nenhum alimento encontrado em TACO ou TBCA.</div>';
                                 searchResults.classList.remove('d-none');
                             }
                         }
                     })
-                    .catch(err => console.error('Erro na busca TACO:', err));
+                    .catch(err => console.error('Erro na busca alimentícia:', err));
             }, 250);
         });
     }
@@ -106,13 +106,19 @@ document.addEventListener('DOMContentLoaded', function () {
         searchResults.innerHTML = '';
 
         foods.forEach(food => {
+            const sourceLabel = food.source === 'TBCA' ? 'TBCA (USP)' : 'TACO';
+            const sourceBadgeClass = food.source === 'TBCA' ? 'bg-primary text-white' : 'bg-teal text-white';
+
             const item = document.createElement('a');
             item.href = '#';
             item.className = 'list-group-item list-group-item-action p-2 px-3 border-bottom d-flex justify-content-between align-items-center';
             item.innerHTML = `
                 <div>
+                    <div class="d-flex align-items-center mb-1">
+                        <span class="badge ${sourceBadgeClass} fs-7 me-1 py-1 px-2">${sourceLabel}</span>
+                        <small class="text-muted fs-7">${food.category}</small>
+                    </div>
                     <strong class="d-block text-dark small">${food.name}</strong>
-                    <small class="text-muted fs-7">${food.category}</small>
                 </div>
                 <div class="text-end">
                     <span class="badge bg-teal-light text-teal fs-7 fw-bold">${Math.round(food.energy_kcal)} kcal</span>
@@ -136,6 +142,11 @@ document.addEventListener('DOMContentLoaded', function () {
         if (tacoFoodIdInput) tacoFoodIdInput.value = food.id;
         if (selectedFoodName) selectedFoodName.textContent = food.name;
         if (selectedFoodCategory) selectedFoodCategory.textContent = food.category;
+        
+        if (selectedFoodSource) {
+            selectedFoodSource.textContent = food.source === 'TBCA' ? 'TBCA (USP)' : 'TACO';
+            selectedFoodSource.className = food.source === 'TBCA' ? 'badge bg-primary text-white me-1' : 'badge bg-teal text-white me-1';
+        }
 
         if (selectedFoodBox) selectedFoodBox.classList.remove('d-none');
         if (searchResults) searchResults.classList.add('d-none');
@@ -167,7 +178,6 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
-        // TACO Food Mode
         if (!currentSelectedFood || amount <= 0) {
             if (previewKcal) previewKcal.textContent = '0 kcal';
             if (previewCarbs) previewCarbs.textContent = '0g';
