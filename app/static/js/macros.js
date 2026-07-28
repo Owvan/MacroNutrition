@@ -70,6 +70,64 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    const inputs = {
+        carb: carbPctInput,
+        protein: proteinPctInput,
+        fat: fatPctInput
+    };
+
+    const ranges = {
+        carb: carbRange,
+        protein: proteinRange,
+        fat: fatRange
+    };
+
+    let isBalancing = false;
+
+    function autoBalanceSliders(changedType, newValue) {
+        if (isBalancing) return;
+        isBalancing = true;
+
+        newValue = Math.max(0, Math.min(100, parseFloat(newValue) || 0));
+
+        let otherTypes = [];
+        if (changedType === 'carb') otherTypes = ['protein', 'fat'];
+        else if (changedType === 'protein') otherTypes = ['carb', 'fat'];
+        else if (changedType === 'fat') otherTypes = ['carb', 'protein'];
+
+        const valOther1 = parseFloat(inputs[otherTypes[0]].value) || 0;
+        const valOther2 = parseFloat(inputs[otherTypes[1]].value) || 0;
+        const sumOthers = valOther1 + valOther2;
+        const remaining = 100 - newValue;
+
+        let newOther1 = 0;
+        let newOther2 = 0;
+
+        if (sumOthers > 0) {
+            newOther1 = Math.round(valOther1 * (remaining / sumOthers));
+            newOther2 = remaining - newOther1;
+        } else {
+            newOther1 = Math.round(remaining / 2);
+            newOther2 = remaining - newOther1;
+        }
+
+        newOther1 = Math.max(0, Math.min(100, newOther1));
+        newOther2 = Math.max(0, Math.min(100, newOther2));
+
+        // Update inputs & ranges
+        inputs[changedType].value = newValue;
+        ranges[changedType].value = newValue;
+
+        inputs[otherTypes[0]].value = newOther1;
+        ranges[otherTypes[0]].value = newOther1;
+
+        inputs[otherTypes[1]].value = newOther2;
+        ranges[otherTypes[1]].value = newOther2;
+
+        updateMacroCalculations();
+        isBalancing = false;
+    }
+
     function updateMacroCalculations() {
         const totalCalories = parseFloat(targetCalInput.value) || 2000;
         const carbPct = parseFloat(carbPctInput.value) || 0;
@@ -114,24 +172,23 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Sync Number Inputs with Range Sliders
-    function syncInputAndRange(inputEl, rangeEl) {
-        if (!inputEl || !rangeEl) return;
-        
-        inputEl.addEventListener('input', function () {
-            rangeEl.value = inputEl.value;
-            updateMacroCalculations();
-        });
+    // Attach listener for auto balancing
+    ['carb', 'protein', 'fat'].forEach(type => {
+        const input = inputs[type];
+        const range = ranges[type];
 
-        rangeEl.addEventListener('input', function () {
-            inputEl.value = rangeEl.value;
-            updateMacroCalculations();
-        });
-    }
-
-    syncInputAndRange(carbPctInput, carbRange);
-    syncInputAndRange(proteinPctInput, proteinRange);
-    syncInputAndRange(fatPctInput, fatRange);
+        if (input) {
+            input.addEventListener('input', function () {
+                autoBalanceSliders(type, this.value);
+            });
+        }
+        if (range) {
+            range.value = input.value;
+            range.addEventListener('input', function () {
+                autoBalanceSliders(type, this.value);
+            });
+        }
+    });
 
     if (targetCalInput) {
         targetCalInput.addEventListener('input', updateMacroCalculations);
@@ -139,6 +196,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Presets
     window.applyPreset = function (carb, protein, fat) {
+        isBalancing = true;
         if (carbPctInput) carbPctInput.value = carb;
         if (carbRange) carbRange.value = carb;
 
@@ -148,6 +206,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (fatPctInput) fatPctInput.value = fat;
         if (fatRange) fatRange.value = fat;
 
+        isBalancing = false;
         updateMacroCalculations();
     };
 
