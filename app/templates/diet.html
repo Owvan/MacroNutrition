@@ -133,7 +133,7 @@
                     </div>
 
                     <div class="card-body p-0">
-                        {% if meal.items %}
+                        {% if meal.food_items %}
                             <div class="table-responsive">
                                 <table class="table table-custom mb-0">
                                     <thead>
@@ -148,7 +148,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {% for item in meal.items %}
+                                        {% for item in meal.food_items %}
                                             <tr>
                                                 <td class="fw-semibold text-dark">{{ item.food_name }}</td>
                                                 <td><span class="badge bg-light text-dark border">{{ item.amount_g|int }} g</span></td>
