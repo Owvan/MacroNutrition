@@ -9,6 +9,7 @@ from app.services.macro_services import (
     OMS_PRESET
 )
 from app.services.taco_services import search_taco_foods, get_taco_food_by_id
+from app.services.openfoodfacts_services import fetch_product_by_barcode, search_openfoodfacts_by_name
 from app.services.diet_services import (
     get_daily_diet_summary,
     add_user_meal,
@@ -176,11 +177,11 @@ def remove_meal(meal_id):
 def add_food():
     meal_id = request.form.get('meal_id')
     meal_date = request.form.get('meal_date', get_today_date_str())
-    food_source = request.form.get('food_source', 'taco') # 'taco' or 'custom'
+    food_source = request.form.get('food_source', 'taco') # 'taco', 'barcode', or 'custom'
     taco_food_id = request.form.get('taco_food_id')
     amount_g = request.form.get('amount_g', 100)
 
-    # Custom food fields
+    # Custom food or Barcode fields
     custom_name = request.form.get('custom_name', '').strip()
     custom_kcal = request.form.get('custom_kcal', 0)
     custom_p = request.form.get('custom_p', 0)
@@ -188,9 +189,9 @@ def add_food():
     custom_f = request.form.get('custom_f', 0)
 
     try:
-        if food_source == 'custom':
+        if food_source in ['custom', 'barcode']:
             if not custom_name:
-                flash('Informe o nome do alimento personalizado.', 'danger')
+                flash('Informe o nome do alimento ou produto.', 'danger')
                 return redirect(url_for('main.diet', date=meal_date))
                 
             success, result = add_food_to_meal(
@@ -206,7 +207,7 @@ def add_food():
         else:
             taco_id = int(taco_food_id) if taco_food_id and taco_food_id.isdigit() else None
             if not taco_id:
-                flash('Selecione um alimento da Tabela TACO.', 'warning')
+                flash('Selecione um alimento da lista.', 'warning')
                 return redirect(url_for('main.diet', date=meal_date))
                 
             success, result = add_food_to_meal(meal_id, taco_id, amount_g)
@@ -240,4 +241,20 @@ def remove_food_item(item_id):
 def api_taco_search():
     query = request.args.get('q', '')
     foods = search_taco_foods(query)
+    return jsonify({'success': True, 'foods': foods})
+
+
+@main.route('/api/barcode/search', methods=['GET'])
+@login_required
+def api_barcode_search():
+    code = request.args.get('code', '').strip()
+    result = fetch_product_by_barcode(code)
+    return jsonify(result)
+
+
+@main.route('/api/openfoodfacts/search', methods=['GET'])
+@login_required
+def api_off_search():
+    query = request.args.get('q', '').strip()
+    foods = search_openfoodfacts_by_name(query)
     return jsonify({'success': True, 'foods': foods})

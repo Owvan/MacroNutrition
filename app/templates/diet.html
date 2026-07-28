@@ -10,7 +10,7 @@
             <div class="d-md-flex align-items-center justify-content-between">
                 <div>
                     <span class="badge bg-teal-light text-teal px-3 py-2 rounded-pill fw-semibold mb-2">
-                        <i class="bi bi-egg-fried me-1"></i> Tabela TACO & TBCA (USP) &bull; Controle de Refeições
+                        <i class="bi bi-egg-fried me-1"></i> TACO &bull; TBCA (USP) &bull; Open Food Facts
                     </span>
                     <h1 class="fw-extrabold text-dark mb-1">Planejador de Dieta Diário</h1>
                     <p class="text-muted mb-0">Registre seus alimentos por refeição e acompanhe seu saldo de calorias e macronutrientes.</p>
@@ -193,7 +193,7 @@
     </div>
 </div>
 
-<!-- Modal 1: Adicionar Alimento (Tabela TACO & TBCA USP ou Alimento Personalizado) -->
+<!-- Modal 1: Adicionar Alimento (3 Abas: TACO/TBCA, Código de Barras EAN, Alimento Personalizado) -->
 <div class="modal fade" id="addFoodModal" tabindex="-1" aria-labelledby="addFoodModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content border-0 shadow" style="border-radius: 14px; overflow: hidden;">
@@ -211,25 +211,30 @@
                 <input type="hidden" name="taco_food_id" id="taco_food_id" value="">
 
                 <div class="modal-body p-4">
-                    <!-- Alternador de Abas: Tabela TACO/TBCA vs Alimento Personalizado -->
+                    <!-- Alternador de Abas (3 Opções) -->
                     <ul class="nav nav-pills nav-justified mb-4 p-1 bg-light rounded-3 border" id="foodTypeTabs" role="tablist">
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link active fw-semibold py-2" id="taco-tab" data-bs-toggle="pill" data-bs-target="#taco-pane" type="button" role="tab" onclick="switchFoodSource('taco')">
-                                <i class="bi bi-search me-1"></i> Tabela TACO & TBCA (USP)
+                            <button class="nav-link active fw-semibold py-2 fs-7" id="taco-tab" data-bs-toggle="pill" data-bs-target="#taco-pane" type="button" role="tab" onclick="switchFoodSource('taco')">
+                                <i class="bi bi-search me-1"></i> TACO & TBCA (USP)
                             </button>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link fw-semibold py-2" id="custom-tab" data-bs-toggle="pill" data-bs-target="#custom-pane" type="button" role="tab" onclick="switchFoodSource('custom')">
-                                <i class="bi bi-pencil-square me-1"></i> Alimento Personalizado
+                            <button class="nav-link fw-semibold py-2 fs-7" id="barcode-tab" data-bs-toggle="pill" data-bs-target="#barcode-pane" type="button" role="tab" onclick="switchFoodSource('barcode')">
+                                <i class="bi bi-barcode-scan me-1"></i> Código de Barras
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link fw-semibold py-2 fs-7" id="custom-tab" data-bs-toggle="pill" data-bs-target="#custom-pane" type="button" role="tab" onclick="switchFoodSource('custom')">
+                                <i class="bi bi-pencil-square me-1"></i> Personalizado
                             </button>
                         </li>
                     </ul>
 
                     <div class="tab-content" id="foodTypeTabContent">
-                        <!-- Aba 1: Tabela TACO & TBCA -->
+                        <!-- Aba 1: Tabela TACO & TBCA (USP) -->
                         <div class="tab-pane fade show active" id="taco-pane" role="tabpanel">
                             <div class="mb-3 position-relative">
-                                <label for="taco_search_input" class="form-label fw-semibold">Buscar em TACO & TBCA (USP)</label>
+                                <label for="taco_search_input" class="form-label fw-semibold">Buscar na Tabela TACO & TBCA (USP)</label>
                                 <div class="input-group">
                                     <span class="input-group-text bg-light text-muted"><i class="bi bi-search"></i></span>
                                     <input type="text" class="form-control px-3" id="taco_search_input" placeholder="Digite o nome do alimento (ex: Arroz, Pizza, Strogonoff, Pão de queijo...)" autocomplete="off">
@@ -249,7 +254,46 @@
                             </div>
                         </div>
 
-                        <!-- Aba 2: Alimento Personalizado -->
+                        <!-- Aba 2: Código de Barras (EAN / Open Food Facts) -->
+                        <div class="tab-pane fade" id="barcode-pane" role="tabpanel">
+                            <div class="mb-3">
+                                <label for="barcode_input" class="form-label fw-semibold">Digitar ou Escanear Código de Barras (EAN)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light text-muted"><i class="bi bi-barcode"></i></span>
+                                    <input type="text" class="form-control px-3" id="barcode_input" placeholder="Ex: 7891000053508" autocomplete="off">
+                                    <button class="btn btn-teal px-3" type="button" id="btn_search_barcode">
+                                        <i class="bi bi-search me-1"></i> Consultar EAN
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Box de Produto Encontrado via Código de Barras -->
+                            <div id="barcode_result_box" class="p-3 rounded-3 bg-light border border-primary mb-3 d-none">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div>
+                                        <span class="badge bg-primary text-white me-1">Open Food Facts</span>
+                                        <small class="text-muted" id="barcode_number_label">EAN</small>
+                                        <h6 class="fw-bold text-dark mb-0 mt-1" id="barcode_product_name">Nome do Produto</h6>
+                                    </div>
+                                    <span class="badge bg-success bg-opacity-10 text-success fs-7">Localizado</span>
+                                </div>
+                            </div>
+
+                            <!-- Box Fallback: Alerta de Código não Encontrado + Busca por Nome -->
+                            <div id="barcode_fallback_box" class="p-3 rounded-3 bg-warning bg-opacity-10 border border-warning mb-3 d-none">
+                                <div class="d-flex align-items-center text-warning-emphasis mb-2">
+                                    <i class="bi bi-exclamation-triangle-fill fs-5 me-2"></i>
+                                    <strong class="small" id="barcode_error_msg">Código de barras não localizado.</strong>
+                                </div>
+                                <label for="fallback_name_input" class="form-label fw-semibold text-dark fs-7 mb-1">Buscar Produto por Nome na API Open Food Facts:</label>
+                                <div class="input-group position-relative">
+                                    <input type="text" class="form-control form-control-sm px-3" id="fallback_name_input" placeholder="Ex: Nescau, Biscoito Nesfit, Iogurte Danone..." autocomplete="off">
+                                </div>
+                                <div id="fallback_search_results" class="list-group shadow-sm border-0 mt-1 d-none" style="max-height: 180px; overflow-y: auto;"></div>
+                            </div>
+                        </div>
+
+                        <!-- Aba 3: Alimento Personalizado -->
                         <div class="tab-pane fade" id="custom-pane" role="tabpanel">
                             <div class="mb-3">
                                 <label for="custom_name" class="form-label fw-semibold">Nome do Alimento / Item</label>

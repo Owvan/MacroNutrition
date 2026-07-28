@@ -12,6 +12,17 @@ document.addEventListener('DOMContentLoaded', function () {
     const tacoFoodIdInput = document.getElementById('taco_food_id');
     const amountInput = document.getElementById('amount_g');
 
+    // Barcode Elements
+    const barcodeInput = document.getElementById('barcode_input');
+    const btnSearchBarcode = document.getElementById('btn_search_barcode');
+    const barcodeResultBox = document.getElementById('barcode_result_box');
+    const barcodeProductName = document.getElementById('barcode_product_name');
+    const barcodeNumberLabel = document.getElementById('barcode_number_label');
+    const barcodeFallbackBox = document.getElementById('barcode_fallback_box');
+    const barcodeErrorMsg = document.getElementById('barcode_error_msg');
+    const fallbackNameInput = document.getElementById('fallback_name_input');
+    const fallbackSearchResults = document.getElementById('fallback_search_results');
+
     // Custom Food Inputs
     const customNameInput = document.getElementById('custom_name');
     const customKcalInput = document.getElementById('custom_kcal');
@@ -27,6 +38,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     let currentSelectedFood = null;
     let debounceTimer = null;
+    let fallbackDebounceTimer = null;
 
     window.switchFoodSource = function (type) {
         if (foodSourceInput) foodSourceInput.value = type;
@@ -47,6 +59,17 @@ document.addEventListener('DOMContentLoaded', function () {
         if (tacoFoodIdInput) tacoFoodIdInput.value = '';
         if (amountInput) amountInput.value = 100;
         
+        // Reset Barcode Tab
+        if (barcodeInput) barcodeInput.value = '';
+        if (barcodeResultBox) barcodeResultBox.classList.add('d-none');
+        if (barcodeFallbackBox) barcodeFallbackBox.classList.add('d-none');
+        if (fallbackNameInput) fallbackNameInput.value = '';
+        if (fallbackSearchResults) {
+            fallbackSearchResults.innerHTML = '';
+            fallbackSearchResults.classList.add('d-none');
+        }
+
+        // Reset Custom Inputs
         if (customNameInput) customNameInput.value = '';
         if (customKcalInput) customKcalInput.value = '250';
         if (customCInput) customCInput.value = '30';
@@ -155,11 +178,147 @@ document.addEventListener('DOMContentLoaded', function () {
         updateFoodPreview();
     }
 
+    // Barcode Lookup Functionality
+    function executeBarcodeSearch() {
+        const code = barcodeInput ? barcodeInput.value.trim() : '';
+        if (!code) return;
+
+        if (btnSearchBarcode) {
+            btnSearchBarcode.disabled = true;
+            btnSearchBarcode.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span> Consultando...';
+        }
+
+        fetch(`/api/barcode/search?code=${encodeURIComponent(code)}`)
+            .then(res => res.json())
+            .then(data => {
+                if (btnSearchBarcode) {
+                    btnSearchBarcode.disabled = false;
+                    btnSearchBarcode.innerHTML = '<i class="bi bi-search me-1"></i> Consultar EAN';
+                }
+
+                if (data.found) {
+                    // Populate hidden fields
+                    if (customNameInput) customNameInput.value = data.name;
+                    if (customKcalInput) customKcalInput.value = data.energy_kcal;
+                    if (customCInput) customCInput.value = data.carbs_g;
+                    if (customPInput) customPInput.value = data.protein_g;
+                    if (customFInput) customFInput.value = data.fat_g;
+
+                    if (barcodeProductName) barcodeProductName.textContent = data.name;
+                    if (barcodeNumberLabel) barcodeNumberLabel.textContent = `EAN: ${data.barcode}`;
+
+                    if (barcodeResultBox) barcodeResultBox.classList.remove('d-none');
+                    if (barcodeFallbackBox) barcodeFallbackBox.classList.add('d-none');
+
+                    updateFoodPreview();
+                } else {
+                    // Show fallback error box
+                    if (barcodeResultBox) barcodeResultBox.classList.add('d-none');
+                    if (barcodeErrorMsg) barcodeErrorMsg.textContent = data.error || 'Código de barras não localizado.';
+                    if (barcodeFallbackBox) barcodeFallbackBox.classList.remove('d-none');
+                    if (fallbackNameInput) fallbackNameInput.focus();
+                }
+            })
+            .catch(err => {
+                if (btnSearchBarcode) {
+                    btnSearchBarcode.disabled = false;
+                    btnSearchBarcode.innerHTML = '<i class="bi bi-search me-1"></i> Consultar EAN';
+                }
+                if (barcodeErrorMsg) barcodeErrorMsg.textContent = 'Erro de conexão ao consultar código de barras.';
+                if (barcodeFallbackBox) barcodeFallbackBox.classList.remove('d-none');
+            });
+    }
+
+    if (btnSearchBarcode) {
+        btnSearchBarcode.addEventListener('click', executeBarcodeSearch);
+    }
+    if (barcodeInput) {
+        barcodeInput.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                executeBarcodeSearch();
+            }
+        });
+    }
+
+    // Fallback Name Search in Open Food Facts API
+    if (fallbackNameInput) {
+        fallbackNameInput.addEventListener('input', function () {
+            const query = this.value.trim();
+
+            clearTimeout(fallbackDebounceTimer);
+            if (query.length < 2) {
+                if (fallbackSearchResults) {
+                    fallbackSearchResults.innerHTML = '';
+                    fallbackSearchResults.classList.add('d-none');
+                }
+                return;
+            }
+
+            fallbackDebounceTimer = setTimeout(() => {
+                fetch(`/api/openfoodfacts/search?q=${encodeURIComponent(query)}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.success && data.foods.length > 0) {
+                            renderFallbackResults(data.foods);
+                        } else {
+                            if (fallbackSearchResults) {
+                                fallbackSearchResults.innerHTML = '<div class="p-2 text-muted text-center small"><i class="bi bi-search me-1"></i> Nenhum produto industrializado encontrado na API.</div>';
+                                fallbackSearchResults.classList.remove('d-none');
+                            }
+                        }
+                    })
+                    .catch(err => console.error('Erro no fallback OFF:', err));
+            }, 300);
+        });
+    }
+
+    function renderFallbackResults(foods) {
+        if (!fallbackSearchResults) return;
+        fallbackSearchResults.innerHTML = '';
+
+        foods.forEach(food => {
+            const item = document.createElement('a');
+            item.href = '#';
+            item.className = 'list-group-item list-group-item-action p-2 border-bottom d-flex justify-content-between align-items-center';
+            item.innerHTML = `
+                <div>
+                    <strong class="d-block text-dark small">${food.name}</strong>
+                    <small class="text-muted fs-7">Open Food Facts</small>
+                </div>
+                <div class="text-end">
+                    <span class="badge bg-primary bg-opacity-10 text-primary fs-7 fw-bold">${Math.round(food.energy_kcal)} kcal</span>
+                </div>
+            `;
+
+            item.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                if (customNameInput) customNameInput.value = food.name;
+                if (customKcalInput) customKcalInput.value = food.energy_kcal;
+                if (customCInput) customCInput.value = food.carbs_g;
+                if (customPInput) customPInput.value = food.protein_g;
+                if (customFInput) customFInput.value = food.fat_g;
+
+                if (barcodeProductName) barcodeProductName.textContent = food.name;
+                if (barcodeNumberLabel) barcodeNumberLabel.textContent = 'Open Food Facts API';
+                if (barcodeResultBox) barcodeResultBox.classList.remove('d-none');
+                if (fallbackSearchResults) fallbackSearchResults.classList.add('d-none');
+
+                updateFoodPreview();
+            });
+
+            fallbackSearchResults.appendChild(item);
+        });
+
+        fallbackSearchResults.classList.remove('d-none');
+    }
+
     function updateFoodPreview() {
         const amount = parseFloat(amountInput.value) || 0;
         const source = foodSourceInput ? foodSourceInput.value : 'taco';
 
-        if (source === 'custom') {
+        if (source === 'custom' || source === 'barcode') {
             const customKcal = parseFloat(customKcalInput ? customKcalInput.value : 0) || 0;
             const customC = parseFloat(customCInput ? customCInput.value : 0) || 0;
             const customP = parseFloat(customPInput ? customPInput.value : 0) || 0;
