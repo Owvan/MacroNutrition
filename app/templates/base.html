@@ -27,7 +27,7 @@
     <!-- Navbar Premium -->
     <nav class="navbar navbar-expand-lg navbar-custom shadow-sm sticky-top">
         <div class="container">
-            <a class="navbar-brand d-flex align-items-center" href="{{ url_for('main.calculator') }}">
+            <a class="navbar-brand d-flex align-items-center" href="{{ url_for('main.dashboard') }}">
                 <div class="brand-icon d-flex align-items-center justify-content-center me-2 shadow-sm">
                     <i class="bi bi-activity"></i>
                 </div>
@@ -41,25 +41,57 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto align-items-center">
                     {% if session.get('user_id') %}
+                        <!-- Link Principal: Dashboard -->
                         <li class="nav-item">
-                            <a class="nav-link {% if request.path == '/perfil' %}active{% endif %}" href="{{ url_for('main.profile') }}">
-                                <i class="bi bi-person-badge-fill me-1"></i> Meu Perfil
+                            <a class="nav-link {% if request.path == '/' or request.path == '/dashboard' %}active{% endif %}" href="{{ url_for('main.dashboard') }}">
+                                <i class="bi bi-speedometer2 me-1"></i> Dashboard
                             </a>
                         </li>
-                        <li class="nav-item ms-lg-2">
-                            <a class="nav-link {% if request.path == '/' or request.path == '/calculadora' %}active{% endif %}" href="{{ url_for('main.calculator') }}">
-                                <i class="bi bi-calculator-fill me-1"></i> Calculadora TMB
+
+                        <!-- Menu Dropdown Agrupado: Ferramentas Nutricionais -->
+                        <li class="nav-item dropdown ms-lg-2">
+                            <a class="nav-link dropdown-toggle {% if request.path in ['/calculadora', '/macronutrientes', '/dieta', '/perfil'] %}active{% endif %}" href="#" id="toolsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-grid-fill me-1"></i> Ferramentas
                             </a>
-                        </li>
-                        <li class="nav-item ms-lg-2">
-                            <a class="nav-link {% if request.path == '/macronutrientes' %}active{% endif %}" href="{{ url_for('main.macronutrients') }}">
-                                <i class="bi bi-pie-chart-fill me-1"></i> Macronutrientes
-                            </a>
-                        </li>
-                        <li class="nav-item ms-lg-2">
-                            <a class="nav-link {% if request.path == '/dieta' %}active{% endif %}" href="{{ url_for('main.diet') }}">
-                                <i class="bi bi-egg-fried me-1"></i> Minha Dieta
-                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2" aria-labelledby="toolsDropdown">
+                                <li>
+                                    <a class="dropdown-item d-flex align-items-center py-2" href="{{ url_for('main.diet') }}">
+                                        <i class="bi bi-egg-fried text-teal fs-5 me-2"></i>
+                                        <div>
+                                            <strong class="d-block text-dark">Minha Dieta Diária</strong>
+                                            <small class="text-muted fs-7">Registrar alimentos e refeições</small>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item d-flex align-items-center py-2" href="{{ url_for('main.calculator') }}">
+                                        <i class="bi bi-calculator-fill text-primary fs-5 me-2"></i>
+                                        <div>
+                                            <strong class="d-block text-dark">Calculadora TMB & TDEE</strong>
+                                            <small class="text-muted fs-7">Calcular gasto calórico basal</small>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item d-flex align-items-center py-2" href="{{ url_for('main.macronutrients') }}">
+                                        <i class="bi bi-pie-chart-fill text-warning fs-5 me-2"></i>
+                                        <div>
+                                            <strong class="d-block text-dark">Macronutrientes</strong>
+                                            <small class="text-muted fs-7">Dividir proteínas, carbs e gorduras</small>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <a class="dropdown-item d-flex align-items-center py-2" href="{{ url_for('main.profile') }}">
+                                        <i class="bi bi-person-badge-fill text-teal fs-5 me-2"></i>
+                                        <div>
+                                            <strong class="d-block text-dark">Meu Perfil & Metas</strong>
+                                            <small class="text-muted fs-7">Configurar objetivos e IMC</small>
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
                         
                         <!-- Dropdown de Usuário Logado -->

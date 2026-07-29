@@ -9,6 +9,7 @@ from app.services.macro_services import (
     OMS_PRESET
 )
 from app.services.profile_services import get_user_profile, save_or_update_user_profile
+from app.services.dashboard_services import get_dashboard_data, add_weight_entry
 from app.services.taco_services import search_taco_foods, get_taco_food_by_id
 from app.services.openfoodfacts_services import fetch_product_by_barcode, search_openfoodfacts_by_name
 from app.services.diet_services import (
@@ -23,6 +24,35 @@ from app.services.diet_services import (
 main = Blueprint('main', __name__)
 
 @main.route('/')
+@main.route('/dashboard')
+@login_required
+def dashboard():
+    user_id = session.get('user_id')
+    date_str = request.args.get('date', get_today_date_str())
+    data = get_dashboard_data(user_id, date_str)
+    return render_template('dashboard.html', data=data, current_date=date_str)
+
+
+@main.route('/dashboard/registrar-peso', methods=['POST'])
+@login_required
+def log_weight():
+    user_id = session.get('user_id')
+    weight = request.form.get('weight')
+    recorded_date = request.form.get('recorded_date', get_today_date_str())
+    notes = request.form.get('notes', '')
+
+    try:
+        if weight and float(weight) > 0:
+            add_weight_entry(user_id, weight, recorded_date, notes)
+            flash(f'Peso de {weight} kg registrado com sucesso para {recorded_date}!', 'success')
+        else:
+            flash('Informe um valor de peso válido.', 'danger')
+    except Exception as e:
+        flash(f'Erro ao registrar peso: {str(e)}', 'danger')
+
+    return redirect(url_for('main.dashboard'))
+
+
 @main.route('/calculadora', methods=['GET', 'POST'])
 @login_required
 def calculator():

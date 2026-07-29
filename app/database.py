@@ -62,6 +62,20 @@ def init_db():
     if 'weekly_pace' not in prof_cols:
         cursor.execute("ALTER TABLE user_profiles ADD COLUMN weekly_pace TEXT DEFAULT 'recommended'")
 
+    # Weight History Table
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS weight_history (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL,
+            weight REAL NOT NULL,
+            recorded_date TEXT NOT NULL,
+            notes TEXT,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
+        );
+    ''')
+    cursor.execute("CREATE INDEX IF NOT EXISTS idx_weight_history_user_date ON weight_history(user_id, recorded_date);")
+
     # BMR Records table
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS bmr_records (

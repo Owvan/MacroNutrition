@@ -16,7 +16,7 @@ def login_required(f):
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
     if session.get('user_id'):
-        return redirect(url_for('main.calculator'))
+        return redirect(url_for('main.dashboard'))
         
     if request.method == 'POST':
         identifier = request.form.get('identifier')
@@ -29,7 +29,7 @@ def login():
             session['username'] = result['username']
             session['email'] = result['email']
             flash(f'Bem-vindo de volta, {result["username"]}!', 'success')
-            return redirect(url_for('main.calculator'))
+            return redirect(url_for('main.dashboard'))
         else:
             flash(result, 'danger')
             
@@ -38,7 +38,7 @@ def login():
 @auth.route('/register', methods=['GET', 'POST'])
 def register():
     if session.get('user_id'):
-        return redirect(url_for('main.calculator'))
+        return redirect(url_for('main.dashboard'))
         
     if request.method == 'POST':
         username = request.form.get('username')
