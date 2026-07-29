@@ -93,17 +93,36 @@
                                 </li>
                             </ul>
                         </li>
+
+                        <!-- Link Administrativo Exclusivo (Visível Apenas para Admins) -->
+                        {% if session.get('is_admin') %}
+                            <li class="nav-item ms-lg-2">
+                                <a class="nav-link text-danger fw-semibold {% if request.path == '/admin/usuarios' %}active{% endif %}" href="{{ url_for('admin.manage_users') }}">
+                                    <i class="bi bi-shield-lock-fill me-1"></i> Painel Admin
+                                </a>
+                            </li>
+                        {% endif %}
                         
                         <!-- Dropdown de Usuário Logado -->
                         <li class="nav-item dropdown ms-lg-3">
                             <a class="nav-link dropdown-toggle btn btn-sm btn-light border px-3 py-1 text-dark" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="bi bi-person-circle text-teal me-1"></i> {{ session.get('username') }}
+                                {% if session.get('is_admin') %}
+                                    <span class="badge bg-danger ms-1 fs-7">Admin</span>
+                                {% endif %}
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2" aria-labelledby="userDropdown">
                                 <li class="px-3 py-2 border-bottom">
                                     <small class="text-muted d-block">Conectado como:</small>
                                     <strong class="text-dark">{{ session.get('email') }}</strong>
                                 </li>
+                                {% if session.get('is_admin') %}
+                                    <li>
+                                        <a class="dropdown-item text-danger d-flex align-items-center mt-1 fw-semibold" href="{{ url_for('admin.manage_users') }}">
+                                            <i class="bi bi-shield-lock-fill me-2"></i> Gestão de Usuários (Admin)
+                                        </a>
+                                    </li>
+                                {% endif %}
                                 <li>
                                     <a class="dropdown-item d-flex align-items-center mt-1" href="{{ url_for('main.profile') }}">
                                         <i class="bi bi-person-gear me-2 text-teal"></i> Editar Perfil & Metas

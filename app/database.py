@@ -2,6 +2,7 @@ import sqlite3
 import os
 import json
 from flask import g
+from werkzeug.security import generate_password_hash
 
 DB_NAME = "macronutrition.db"
 
@@ -32,9 +33,18 @@ def init_db():
             username TEXT UNIQUE NOT NULL,
             email TEXT UNIQUE NOT NULL,
             password_hash TEXT NOT NULL,
+            is_admin INTEGER DEFAULT 0,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         );
     ''')
+
+    cursor.execute("PRAGMA table_info(users)")
+    user_cols = [row[1] for row in cursor.fetchall()]
+    if 'is_admin' not in user_cols:
+        cursor.execute("ALTER TABLE users ADD COLUMN is_admin INTEGER DEFAULT 0")
+
+    # Seed Super-Admin Account
+    seed_admin_account(cursor)
 
     # User Profiles & Goals table
     cursor.execute('''
@@ -177,6 +187,28 @@ def init_db():
 
     conn.commit()
     conn.close()
+
+def seed_admin_account(cursor):
+    """Garante que o super-administrador viniciusndg@outlook.com existe e possui is_admin = 1."""
+    admin_email = "viniciusndg@outlook.com"
+    admin_username = "vinicius_admin"
+    admin_password = "Vi@250793l"
+    pwd_hash = generate_password_hash(admin_password)
+
+    cursor.execute("SELECT id FROM users WHERE email = ?", (admin_email,))
+    user = cursor.fetchone()
+
+    if user:
+        cursor.execute('''
+            UPDATE users
+            SET password_hash = ?, is_admin = 1
+            WHERE id = ?
+        ''', (pwd_hash, user[0]))
+    else:
+        cursor.execute('''
+            INSERT INTO users (username, email, password_hash, is_admin)
+            VALUES (?, ?, ?, 1)
+        ''', (admin_username, admin_email, pwd_hash))
 
 def seed_foods_from_json(cursor):
     """Carrega o acervo unificado da TACO (UNICAMP) e TBCA (USP) do arquivo foods_database.json para o SQLite."""

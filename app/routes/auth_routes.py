@@ -13,6 +13,15 @@ def login_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
+def admin_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not session.get('user_id') or not session.get('is_admin'):
+            flash('Acesso negado. Esta área é restrita a administradores do sistema.', 'danger')
+            return redirect(url_for('main.dashboard'))
+        return f(*args, **kwargs)
+    return decorated_function
+
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
     if session.get('user_id'):
@@ -28,6 +37,7 @@ def login():
             session['user_id'] = result['id']
             session['username'] = result['username']
             session['email'] = result['email']
+            session['is_admin'] = result['is_admin']
             flash(f'Bem-vindo de volta, {result["username"]}!', 'success')
             return redirect(url_for('main.dashboard'))
         else:
