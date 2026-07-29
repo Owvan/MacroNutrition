@@ -10,10 +10,10 @@
             <div class="d-md-flex align-items-center justify-content-between">
                 <div>
                     <span class="badge bg-teal-light text-teal px-3 py-2 rounded-pill fw-semibold mb-2">
-                        <i class="bi bi-person-badge-fill me-1"></i> Perfil Corporal & Metas
+                        <i class="bi bi-person-badge-fill me-1"></i> Perfil Corporal & Metas OMS
                     </span>
                     <h1 class="fw-extrabold text-dark mb-1">Seus Dados & Objetivos de Saúde</h1>
-                    <p class="text-muted mb-0">Cadastre seus dados e metas. Eles serão sincronizados automaticamente com a calculadora e futuros relatórios da sua dashboard.</p>
+                    <p class="text-muted mb-0">Cadastre seus dados e metas. O sistema calcula seu IMC, sugere a faixa de peso ideal e avalia se sua meta é Recomendada, Moderada ou Agressiva.</p>
                 </div>
                 {% if profile %}
                     <div class="mt-3 mt-md-0 text-md-end">
@@ -30,7 +30,7 @@
     <div class="col-12 col-lg-10">
         <form method="POST" action="{{ url_for('main.save_profile') }}">
             <div class="row g-4">
-                <!-- Seção 1: Dados Pessoais e Biométricos -->
+                <!-- Seção 1: Dados Pessoais e Biométricos + Painel IMC -->
                 <div class="col-12 col-md-6">
                     <div class="card card-custom p-4 h-100 shadow-sm border-0">
                         <h5 class="fw-bold text-dark mb-3 d-flex align-items-center">
@@ -45,7 +45,7 @@
                         <div class="row g-3 mb-3">
                             <div class="col-6">
                                 <label for="gender" class="form-label fw-semibold">Gênero Biológico</label>
-                                <select class="form-select" id="gender" name="gender">
+                                <select class="form-select" id="gender" name="gender" onchange="calculateIMCAndProjections()">
                                     <option value="male" {% if not profile or profile.gender == 'male' %}selected{% endif %}>Masculino</option>
                                     <option value="female" {% if profile and profile.gender == 'female' %}selected{% endif %}>Feminino</option>
                                 </select>
@@ -60,20 +60,20 @@
                             <div class="col-6">
                                 <label for="height" class="form-label fw-semibold">Altura (cm)</label>
                                 <div class="input-group">
-                                    <input type="number" step="0.5" min="100" max="250" class="form-control text-center fw-bold" id="height" name="height" value="{{ profile.height if profile else 170.0 }}" required>
+                                    <input type="number" step="0.5" min="100" max="250" class="form-control text-center fw-bold" id="height" name="height" value="{{ profile.height if profile else 170.0 }}" oninput="calculateIMCAndProjections()" required>
                                     <span class="input-group-text bg-light text-muted">cm</span>
                                 </div>
                             </div>
                             <div class="col-6">
                                 <label for="current_weight" class="form-label fw-semibold">Peso Atual (kg)</label>
                                 <div class="input-group">
-                                    <input type="number" step="0.1" min="30" max="300" class="form-control text-center fw-bold text-teal" id="current_weight" name="current_weight" value="{{ profile.current_weight if profile else 70.0 }}" required>
+                                    <input type="number" step="0.1" min="30" max="300" class="form-control text-center fw-bold text-teal" id="current_weight" name="current_weight" value="{{ profile.current_weight if profile else 70.0 }}" oninput="calculateIMCAndProjections()" required>
                                     <span class="input-group-text bg-light text-muted">kg</span>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="mb-0">
+                        <div class="mb-3">
                             <label for="activity_level" class="form-label fw-semibold">Nível de Atividade Física Diária</label>
                             <select class="form-select" id="activity_level" name="activity_level">
                                 <option value="1.2" {% if not profile or profile.activity_level == 1.2 %}selected{% endif %}>Sedentário (pouco ou nenhum exercício)</option>
@@ -83,10 +83,31 @@
                                 <option value="1.9" {% if profile and profile.activity_level == 1.9 %}selected{% endif %}>Extremamente Ativo (atleta ou trabalho físico pesado)</option>
                             </select>
                         </div>
+
+                        <!-- Card Informativo de IMC & Peso Ideal Sugerido -->
+                        <div class="p-3 bg-light rounded-3 border border-teal mt-auto">
+                            <div class="d-flex align-items-center justify-content-between mb-2">
+                                <span class="fw-bold text-dark fs-7"><i class="bi bi-heart-pulse-fill text-danger me-1"></i> SEU IMC ATUAL</span>
+                                <span class="badge bg-success" id="imc_badge">24.2 - Peso Normal</span>
+                            </div>
+                            <div class="row g-2 text-center my-2">
+                                <div class="col-6">
+                                    <small class="text-muted d-block fs-7">Faixa Ideal (OMS)</small>
+                                    <strong class="text-dark fs-7" id="imc_ideal_range">53.5 kg - 72.0 kg</strong>
+                                </div>
+                                <div class="col-6 border-start">
+                                    <small class="text-muted d-block fs-7">Peso Alvo Recomendado</small>
+                                    <strong class="text-teal fs-7" id="imc_suggested_ideal">63.6 kg</strong>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-outline-teal btn-sm w-100 mt-2 py-1" onclick="applySuggestedMeta()">
+                                <i class="bi bi-magic me-1"></i> Preencher Meta Sugerida pela OMS
+                            </button>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Seção 2: Objetivos & Metas Temporais -->
+                <!-- Seção 2: Objetivos & Metas Temporais com Classificação de Ritmo -->
                 <div class="col-12 col-md-6">
                     <div class="card card-custom p-4 h-100 shadow-sm border-0">
                         <h5 class="fw-bold text-dark mb-3 d-flex align-items-center">
@@ -126,26 +147,37 @@
 
                         <!-- Definição da Meta Quantitativa e Prazo -->
                         <div id="target_fields_box" class="p-3 bg-light rounded-3 border mb-3">
-                            <div class="row g-3">
+                            <div class="row g-3 mb-2">
                                 <div class="col-6">
                                     <label for="target_weight_change_kg" class="form-label fs-7 fw-semibold text-dark" id="target_weight_label">Meta de Peso (kg)</label>
                                     <div class="input-group input-group-sm">
-                                        <input type="number" step="0.5" min="0" max="100" class="form-control text-center fw-bold" id="target_weight_change_kg" name="target_weight_change_kg" value="{{ profile.target_weight_change_kg if profile else 5.0 }}" oninput="calculateWeeklyProjection()">
+                                        <input type="number" step="0.5" min="0" max="100" class="form-control text-center fw-bold" id="target_weight_change_kg" name="target_weight_change_kg" value="{{ profile.target_weight_change_kg if profile else 5.0 }}" oninput="calculateIMCAndProjections()">
                                         <span class="input-group-text bg-white text-muted">kg</span>
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <label for="target_timeframe_weeks" class="form-label fs-7 fw-semibold text-dark">Prazo (Semanas)</label>
                                     <div class="input-group input-group-sm">
-                                        <input type="number" step="1" min="1" max="104" class="form-control text-center fw-bold" id="target_timeframe_weeks" name="target_timeframe_weeks" value="{{ profile.target_timeframe_weeks if profile else 8 }}" oninput="calculateWeeklyProjection()">
+                                        <input type="number" step="1" min="1" max="104" class="form-control text-center fw-bold" id="target_timeframe_weeks" name="target_timeframe_weeks" value="{{ profile.target_timeframe_weeks if profile else 8 }}" oninput="calculateIMCAndProjections()">
                                         <span class="input-group-text bg-white text-muted">sem</span>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="mt-3 p-2 bg-white rounded border text-center">
-                                <small class="text-muted d-block fs-7">Projeção Semanal Estimada:</small>
-                                <strong class="text-teal fs-6" id="weekly_projection_label">0.63 kg / semana</strong>
+                            <!-- Banner de Ritmo Semanal & Categoria (Recomendado, Moderado, Agressivo) -->
+                            <div class="p-3 bg-white rounded border text-center mt-3">
+                                <div class="d-flex align-items-center justify-content-between mb-1">
+                                    <span class="fs-7 text-muted fw-semibold">RITMO SEMANAL:</span>
+                                    <span class="badge bg-success" id="rate_category_badge">
+                                        <i class="bi bi-check-circle-fill me-1"></i> Recomendado (Saudável)
+                                    </span>
+                                </div>
+                                <div class="fs-5 fw-extrabold text-teal my-1" id="weekly_rate_value">
+                                    -0.63 kg / semana
+                                </div>
+                                <small class="text-muted d-block fs-7" id="rate_category_desc">
+                                    Ritmo ideal segundo a OMS para queimar gordura preservando massa muscular.
+                                </small>
                             </div>
                         </div>
                     </div>
@@ -163,10 +195,70 @@
 </div>
 
 <script>
+let globalSuggestedChange = 0;
+let globalSuggestedWeeks = 8;
+let globalSuggestedGoal = 'weight_loss';
+
+function calculateIMCAndProjections() {
+    const hCm = parseFloat(document.getElementById('height').value) || 170;
+    const wKg = parseFloat(document.getElementById('current_weight').value) || 70;
+    const hM = hCm / 100.0;
+
+    if (hM <= 0 || wKg <= 0) return;
+
+    // IMC
+    const bmi = (wKg / (hM * hM)).toFixed(1);
+    let category = 'Peso Normal';
+    let colorClass = 'bg-success text-white';
+
+    if (bmi < 18.5) {
+        category = 'Abaixo do peso';
+        colorClass = 'bg-warning text-dark';
+    } else if (bmi < 25.0) {
+        category = 'Peso Normal (Ideal)';
+        colorClass = 'bg-success text-white';
+    } else if (bmi < 30.0) {
+        category = 'Sobrepeso';
+        colorClass = 'bg-warning text-dark';
+    } else if (bmi < 35.0) {
+        category = 'Obesidade Grau I';
+        colorClass = 'bg-danger text-white';
+    } else if (bmi < 40.0) {
+        category = 'Obesidade Grau II';
+        colorClass = 'bg-danger text-white';
+    } else {
+        category = 'Obesidade Grau III';
+        colorClass = 'bg-danger text-white';
+    }
+
+    const minIdeal = (18.5 * hM * hM).toFixed(1);
+    const maxIdeal = (24.9 * hM * hM).toFixed(1);
+    const suggestedIdeal = (22.0 * hM * hM).toFixed(1);
+
+    document.getElementById('imc_badge').textContent = `${bmi} - ${category}`;
+    document.getElementById('imc_badge').className = `badge ${colorClass}`;
+    document.getElementById('imc_ideal_range').textContent = `${minIdeal} kg - ${maxIdeal} kg`;
+    document.getElementById('imc_suggested_ideal').textContent = `${suggestedIdeal} kg`;
+
+    if (wKg > maxIdeal) {
+        globalSuggestedChange = (wKg - suggestedIdeal).toFixed(1);
+        globalSuggestedGoal = 'weight_loss';
+    } else if (wKg < minIdeal) {
+        globalSuggestedChange = (suggestedIdeal - wKg).toFixed(1);
+        globalSuggestedGoal = 'weight_gain';
+    } else {
+        globalSuggestedChange = 0;
+        globalSuggestedGoal = 'maintenance';
+    }
+    globalSuggestedWeeks = Math.max(4, Math.round(globalSuggestedChange / 0.5));
+
+    // Rate Calculation
+    updateGoalUI();
+}
+
 function updateGoalUI() {
     const isMaint = document.getElementById('goal_maint').checked;
     const isGain = document.getElementById('goal_gain').checked;
-    const targetBox = document.getElementById('target_fields_box');
     const label = document.getElementById('target_weight_label');
 
     if (isMaint) {
@@ -177,36 +269,92 @@ function updateGoalUI() {
     } else {
         if (label) label.textContent = 'Meta de Perda de Peso (kg)';
     }
-    calculateWeeklyProjection();
+    updateRateClassification();
 }
 
-function calculateWeeklyProjection() {
+function updateRateClassification() {
     const changeKg = parseFloat(document.getElementById('target_weight_change_kg').value) || 0;
     const weeks = parseInt(document.getElementById('target_timeframe_weeks').value) || 1;
     const isGain = document.getElementById('goal_gain').checked;
     const isMaint = document.getElementById('goal_maint').checked;
-    const labelEl = document.getElementById('weekly_projection_label');
 
-    if (!labelEl) return;
+    const rateValEl = document.getElementById('weekly_rate_value');
+    const badgeEl = document.getElementById('rate_category_badge');
+    const descEl = document.getElementById('rate_category_desc');
+
+    if (!rateValEl || !badgeEl || !descEl) return;
 
     if (isMaint || changeKg === 0) {
-        labelEl.textContent = 'Manter peso estável (0 kg / semana)';
-        labelEl.className = 'text-dark fs-6';
+        rateValEl.textContent = '0 kg / semana';
+        rateValEl.className = 'fs-5 fw-extrabold text-dark my-1';
+        badgeEl.textContent = 'Manutenção de Peso';
+        badgeEl.className = 'badge bg-teal text-white';
+        descEl.textContent = 'Manter o peso estável sem alteração calórica brusca.';
         return;
     }
 
     const rate = (changeKg / Math.max(weeks, 1)).toFixed(2);
-    if (isGain) {
-        labelEl.textContent = `+${rate} kg por semana (Ganho)`;
-        labelEl.className = 'text-primary fs-6 fw-bold';
+
+    if (!isGain) {
+        // EMAGRECIMENTO
+        rateValEl.textContent = `-${rate} kg / semana`;
+        rateValEl.className = 'fs-5 fw-extrabold text-teal my-1';
+
+        if (rate <= 0.25) {
+            badgeEl.innerHTML = '<i class="bi bi-info-circle-fill me-1"></i> Conservador / Suave';
+            badgeEl.className = 'badge bg-info text-white';
+            descEl.textContent = 'Ritmo suave e fácil de manter a longo prazo.';
+        } else if (rate <= 0.75) {
+            badgeEl.innerHTML = '<i class="bi bi-check-circle-fill me-1"></i> Recomendado (Saudável)';
+            badgeEl.className = 'badge bg-success text-white';
+            descEl.textContent = 'Ritmo ideal segundo a OMS para queimar gordura preservando massa muscular.';
+        } else if (rate <= 1.0) {
+            badgeEl.innerHTML = '<i class="bi bi-exclamation-triangle-fill me-1"></i> Moderado / Desafiador';
+            badgeEl.className = 'badge bg-warning text-dark';
+            descEl.textContent = 'Exige bom controle de ingestão proteica e déficit disciplinado.';
+        } else {
+            badgeEl.innerHTML = '<i class="bi bi-exclamation-octagon-fill me-1"></i> Agressivo (Cuidados Necessários)';
+            badgeEl.className = 'badge bg-danger text-white';
+            descEl.textContent = 'Ritmo intenso! Risco de fadiga e perda de massa muscular. Requer atenção.';
+        }
     } else {
-        labelEl.textContent = `-${rate} kg por semana (Perda)`;
-        labelEl.className = 'text-teal fs-6 fw-bold';
+        // GANHO DE PESO
+        rateValEl.textContent = `+${rate} kg / semana`;
+        rateValEl.className = 'fs-5 fw-extrabold text-primary my-1';
+
+        if (rate <= 0.25) {
+            badgeEl.innerHTML = '<i class="bi bi-info-circle-fill me-1"></i> Suave / Limpo';
+            badgeEl.className = 'badge bg-info text-white';
+            descEl.textContent = 'Ganho gradual focado em minimizar acúmulo de gordura.';
+        } else if (rate <= 0.5) {
+            badgeEl.innerHTML = '<i class="bi bi-check-circle-fill me-1"></i> Recomendado (Hipertrofia)';
+            badgeEl.className = 'badge bg-success text-white';
+            descEl.textContent = 'Ritmo recomendado para síntese proteica e hipertrofia muscular.';
+        } else {
+            badgeEl.innerHTML = '<i class="bi bi-exclamation-triangle-fill me-1"></i> Agressivo / Superávit Alto';
+            badgeEl.className = 'badge bg-warning text-dark';
+            descEl.textContent = 'Ganho rápido com maior probabilidade de ganho de gordura associado.';
+        }
     }
 }
 
-document.addEventListener('DOMContentLoaded', function() {
+function applySuggestedMeta() {
+    if (globalSuggestedGoal === 'weight_loss') {
+        document.getElementById('goal_loss').checked = true;
+    } else if (globalSuggestedGoal === 'weight_gain') {
+        document.getElementById('goal_gain').checked = true;
+    } else {
+        document.getElementById('goal_maint').checked = true;
+    }
+
+    document.getElementById('target_weight_change_kg').value = globalSuggestedChange;
+    document.getElementById('target_timeframe_weeks').value = globalSuggestedWeeks;
+
     updateGoalUI();
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    calculateIMCAndProjections();
 });
 </script>
 {% endblock %}
