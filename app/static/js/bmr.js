@@ -13,7 +13,19 @@ document.addEventListener('DOMContentLoaded', function () {
     const liveLossMildEl = document.getElementById('live-loss-mild');
     const liveLossNormEl = document.getElementById('live-loss-norm');
     const liveGainMildEl = document.getElementById('live-gain-mild');
-    const liveGainNormEl = document.getElementById('live-gain-norm');
+
+    let saveTimeout = null;
+
+    function autoSaveBMR(gender, weight, height, age, activity_level) {
+        if (saveTimeout) clearTimeout(saveTimeout);
+        saveTimeout = setTimeout(() => {
+            fetch('/api/save-bmr', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ gender, weight, height, age, activity_level })
+            }).catch(err => console.error('Erro ao auto-salvar TMB:', err));
+        }, 500);
+    }
 
     function calculateLive() {
         const weight = parseFloat(weightInput.value) || 0;
@@ -45,7 +57,9 @@ document.addEventListener('DOMContentLoaded', function () {
         if (liveLossMildEl) liveLossMildEl.textContent = Math.round(tdee - 300).toLocaleString('pt-BR') + ' kcal';
         if (liveLossNormEl) liveLossNormEl.textContent = Math.round(tdee - 500).toLocaleString('pt-BR') + ' kcal';
         if (liveGainMildEl) liveGainMildEl.textContent = Math.round(tdee + 300).toLocaleString('pt-BR') + ' kcal';
-        if (liveGainNormEl) liveGainNormEl.textContent = Math.round(tdee + 500).toLocaleString('pt-BR') + ' kcal';
+
+        // Auto save BMR/TDEE on live update
+        autoSaveBMR(gender, weight, height, age, activity);
     }
 
     [weightInput, heightInput, ageInput, activitySelect].forEach(input => {

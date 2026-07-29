@@ -59,7 +59,6 @@ def calculator():
         }
         
         save_bmr_record(user_id, gender, weight, height, age, activity_level)
-        flash('Cálculo corporal salvo com sucesso! Agora defina a divisão dos seus macronutrientes abaixo.', 'success')
         return redirect(url_for('main.macronutrients'))
         
     if not calculation_result and latest_bmr:
@@ -105,6 +104,23 @@ def calculator():
         }
             
     return render_template('bmr_calculator.html', result=calculation_result, profile=user_profile)
+
+
+@main.route('/api/save-bmr', methods=['POST'])
+@login_required
+def api_save_bmr():
+    data = request.get_json() or {}
+    gender = data.get('gender', 'male')
+    weight = float(data.get('weight', 70))
+    height = float(data.get('height', 170))
+    age = int(data.get('age', 25))
+    activity_level = float(data.get('activity_level', 1.2))
+
+    user_id = session.get('user_id')
+    bmr, tdee = calculate_bmr_and_tdee(gender, weight, height, age, activity_level)
+    save_bmr_record(user_id, gender, weight, height, age, activity_level)
+
+    return jsonify({'success': True, 'bmr': bmr, 'tdee': tdee})
 
 
 @main.route('/perfil', methods=['GET'])
@@ -298,7 +314,7 @@ def add_food():
 @login_required
 def remove_food_item(item_id):
     user_id = session.get('user_id')
-    meal_date = request.form.get('meal_date', get_today_date_str())
+    meal_date = request.args.get('date', get_today_date_str())
 
     if delete_meal_item(user_id, item_id):
         flash('Alimento removido da refeição.', 'success')
