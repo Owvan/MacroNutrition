@@ -111,7 +111,7 @@
         </div>
     </div>
 
-    <!-- Coluna Direita: Resultados e Botão Único de Avanço -->
+    <!-- Coluna Direita: Resultados e Seleção de Meta Diária -->
     <div class="col-lg-6">
         <div class="card card-custom p-4 h-100 shadow-sm border-0">
             <h4 class="fw-bold text-dark mb-3 pb-2 border-bottom d-flex align-items-center justify-content-between">
@@ -141,64 +141,91 @@
                 </div>
             </div>
 
-            <!-- Metas Calóricas Sugeridas -->
-            <h6 class="fw-bold text-dark mb-3">Sugestões de Metas Diárias:</h6>
+            <!-- Metas Calóricas Sugeridas (Interativas / Selecionáveis) -->
+            <div class="d-flex align-items-center justify-content-between mb-2">
+                <h6 class="fw-bold text-dark m-0">Selecione sua Meta Calórica Diária:</h6>
+                <small class="text-teal fw-semibold fs-7"><i class="bi bi-hand-index-thumb me-1"></i>Clique para escolher</small>
+            </div>
             
             <div class="d-flex flex-column gap-2 mb-4">
-                <div class="target-card loss d-flex align-items-center justify-content-between shadow-sm {% if profile and profile.goal_type == 'weight_loss' %}border border-2 border-danger{% endif %}">
-                    <div>
-                        <strong class="d-block text-dark">
-                            Perda de Peso (Déficit Suave)
-                            {% if profile and profile.goal_type == 'weight_loss' %}<span class="badge bg-danger ms-1">Seu Objetivo</span>{% endif %}
-                        </strong>
-                        <small class="text-muted">Redução de ~300 kcal/dia</small>
+                <!-- Card 1: Pérda Suave -->
+                <div class="target-card-selectable cursor-pointer p-3 rounded-3 border border-2 border-light bg-white shadow-sm transition-all {% if profile and profile.goal_type == 'weight_loss' %}user-objective{% endif %}" data-target-type="loss_mild" onclick="selectTargetCard(this, 'loss_mild')">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <strong class="d-block text-dark">
+                                Perda de Peso (Déficit Suave)
+                                {% if profile and profile.goal_type == 'weight_loss' %}<span class="badge bg-danger ms-1">Seu Objetivo</span>{% endif %}
+                            </strong>
+                            <small class="text-muted">Redução de ~300 kcal/dia</small>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="badge bg-danger bg-opacity-10 text-danger fs-6 fw-bold" id="live-loss-mild">
+                                {{ result.targets.weight_loss_mild|round|int if result else '1.693' }} kcal
+                            </span>
+                            <i class="bi bi-circle check-icon text-muted fs-5"></i>
+                        </div>
                     </div>
-                    <span class="badge bg-danger bg-opacity-10 text-danger fs-6 fw-bold" id="live-loss-mild">
-                        {{ result.targets.weight_loss_mild|round|int if result else '1.693' }} kcal
-                    </span>
                 </div>
 
-                <div class="target-card loss d-flex align-items-center justify-content-between shadow-sm" style="border-left-color: #dc2626;">
-                    <div>
-                        <strong class="d-block text-dark">Perda de Peso Moderada</strong>
-                        <small class="text-muted">Redução de ~500 kcal/dia</small>
+                <!-- Card 2: Pérda Moderada -->
+                <div class="target-card-selectable cursor-pointer p-3 rounded-3 border border-2 border-light bg-white shadow-sm transition-all" data-target-type="loss_norm" onclick="selectTargetCard(this, 'loss_norm')">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <strong class="d-block text-dark">Perda de Peso Moderada</strong>
+                            <small class="text-muted">Redução de ~500 kcal/dia</small>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="badge bg-danger text-white fs-6 fw-bold" id="live-loss-norm">
+                                {{ result.targets.weight_loss_normal|round|int if result else '1.493' }} kcal
+                            </span>
+                            <i class="bi bi-circle check-icon text-muted fs-5"></i>
+                        </div>
                     </div>
-                    <span class="badge bg-danger text-white fs-6 fw-bold" id="live-loss-norm">
-                        {{ result.targets.weight_loss_normal|round|int if result else '1.493' }} kcal
-                    </span>
                 </div>
 
-                <div class="target-card maintain d-flex align-items-center justify-content-between shadow-sm {% if profile and profile.goal_type == 'maintenance' %}border border-2 border-teal{% endif %}">
-                    <div>
-                        <strong class="d-block text-dark">
-                            Manutenção de Peso
-                            {% if profile and profile.goal_type == 'maintenance' %}<span class="badge bg-teal ms-1">Seu Objetivo</span>{% endif %}
-                        </strong>
-                        <small class="text-muted">Equilíbrio energético diário</small>
+                <!-- Card 3: Manutenção -->
+                <div class="target-card-selectable cursor-pointer p-3 rounded-3 border border-2 border-light bg-white shadow-sm transition-all {% if profile and profile.goal_type == 'maintenance' %}user-objective{% endif %}" data-target-type="maintain" onclick="selectTargetCard(this, 'maintain')">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <strong class="d-block text-dark">
+                                Manutenção de Peso
+                                {% if profile and profile.goal_type == 'maintenance' %}<span class="badge bg-teal ms-1">Seu Objetivo</span>{% endif %}
+                            </strong>
+                            <small class="text-muted">Equilíbrio energético diário</small>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="badge bg-teal-light text-teal fs-6 fw-bold" id="live-maintain">
+                                {{ result.tdee|round|int if result else '1.993' }} kcal
+                            </span>
+                            <i class="bi bi-circle check-icon text-muted fs-5"></i>
+                        </div>
                     </div>
-                    <span class="badge bg-teal-light text-teal fs-6 fw-bold" id="live-maintain">
-                        {{ result.tdee|round|int if result else '1.993' }} kcal
-                    </span>
                 </div>
 
-                <div class="target-card gain d-flex align-items-center justify-content-between shadow-sm {% if profile and profile.goal_type == 'weight_gain' %}border border-2 border-success{% endif %}">
-                    <div>
-                        <strong class="d-block text-dark">
-                            Ganho de Massa (Superávit Suave)
-                            {% if profile and profile.goal_type == 'weight_gain' %}<span class="badge bg-success ms-1">Seu Objetivo</span>{% endif %}
-                        </strong>
-                        <small class="text-muted">Adição de ~300 kcal/dia</small>
+                <!-- Card 4: Ganho de Massa -->
+                <div class="target-card-selectable cursor-pointer p-3 rounded-3 border border-2 border-light bg-white shadow-sm transition-all {% if profile and profile.goal_type == 'weight_gain' %}user-objective{% endif %}" data-target-type="gain_mild" onclick="selectTargetCard(this, 'gain_mild')">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <strong class="d-block text-dark">
+                                Ganho de Massa (Superávit Suave)
+                                {% if profile and profile.goal_type == 'weight_gain' %}<span class="badge bg-success ms-1">Seu Objetivo</span>{% endif %}
+                            </strong>
+                            <small class="text-muted">Adição de ~300 kcal/dia</small>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="badge bg-success bg-opacity-10 text-success fs-6 fw-bold" id="live-gain-mild">
+                                {{ result.targets.weight_gain_mild|round|int if result else '2.293' }} kcal
+                            </span>
+                            <i class="bi bi-circle check-icon text-muted fs-5"></i>
+                        </div>
                     </div>
-                    <span class="badge bg-success bg-opacity-10 text-success fs-6 fw-bold" id="live-gain-mild">
-                        {{ result.targets.weight_gain_mild|round|int if result else '2.293' }} kcal
-                    </span>
                 </div>
             </div>
 
-            <!-- Botão Único de Ação para Avançar -->
+            <!-- Botão Único de Ação com Meta Selecionada -->
             <div class="mt-auto text-end pt-2">
-                <a href="{{ url_for('main.macronutrients') }}" class="btn btn-teal w-100 py-3 fs-6 fw-bold shadow-sm">
-                    <i class="bi bi-arrow-right-circle-fill me-2"></i> Ir Calcular Macronutrientes
+                <a href="{{ url_for('main.macronutrients') }}" id="btn-advance-macros" data-base-url="{{ url_for('main.macronutrients') }}" class="btn btn-teal w-100 py-3 fs-6 fw-bold shadow-sm">
+                    <i class="bi bi-arrow-right-circle-fill me-2"></i> Ir Calcular Macronutrientes com Meta Selecionada
                 </a>
             </div>
         </div>

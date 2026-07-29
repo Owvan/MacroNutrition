@@ -168,10 +168,19 @@ def macronutrients():
 
     base_calories = latest_bmr['tdee'] if latest_bmr else 2000.0
     
+    # Check if a custom selected target calorie was passed from BMR calculator
+    custom_target = request.args.get('target_calories')
+    if custom_target:
+        try:
+            current_target_cal = float(custom_target)
+        except ValueError:
+            current_target_cal = latest_macro['target_calories'] if latest_macro else base_calories
+    else:
+        current_target_cal = latest_macro['target_calories'] if latest_macro else base_calories
+
     current_carb_pct = latest_macro['carb_pct'] if latest_macro else OMS_PRESET['carb_pct']
     current_protein_pct = latest_macro['protein_pct'] if latest_macro else OMS_PRESET['protein_pct']
     current_fat_pct = latest_macro['fat_pct'] if latest_macro else OMS_PRESET['fat_pct']
-    current_target_cal = latest_macro['target_calories'] if latest_macro else base_calories
 
     macro_calc = calculate_macros(current_target_cal, current_carb_pct, current_protein_pct, current_fat_pct)
 
