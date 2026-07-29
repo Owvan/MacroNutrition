@@ -1,7 +1,7 @@
 from app.database import get_db
 
-def search_taco_foods(query, limit=20):
-    """Busca alimentos nas tabelas TACO e TBCA (USP) por termo de busca."""
+def search_taco_foods(query, limit=30):
+    """Busca alimentos nas tabelas TACO e TBCA (USP) por termo de busca, priorizando TACO."""
     if not query or len(query.strip()) == 0:
         return []
     
@@ -13,6 +13,7 @@ def search_taco_foods(query, limit=20):
         FROM taco_foods
         WHERE name LIKE ? OR category LIKE ?
         ORDER BY 
+            CASE WHEN source = 'TACO' THEN 0 ELSE 1 END,
             CASE WHEN name LIKE ? THEN 0 ELSE 1 END,
             name ASC
         LIMIT ?
