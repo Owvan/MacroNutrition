@@ -86,13 +86,11 @@ def init_db():
         );
     ''')
 
-    # Ensure source column exists if database was created previously
     cursor.execute("PRAGMA table_info(taco_foods)")
     columns = [row[1] for row in cursor.fetchall()]
     if 'source' not in columns:
         cursor.execute("ALTER TABLE taco_foods ADD COLUMN source TEXT DEFAULT 'TACO'")
 
-    # Create fast index for food search
     cursor.execute("CREATE INDEX IF NOT EXISTS idx_taco_foods_name ON taco_foods(name);")
 
     # User Meals table
@@ -115,6 +113,8 @@ def init_db():
             taco_food_id INTEGER,
             food_name TEXT NOT NULL,
             amount_g REAL NOT NULL,
+            unit_name TEXT DEFAULT 'g',
+            unit_qty REAL DEFAULT 0,
             calories REAL NOT NULL,
             protein_g REAL NOT NULL,
             carbs_g REAL NOT NULL,
@@ -124,9 +124,15 @@ def init_db():
         );
     ''')
 
+    cursor.execute("PRAGMA table_info(user_meal_items)")
+    meal_item_cols = [row[1] for row in cursor.fetchall()]
+    if 'unit_name' not in meal_item_cols:
+        cursor.execute("ALTER TABLE user_meal_items ADD COLUMN unit_name TEXT DEFAULT 'g'")
+    if 'unit_qty' not in meal_item_cols:
+        cursor.execute("ALTER TABLE user_meal_items ADD COLUMN unit_qty REAL DEFAULT 0")
+
     conn.commit()
 
-    # Seed TACO & TBCA foods from JSON dataset
     seed_foods_from_json(cursor)
 
     conn.commit()

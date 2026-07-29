@@ -177,9 +177,11 @@ def remove_meal(meal_id):
 def add_food():
     meal_id = request.form.get('meal_id')
     meal_date = request.form.get('meal_date', get_today_date_str())
-    food_source = request.form.get('food_source', 'taco') # 'taco', 'barcode', or 'custom'
+    food_source = request.form.get('food_source', 'taco')
     taco_food_id = request.form.get('taco_food_id')
     amount_g = request.form.get('amount_g', 100)
+    unit_name = request.form.get('unit_name', 'g')
+    unit_qty = request.form.get('unit_qty', 0)
 
     # Custom food or Barcode fields
     custom_name = request.form.get('custom_name', '').strip()
@@ -202,7 +204,9 @@ def add_food():
                 custom_kcal=custom_kcal,
                 custom_p=custom_p,
                 custom_c=custom_c,
-                custom_f=custom_f
+                custom_f=custom_f,
+                unit_name=unit_name,
+                unit_qty=unit_qty
             )
         else:
             taco_id = int(taco_food_id) if taco_food_id and taco_food_id.isdigit() else None
@@ -210,7 +214,13 @@ def add_food():
                 flash('Selecione um alimento da lista.', 'warning')
                 return redirect(url_for('main.diet', date=meal_date))
                 
-            success, result = add_food_to_meal(meal_id, taco_id, amount_g)
+            success, result = add_food_to_meal(
+                meal_id,
+                taco_id,
+                amount_g,
+                unit_name=unit_name,
+                unit_qty=unit_qty
+            )
 
         if success:
             flash('Alimento adicionado à refeição!', 'success')

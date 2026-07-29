@@ -5,6 +5,16 @@ from app.services.macro_services import get_latest_user_macro
 
 DEFAULT_MEAL_NAMES = ["Café da Manhã", "Almoço", "Lanche da Tarde", "Jantar"]
 
+UNIT_LABELS = {
+    'g': 'g',
+    'unidade': 'unid.',
+    'colher_sopa': 'colher(es) de sopa',
+    'colher_cha': 'colher(es) de chá',
+    'concha': 'concha(s)',
+    'xicara': 'xícara(s)',
+    'fatia': 'fatia(s)'
+}
+
 def get_today_date_str():
     return datetime.date.today().strftime("%Y-%m-%d")
 
@@ -42,12 +52,23 @@ def get_user_meals_with_items(user_id, meal_date=None):
 
     for meal in meals:
         cursor.execute('''
-            SELECT id, meal_id, taco_food_id, food_name, amount_g, calories, protein_g, carbs_g, fat_g, created_at
+            SELECT id, meal_id, taco_food_id, food_name, amount_g, unit_name, unit_qty, calories, protein_g, carbs_g, fat_g, created_at
             FROM user_meal_items
             WHERE meal_id = ?
             ORDER BY id ASC
         ''', (meal['id'],))
         items = [dict(row) for row in cursor.fetchall()]
+
+        for item in items:
+            u_name = item.get('unit_name') or 'g'
+            u_qty = item.get('unit_qty') or 0
+            if u_name != 'g' and u_qty > 0:
+                label = UNIT_LABELS.get(u_name, u_name)
+                qty_str = int(u_qty) if u_qty == int(u_qty) else round(u_qty, 1)
+                item['display_amount'] = f"{qty_str} {label} ({int(item['amount_g'])} g)"
+            else:
+                item['display_amount'] = f"{int(item['amount_g'])} g"
+
         meal['food_items'] = items
         
         meal['total_calories'] = round(sum(i['calories'] for i in items), 1)
@@ -80,8 +101,11 @@ def delete_user_meal(user_id, meal_id):
     db.commit()
     return cursor.rowcount > 0
 
-def add_food_to_meal(meal_id, taco_food_id, amount_g, custom_name=None, custom_kcal=0, custom_p=0, custom_c=0, custom_f=0):
+def add_food_to_meal(meal_id, taco_food_id, amount_g, custom_name=None, custom_kcal=0, custom_p=0, custom_c=0, custom_f=0, unit_name='g', unit_qty=0):
     amount_g = float(amount_g)
+    unit_qty = float(unit_qty or 0)
+    unit_name = str(unit_name or 'g').strip()
+
     if amount_g <= 0:
         return False, "A quantidade em gramas deve ser maior que zero."
 
@@ -109,9 +133,9 @@ def add_food_to_meal(meal_id, taco_food_id, amount_g, custom_name=None, custom_k
 
     cursor.execute('''
         INSERT INTO user_meal_items
-        (meal_id, taco_food_id, food_name, amount_g, calories, protein_g, carbs_g, fat_g)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-    ''', (meal_id, taco_food_id, food_name, amount_g, calories, protein_g, carbs_g, fat_g))
+        (meal_id, taco_food_id, food_name, amount_g, unit_name, unit_qty, calories, protein_g, carbs_g, fat_g)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    ''', (meal_id, taco_food_id, food_name, amount_g, unit_name, unit_qty, calories, protein_g, carbs_g, fat_g))
     db.commit()
     return True, cursor.lastrowid
 

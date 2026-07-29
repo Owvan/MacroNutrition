@@ -12,6 +12,21 @@ document.addEventListener('DOMContentLoaded', function () {
     const tacoFoodIdInput = document.getElementById('taco_food_id');
     const amountInput = document.getElementById('amount_g');
 
+    // Household Unit Elements
+    const unitSelect = document.getElementById('unit_name');
+    const unitQtyInput = document.getElementById('unit_qty');
+    const unitQtyContainer = document.getElementById('unit_qty_container');
+
+    const UNIT_WEIGHTS = {
+        'g': 1,
+        'unidade': 50,
+        'colher_sopa': 15,
+        'colher_cha': 5,
+        'concha': 100,
+        'xicara': 150,
+        'fatia': 30
+    };
+
     // Barcode Elements
     const barcodeInput = document.getElementById('barcode_input');
     const btnSearchBarcode = document.getElementById('btn_search_barcode');
@@ -40,6 +55,28 @@ document.addEventListener('DOMContentLoaded', function () {
     let debounceTimer = null;
     let fallbackDebounceTimer = null;
 
+    function syncHouseholdUnit() {
+        if (!unitSelect || !amountInput) return;
+        const selectedUnit = unitSelect.value;
+
+        if (selectedUnit === 'g') {
+            if (unitQtyContainer) unitQtyContainer.style.display = 'none';
+        } else {
+            if (unitQtyContainer) unitQtyContainer.style.display = 'block';
+            const qty = parseFloat(unitQtyInput ? unitQtyInput.value : 1) || 1;
+            const weight = UNIT_WEIGHTS[selectedUnit] || 1;
+            amountInput.value = Math.round(qty * weight);
+        }
+        updateFoodPreview();
+    }
+
+    if (unitSelect) {
+        unitSelect.addEventListener('change', syncHouseholdUnit);
+    }
+    if (unitQtyInput) {
+        unitQtyInput.addEventListener('input', syncHouseholdUnit);
+    }
+
     window.switchFoodSource = function (type) {
         if (foodSourceInput) foodSourceInput.value = type;
         updateFoodPreview();
@@ -59,6 +96,11 @@ document.addEventListener('DOMContentLoaded', function () {
         if (tacoFoodIdInput) tacoFoodIdInput.value = '';
         if (amountInput) amountInput.value = 100;
         
+        // Reset Household Unit Inputs
+        if (unitSelect) unitSelect.value = 'g';
+        if (unitQtyInput) unitQtyInput.value = '1';
+        if (unitQtyContainer) unitQtyContainer.style.display = 'none';
+
         // Reset Barcode Tab
         if (barcodeInput) barcodeInput.value = '';
         if (barcodeResultBox) barcodeResultBox.classList.add('d-none');
@@ -111,7 +153,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     .then(response => response.json())
                     .then(data => {
                         if (data.success && data.foods.length > 0) {
-                            renderSearchResults(data.foods, query);
+                            renderSearchResults(data.foods);
                         } else {
                             if (searchResults) {
                                 searchResults.innerHTML = '<div class="p-3 text-muted text-center small"><i class="bi bi-search me-1"></i> Nenhum alimento encontrado no banco local. Use a aba "Código de Barras" para consultar itens industrializados.</div>';
@@ -124,7 +166,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    function renderSearchResults(foods, rawQuery) {
+    function renderSearchResults(foods) {
         if (!searchResults) return;
         searchResults.innerHTML = '';
 
