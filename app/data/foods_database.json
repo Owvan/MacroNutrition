@@ -1,5 +1,5975 @@
 [
   {
+    "name": "Arroz, integral, cozido",
+    "category": "Cereais e derivados",
+    "energy_kcal": 123.5,
+    "protein_g": 2.6,
+    "carbs_g": 25.8,
+    "fat_g": 1.0,
+    "fiber_g": 2.7,
+    "source": "TACO"
+  },
+  {
+    "name": "Arroz, integral, cru",
+    "category": "Cereais e derivados",
+    "energy_kcal": 359.7,
+    "protein_g": 7.3,
+    "carbs_g": 77.5,
+    "fat_g": 1.9,
+    "fiber_g": 4.8,
+    "source": "TACO"
+  },
+  {
+    "name": "Arroz, tipo 1, cozido",
+    "category": "Cereais e derivados",
+    "energy_kcal": 128.3,
+    "protein_g": 2.5,
+    "carbs_g": 28.1,
+    "fat_g": 0.2,
+    "fiber_g": 1.6,
+    "source": "TACO"
+  },
+  {
+    "name": "Arroz, tipo 1, cru",
+    "category": "Cereais e derivados",
+    "energy_kcal": 357.8,
+    "protein_g": 7.2,
+    "carbs_g": 78.8,
+    "fat_g": 0.3,
+    "fiber_g": 1.6,
+    "source": "TACO"
+  },
+  {
+    "name": "Arroz, tipo 2, cozido",
+    "category": "Cereais e derivados",
+    "energy_kcal": 130.1,
+    "protein_g": 2.6,
+    "carbs_g": 28.2,
+    "fat_g": 0.4,
+    "fiber_g": 1.1,
+    "source": "TACO"
+  },
+  {
+    "name": "Arroz, tipo 2, cru",
+    "category": "Cereais e derivados",
+    "energy_kcal": 358.1,
+    "protein_g": 7.2,
+    "carbs_g": 78.9,
+    "fat_g": 0.3,
+    "fiber_g": 1.7,
+    "source": "TACO"
+  },
+  {
+    "name": "Aveia, flocos, crua",
+    "category": "Cereais e derivados",
+    "energy_kcal": 393.8,
+    "protein_g": 13.9,
+    "carbs_g": 66.6,
+    "fat_g": 8.5,
+    "fiber_g": 9.1,
+    "source": "TACO"
+  },
+  {
+    "name": "Biscoito, doce, maisena",
+    "category": "Cereais e derivados",
+    "energy_kcal": 442.8,
+    "protein_g": 8.1,
+    "carbs_g": 75.2,
+    "fat_g": 12.0,
+    "fiber_g": 2.1,
+    "source": "TACO"
+  },
+  {
+    "name": "Biscoito, doce, recheado com chocolate",
+    "category": "Cereais e derivados",
+    "energy_kcal": 471.8,
+    "protein_g": 6.4,
+    "carbs_g": 70.5,
+    "fat_g": 19.6,
+    "fiber_g": 3.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Biscoito, doce, recheado com morango",
+    "category": "Cereais e derivados",
+    "energy_kcal": 471.2,
+    "protein_g": 5.7,
+    "carbs_g": 71.0,
+    "fat_g": 19.6,
+    "fiber_g": 1.5,
+    "source": "TACO"
+  },
+  {
+    "name": "Biscoito, doce, wafer, recheado de chocolate",
+    "category": "Cereais e derivados",
+    "energy_kcal": 502.5,
+    "protein_g": 5.6,
+    "carbs_g": 67.5,
+    "fat_g": 24.7,
+    "fiber_g": 1.8,
+    "source": "TACO"
+  },
+  {
+    "name": "Biscoito, doce, wafer, recheado de morango",
+    "category": "Cereais e derivados",
+    "energy_kcal": 513.4,
+    "protein_g": 4.5,
+    "carbs_g": 67.4,
+    "fat_g": 26.4,
+    "fiber_g": 0.8,
+    "source": "TACO"
+  },
+  {
+    "name": "Biscoito, salgado, cream cracker",
+    "category": "Cereais e derivados",
+    "energy_kcal": 431.7,
+    "protein_g": 10.1,
+    "carbs_g": 68.7,
+    "fat_g": 14.4,
+    "fiber_g": 2.5,
+    "source": "TACO"
+  },
+  {
+    "name": "Bolo, mistura para",
+    "category": "Cereais e derivados",
+    "energy_kcal": 418.6,
+    "protein_g": 6.2,
+    "carbs_g": 84.7,
+    "fat_g": 6.1,
+    "fiber_g": 1.7,
+    "source": "TACO"
+  },
+  {
+    "name": "Bolo, pronto, aipim",
+    "category": "Cereais e derivados",
+    "energy_kcal": 323.9,
+    "protein_g": 4.4,
+    "carbs_g": 47.9,
+    "fat_g": 12.7,
+    "fiber_g": 0.7,
+    "source": "TACO"
+  },
+  {
+    "name": "Bolo, pronto, chocolate",
+    "category": "Cereais e derivados",
+    "energy_kcal": 410.0,
+    "protein_g": 6.2,
+    "carbs_g": 54.7,
+    "fat_g": 18.5,
+    "fiber_g": 1.4,
+    "source": "TACO"
+  },
+  {
+    "name": "Bolo, pronto, coco",
+    "category": "Cereais e derivados",
+    "energy_kcal": 333.4,
+    "protein_g": 5.7,
+    "carbs_g": 52.3,
+    "fat_g": 11.3,
+    "fiber_g": 1.1,
+    "source": "TACO"
+  },
+  {
+    "name": "Bolo, pronto, milho",
+    "category": "Cereais e derivados",
+    "energy_kcal": 311.4,
+    "protein_g": 4.8,
+    "carbs_g": 45.1,
+    "fat_g": 12.4,
+    "fiber_g": 0.7,
+    "source": "TACO"
+  },
+  {
+    "name": "Canjica, branca, crua",
+    "category": "Cereais e derivados",
+    "energy_kcal": 357.6,
+    "protein_g": 7.2,
+    "carbs_g": 78.1,
+    "fat_g": 1.0,
+    "fiber_g": 5.5,
+    "source": "TACO"
+  },
+  {
+    "name": "Canjica, com leite integral",
+    "category": "Cereais e derivados",
+    "energy_kcal": 112.5,
+    "protein_g": 2.4,
+    "carbs_g": 23.6,
+    "fat_g": 1.2,
+    "fiber_g": 1.2,
+    "source": "TACO"
+  },
+  {
+    "name": "Cereais, milho, flocos, com sal",
+    "category": "Cereais e derivados",
+    "energy_kcal": 369.6,
+    "protein_g": 7.3,
+    "carbs_g": 80.8,
+    "fat_g": 1.6,
+    "fiber_g": 5.3,
+    "source": "TACO"
+  },
+  {
+    "name": "Cereais, milho, flocos, sem sal",
+    "category": "Cereais e derivados",
+    "energy_kcal": 363.3,
+    "protein_g": 6.9,
+    "carbs_g": 80.4,
+    "fat_g": 1.2,
+    "fiber_g": 1.8,
+    "source": "TACO"
+  },
+  {
+    "name": "Cereais, mingau, milho, infantil",
+    "category": "Cereais e derivados",
+    "energy_kcal": 394.4,
+    "protein_g": 6.4,
+    "carbs_g": 87.3,
+    "fat_g": 1.1,
+    "fiber_g": 3.2,
+    "source": "TACO"
+  },
+  {
+    "name": "Cereais, mistura para vitamina, trigo, cevada e aveia",
+    "category": "Cereais e derivados",
+    "energy_kcal": 381.1,
+    "protein_g": 8.9,
+    "carbs_g": 81.6,
+    "fat_g": 2.1,
+    "fiber_g": 5.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Cereal matinal, milho",
+    "category": "Cereais e derivados",
+    "energy_kcal": 365.4,
+    "protein_g": 7.2,
+    "carbs_g": 83.8,
+    "fat_g": 1.0,
+    "fiber_g": 4.1,
+    "source": "TACO"
+  },
+  {
+    "name": "Cereal matinal, milho, açúcar",
+    "category": "Cereais e derivados",
+    "energy_kcal": 376.6,
+    "protein_g": 4.7,
+    "carbs_g": 88.8,
+    "fat_g": 0.7,
+    "fiber_g": 2.1,
+    "source": "TACO"
+  },
+  {
+    "name": "Creme de arroz, pó",
+    "category": "Cereais e derivados",
+    "energy_kcal": 386.0,
+    "protein_g": 7.0,
+    "carbs_g": 83.9,
+    "fat_g": 1.2,
+    "fiber_g": 1.1,
+    "source": "TACO"
+  },
+  {
+    "name": "Creme de milho, pó",
+    "category": "Cereais e derivados",
+    "energy_kcal": 333.0,
+    "protein_g": 4.8,
+    "carbs_g": 86.1,
+    "fat_g": 1.6,
+    "fiber_g": 3.7,
+    "source": "TACO"
+  },
+  {
+    "name": "Curau, milho verde",
+    "category": "Cereais e derivados",
+    "energy_kcal": 78.4,
+    "protein_g": 2.4,
+    "carbs_g": 13.9,
+    "fat_g": 1.6,
+    "fiber_g": 0.5,
+    "source": "TACO"
+  },
+  {
+    "name": "Curau, milho verde, mistura para",
+    "category": "Cereais e derivados",
+    "energy_kcal": 402.3,
+    "protein_g": 2.2,
+    "carbs_g": 79.8,
+    "fat_g": 13.4,
+    "fiber_g": 2.5,
+    "source": "TACO"
+  },
+  {
+    "name": "Farinha, de arroz, enriquecida",
+    "category": "Cereais e derivados",
+    "energy_kcal": 363.1,
+    "protein_g": 1.3,
+    "carbs_g": 85.5,
+    "fat_g": 0.3,
+    "fiber_g": 0.6,
+    "source": "TACO"
+  },
+  {
+    "name": "Farinha, de centeio, integral",
+    "category": "Cereais e derivados",
+    "energy_kcal": 335.8,
+    "protein_g": 12.5,
+    "carbs_g": 73.3,
+    "fat_g": 1.8,
+    "fiber_g": 15.5,
+    "source": "TACO"
+  },
+  {
+    "name": "Farinha, de milho, amarela",
+    "category": "Cereais e derivados",
+    "energy_kcal": 350.6,
+    "protein_g": 7.2,
+    "carbs_g": 79.1,
+    "fat_g": 1.5,
+    "fiber_g": 5.5,
+    "source": "TACO"
+  },
+  {
+    "name": "Farinha, de rosca",
+    "category": "Cereais e derivados",
+    "energy_kcal": 370.6,
+    "protein_g": 11.4,
+    "carbs_g": 75.8,
+    "fat_g": 1.5,
+    "fiber_g": 4.8,
+    "source": "TACO"
+  },
+  {
+    "name": "Farinha, de trigo",
+    "category": "Cereais e derivados",
+    "energy_kcal": 360.5,
+    "protein_g": 9.8,
+    "carbs_g": 75.1,
+    "fat_g": 1.4,
+    "fiber_g": 2.3,
+    "source": "TACO"
+  },
+  {
+    "name": "Farinha, láctea, de cereais",
+    "category": "Cereais e derivados",
+    "energy_kcal": 414.9,
+    "protein_g": 11.9,
+    "carbs_g": 77.8,
+    "fat_g": 5.8,
+    "fiber_g": 1.9,
+    "source": "TACO"
+  },
+  {
+    "name": "Lasanha, massa fresca, cozida",
+    "category": "Cereais e derivados",
+    "energy_kcal": 163.8,
+    "protein_g": 5.8,
+    "carbs_g": 32.5,
+    "fat_g": 1.2,
+    "fiber_g": 1.6,
+    "source": "TACO"
+  },
+  {
+    "name": "Lasanha, massa fresca, crua",
+    "category": "Cereais e derivados",
+    "energy_kcal": 220.3,
+    "protein_g": 7.0,
+    "carbs_g": 45.1,
+    "fat_g": 1.3,
+    "fiber_g": 1.6,
+    "source": "TACO"
+  },
+  {
+    "name": "Macarrão, instantâneo",
+    "category": "Cereais e derivados",
+    "energy_kcal": 435.9,
+    "protein_g": 8.8,
+    "carbs_g": 62.4,
+    "fat_g": 17.2,
+    "fiber_g": 5.6,
+    "source": "TACO"
+  },
+  {
+    "name": "Macarrão, trigo, cru",
+    "category": "Cereais e derivados",
+    "energy_kcal": 371.1,
+    "protein_g": 10.0,
+    "carbs_g": 77.9,
+    "fat_g": 1.3,
+    "fiber_g": 2.9,
+    "source": "TACO"
+  },
+  {
+    "name": "Macarrão, trigo, cru, com ovos",
+    "category": "Cereais e derivados",
+    "energy_kcal": 370.6,
+    "protein_g": 10.3,
+    "carbs_g": 76.6,
+    "fat_g": 2.0,
+    "fiber_g": 2.3,
+    "source": "TACO"
+  },
+  {
+    "name": "Milho, amido, cru",
+    "category": "Cereais e derivados",
+    "energy_kcal": 361.4,
+    "protein_g": 0.6,
+    "carbs_g": 87.1,
+    "fat_g": 0.0,
+    "fiber_g": 0.7,
+    "source": "TACO"
+  },
+  {
+    "name": "Milho, fubá, cru",
+    "category": "Cereais e derivados",
+    "energy_kcal": 353.5,
+    "protein_g": 7.2,
+    "carbs_g": 78.9,
+    "fat_g": 1.9,
+    "fiber_g": 4.7,
+    "source": "TACO"
+  },
+  {
+    "name": "Milho, verde, cru",
+    "category": "Cereais e derivados",
+    "energy_kcal": 138.2,
+    "protein_g": 6.6,
+    "carbs_g": 28.6,
+    "fat_g": 0.6,
+    "fiber_g": 3.9,
+    "source": "TACO"
+  },
+  {
+    "name": "Milho, verde, enlatado, drenado",
+    "category": "Cereais e derivados",
+    "energy_kcal": 97.6,
+    "protein_g": 3.2,
+    "carbs_g": 17.1,
+    "fat_g": 2.4,
+    "fiber_g": 4.6,
+    "source": "TACO"
+  },
+  {
+    "name": "Mingau tradicional, pó",
+    "category": "Cereais e derivados",
+    "energy_kcal": 373.4,
+    "protein_g": 0.6,
+    "carbs_g": 89.3,
+    "fat_g": 0.4,
+    "fiber_g": 0.9,
+    "source": "TACO"
+  },
+  {
+    "name": "Pamonha, barra para cozimento, pré-cozida",
+    "category": "Cereais e derivados",
+    "energy_kcal": 171.2,
+    "protein_g": 2.6,
+    "carbs_g": 30.7,
+    "fat_g": 4.8,
+    "fiber_g": 2.4,
+    "source": "TACO"
+  },
+  {
+    "name": "Pão, aveia, forma",
+    "category": "Cereais e derivados",
+    "energy_kcal": 343.1,
+    "protein_g": 12.3,
+    "carbs_g": 59.6,
+    "fat_g": 5.7,
+    "fiber_g": 6.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Pão, de soja",
+    "category": "Cereais e derivados",
+    "energy_kcal": 308.7,
+    "protein_g": 11.3,
+    "carbs_g": 56.5,
+    "fat_g": 3.6,
+    "fiber_g": 5.7,
+    "source": "TACO"
+  },
+  {
+    "name": "Pão, glúten, forma",
+    "category": "Cereais e derivados",
+    "energy_kcal": 253.0,
+    "protein_g": 12.0,
+    "carbs_g": 44.1,
+    "fat_g": 2.7,
+    "fiber_g": 2.5,
+    "source": "TACO"
+  },
+  {
+    "name": "Pão, milho, forma",
+    "category": "Cereais e derivados",
+    "energy_kcal": 292.0,
+    "protein_g": 8.3,
+    "carbs_g": 56.4,
+    "fat_g": 3.1,
+    "fiber_g": 4.3,
+    "source": "TACO"
+  },
+  {
+    "name": "Pão, trigo, forma, integral",
+    "category": "Cereais e derivados",
+    "energy_kcal": 253.2,
+    "protein_g": 9.4,
+    "carbs_g": 49.9,
+    "fat_g": 3.7,
+    "fiber_g": 6.9,
+    "source": "TACO"
+  },
+  {
+    "name": "Pão, trigo, francês",
+    "category": "Cereais e derivados",
+    "energy_kcal": 299.8,
+    "protein_g": 8.0,
+    "carbs_g": 58.6,
+    "fat_g": 3.1,
+    "fiber_g": 2.3,
+    "source": "TACO"
+  },
+  {
+    "name": "Pão, trigo, sovado",
+    "category": "Cereais e derivados",
+    "energy_kcal": 311.0,
+    "protein_g": 8.4,
+    "carbs_g": 61.5,
+    "fat_g": 2.8,
+    "fiber_g": 2.4,
+    "source": "TACO"
+  },
+  {
+    "name": "Pastel, de carne, cru",
+    "category": "Cereais e derivados",
+    "energy_kcal": 288.7,
+    "protein_g": 10.7,
+    "carbs_g": 42.0,
+    "fat_g": 8.8,
+    "fiber_g": 1.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Pastel, de carne, frito",
+    "category": "Cereais e derivados",
+    "energy_kcal": 388.4,
+    "protein_g": 10.1,
+    "carbs_g": 43.8,
+    "fat_g": 20.1,
+    "fiber_g": 1.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Pastel, de queijo, cru",
+    "category": "Cereais e derivados",
+    "energy_kcal": 308.5,
+    "protein_g": 9.9,
+    "carbs_g": 45.9,
+    "fat_g": 9.6,
+    "fiber_g": 1.1,
+    "source": "TACO"
+  },
+  {
+    "name": "Pastel, de queijo, frito",
+    "category": "Cereais e derivados",
+    "energy_kcal": 422.1,
+    "protein_g": 8.7,
+    "carbs_g": 48.1,
+    "fat_g": 22.7,
+    "fiber_g": 0.9,
+    "source": "TACO"
+  },
+  {
+    "name": "Pastel, massa, crua",
+    "category": "Cereais e derivados",
+    "energy_kcal": 310.2,
+    "protein_g": 6.9,
+    "carbs_g": 57.4,
+    "fat_g": 5.5,
+    "fiber_g": 1.4,
+    "source": "TACO"
+  },
+  {
+    "name": "Pastel, massa, frita",
+    "category": "Cereais e derivados",
+    "energy_kcal": 569.7,
+    "protein_g": 6.0,
+    "carbs_g": 49.3,
+    "fat_g": 40.9,
+    "fiber_g": 1.3,
+    "source": "TACO"
+  },
+  {
+    "name": "Pipoca, com óleo de soja, sem sal",
+    "category": "Cereais e derivados",
+    "energy_kcal": 448.3,
+    "protein_g": 9.9,
+    "carbs_g": 70.3,
+    "fat_g": 15.9,
+    "fiber_g": 14.3,
+    "source": "TACO"
+  },
+  {
+    "name": "Polenta, pré-cozida",
+    "category": "Cereais e derivados",
+    "energy_kcal": 102.7,
+    "protein_g": 2.3,
+    "carbs_g": 23.3,
+    "fat_g": 0.3,
+    "fiber_g": 2.4,
+    "source": "TACO"
+  },
+  {
+    "name": "Torrada, pão francês",
+    "category": "Cereais e derivados",
+    "energy_kcal": 377.4,
+    "protein_g": 10.5,
+    "carbs_g": 74.6,
+    "fat_g": 3.3,
+    "fiber_g": 3.4,
+    "source": "TACO"
+  },
+  {
+    "name": "Abóbora, cabotian, cozida",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 48.0,
+    "protein_g": 1.4,
+    "carbs_g": 10.8,
+    "fat_g": 0.7,
+    "fiber_g": 2.5,
+    "source": "TACO"
+  },
+  {
+    "name": "Abóbora, cabotian, crua",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 38.6,
+    "protein_g": 1.7,
+    "carbs_g": 8.4,
+    "fat_g": 0.5,
+    "fiber_g": 2.2,
+    "source": "TACO"
+  },
+  {
+    "name": "Abóbora, menina brasileira, crua",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 13.6,
+    "protein_g": 0.6,
+    "carbs_g": 3.3,
+    "fat_g": 0.0,
+    "fiber_g": 1.2,
+    "source": "TACO"
+  },
+  {
+    "name": "Abóbora, moranga, crua",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 12.4,
+    "protein_g": 1.0,
+    "carbs_g": 2.7,
+    "fat_g": 0.1,
+    "fiber_g": 1.7,
+    "source": "TACO"
+  },
+  {
+    "name": "Abóbora, moranga, refogada",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 29.0,
+    "protein_g": 0.4,
+    "carbs_g": 6.0,
+    "fat_g": 0.8,
+    "fiber_g": 1.5,
+    "source": "TACO"
+  },
+  {
+    "name": "Abóbora, pescoço, crua",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 24.5,
+    "protein_g": 0.7,
+    "carbs_g": 6.1,
+    "fat_g": 0.1,
+    "fiber_g": 2.3,
+    "source": "TACO"
+  },
+  {
+    "name": "Abobrinha, italiana, cozida",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 15.0,
+    "protein_g": 1.1,
+    "carbs_g": 3.0,
+    "fat_g": 0.2,
+    "fiber_g": 1.6,
+    "source": "TACO"
+  },
+  {
+    "name": "Abobrinha, italiana, crua",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 19.3,
+    "protein_g": 1.1,
+    "carbs_g": 4.3,
+    "fat_g": 0.1,
+    "fiber_g": 1.4,
+    "source": "TACO"
+  },
+  {
+    "name": "Abobrinha, italiana, refogada",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 24.4,
+    "protein_g": 1.1,
+    "carbs_g": 4.2,
+    "fat_g": 0.8,
+    "fiber_g": 1.4,
+    "source": "TACO"
+  },
+  {
+    "name": "Abobrinha, paulista, crua",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 30.8,
+    "protein_g": 0.6,
+    "carbs_g": 7.9,
+    "fat_g": 0.1,
+    "fiber_g": 2.6,
+    "source": "TACO"
+  },
+  {
+    "name": "Acelga, crua",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 20.9,
+    "protein_g": 1.4,
+    "carbs_g": 4.6,
+    "fat_g": 0.1,
+    "fiber_g": 1.1,
+    "source": "TACO"
+  },
+  {
+    "name": "Agrião, cru",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 16.6,
+    "protein_g": 2.7,
+    "carbs_g": 2.3,
+    "fat_g": 0.2,
+    "fiber_g": 2.1,
+    "source": "TACO"
+  },
+  {
+    "name": "Aipo, cru",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 19.1,
+    "protein_g": 0.8,
+    "carbs_g": 4.3,
+    "fat_g": 0.1,
+    "fiber_g": 1.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Alface, americana, crua",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 8.8,
+    "protein_g": 0.6,
+    "carbs_g": 1.7,
+    "fat_g": 0.1,
+    "fiber_g": 1.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Alface, crespa, crua",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 10.7,
+    "protein_g": 1.3,
+    "carbs_g": 1.7,
+    "fat_g": 0.2,
+    "fiber_g": 1.8,
+    "source": "TACO"
+  },
+  {
+    "name": "Alface, lisa, crua",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 13.8,
+    "protein_g": 1.7,
+    "carbs_g": 2.4,
+    "fat_g": 0.1,
+    "fiber_g": 2.3,
+    "source": "TACO"
+  },
+  {
+    "name": "Alface, roxa, crua",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 12.7,
+    "protein_g": 0.9,
+    "carbs_g": 2.5,
+    "fat_g": 0.2,
+    "fiber_g": 2.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Alfavaca, crua",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 29.2,
+    "protein_g": 2.7,
+    "carbs_g": 5.2,
+    "fat_g": 0.5,
+    "fiber_g": 4.1,
+    "source": "TACO"
+  },
+  {
+    "name": "Alho, cru",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 113.1,
+    "protein_g": 7.0,
+    "carbs_g": 23.9,
+    "fat_g": 0.2,
+    "fiber_g": 4.3,
+    "source": "TACO"
+  },
+  {
+    "name": "Alho-poró, cru",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 31.5,
+    "protein_g": 1.4,
+    "carbs_g": 6.9,
+    "fat_g": 0.1,
+    "fiber_g": 2.5,
+    "source": "TACO"
+  },
+  {
+    "name": "Almeirão, cru",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 18.0,
+    "protein_g": 1.8,
+    "carbs_g": 3.3,
+    "fat_g": 0.2,
+    "fiber_g": 2.6,
+    "source": "TACO"
+  },
+  {
+    "name": "Almeirão, refogado",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 65.1,
+    "protein_g": 1.7,
+    "carbs_g": 5.7,
+    "fat_g": 4.8,
+    "fiber_g": 3.4,
+    "source": "TACO"
+  },
+  {
+    "name": "Batata, baroa, cozida",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 80.1,
+    "protein_g": 0.9,
+    "carbs_g": 18.9,
+    "fat_g": 0.2,
+    "fiber_g": 1.8,
+    "source": "TACO"
+  },
+  {
+    "name": "Batata, baroa, crua",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 101.0,
+    "protein_g": 1.0,
+    "carbs_g": 24.0,
+    "fat_g": 0.2,
+    "fiber_g": 2.1,
+    "source": "TACO"
+  },
+  {
+    "name": "Batata, doce, cozida",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 76.8,
+    "protein_g": 0.6,
+    "carbs_g": 18.4,
+    "fat_g": 0.1,
+    "fiber_g": 2.2,
+    "source": "TACO"
+  },
+  {
+    "name": "Batata, doce, crua",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 118.2,
+    "protein_g": 1.3,
+    "carbs_g": 28.2,
+    "fat_g": 0.1,
+    "fiber_g": 2.6,
+    "source": "TACO"
+  },
+  {
+    "name": "Batata, frita, tipo chips, industrializada",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 542.7,
+    "protein_g": 5.6,
+    "carbs_g": 51.2,
+    "fat_g": 36.6,
+    "fiber_g": 2.5,
+    "source": "TACO"
+  },
+  {
+    "name": "Batata, inglesa, cozida",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 51.6,
+    "protein_g": 1.2,
+    "carbs_g": 11.9,
+    "fat_g": 0.0,
+    "fiber_g": 1.3,
+    "source": "TACO"
+  },
+  {
+    "name": "Batata, inglesa, crua",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 64.4,
+    "protein_g": 1.8,
+    "carbs_g": 14.7,
+    "fat_g": 0.0,
+    "fiber_g": 1.2,
+    "source": "TACO"
+  },
+  {
+    "name": "Batata, inglesa, frita",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 267.2,
+    "protein_g": 5.0,
+    "carbs_g": 35.6,
+    "fat_g": 13.1,
+    "fiber_g": 8.1,
+    "source": "TACO"
+  },
+  {
+    "name": "Batata, inglesa, sauté",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 67.9,
+    "protein_g": 1.3,
+    "carbs_g": 14.1,
+    "fat_g": 0.9,
+    "fiber_g": 1.4,
+    "source": "TACO"
+  },
+  {
+    "name": "Berinjela, cozida",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 18.8,
+    "protein_g": 0.7,
+    "carbs_g": 4.5,
+    "fat_g": 0.1,
+    "fiber_g": 2.5,
+    "source": "TACO"
+  },
+  {
+    "name": "Berinjela, crua",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 19.6,
+    "protein_g": 1.2,
+    "carbs_g": 4.4,
+    "fat_g": 0.1,
+    "fiber_g": 2.9,
+    "source": "TACO"
+  },
+  {
+    "name": "Beterraba, cozida",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 32.2,
+    "protein_g": 1.3,
+    "carbs_g": 7.2,
+    "fat_g": 0.1,
+    "fiber_g": 1.9,
+    "source": "TACO"
+  },
+  {
+    "name": "Beterraba, crua",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 48.8,
+    "protein_g": 1.9,
+    "carbs_g": 11.1,
+    "fat_g": 0.1,
+    "fiber_g": 3.4,
+    "source": "TACO"
+  },
+  {
+    "name": "Biscoito, polvilho doce",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 437.5,
+    "protein_g": 1.3,
+    "carbs_g": 80.5,
+    "fat_g": 12.2,
+    "fiber_g": 1.2,
+    "source": "TACO"
+  },
+  {
+    "name": "Brócolis, cozido",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 24.6,
+    "protein_g": 2.1,
+    "carbs_g": 4.4,
+    "fat_g": 0.5,
+    "fiber_g": 3.4,
+    "source": "TACO"
+  },
+  {
+    "name": "Brócolis, cru",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 25.5,
+    "protein_g": 3.6,
+    "carbs_g": 4.0,
+    "fat_g": 0.3,
+    "fiber_g": 2.9,
+    "source": "TACO"
+  },
+  {
+    "name": "Cará, cozido",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 77.6,
+    "protein_g": 1.5,
+    "carbs_g": 18.9,
+    "fat_g": 0.1,
+    "fiber_g": 2.6,
+    "source": "TACO"
+  },
+  {
+    "name": "Cará, cru",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 95.6,
+    "protein_g": 2.3,
+    "carbs_g": 23.0,
+    "fat_g": 0.1,
+    "fiber_g": 7.3,
+    "source": "TACO"
+  },
+  {
+    "name": "Caruru, cru",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 34.0,
+    "protein_g": 3.2,
+    "carbs_g": 6.0,
+    "fat_g": 0.6,
+    "fiber_g": 4.5,
+    "source": "TACO"
+  },
+  {
+    "name": "Catalonha, crua",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 23.9,
+    "protein_g": 1.9,
+    "carbs_g": 4.8,
+    "fat_g": 0.3,
+    "fiber_g": 2.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Catalonha, refogada",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 63.4,
+    "protein_g": 1.9,
+    "carbs_g": 4.8,
+    "fat_g": 4.8,
+    "fiber_g": 3.6,
+    "source": "TACO"
+  },
+  {
+    "name": "Cebola, crua",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 39.4,
+    "protein_g": 1.7,
+    "carbs_g": 8.9,
+    "fat_g": 0.1,
+    "fiber_g": 2.2,
+    "source": "TACO"
+  },
+  {
+    "name": "Cebolinha, crua",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 19.5,
+    "protein_g": 1.9,
+    "carbs_g": 3.4,
+    "fat_g": 0.3,
+    "fiber_g": 3.5,
+    "source": "TACO"
+  },
+  {
+    "name": "Cenoura, cozida",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 29.9,
+    "protein_g": 0.8,
+    "carbs_g": 6.7,
+    "fat_g": 0.2,
+    "fiber_g": 2.6,
+    "source": "TACO"
+  },
+  {
+    "name": "Cenoura, crua",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 34.1,
+    "protein_g": 1.3,
+    "carbs_g": 7.7,
+    "fat_g": 0.2,
+    "fiber_g": 3.2,
+    "source": "TACO"
+  },
+  {
+    "name": "Chicória, crua",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 13.8,
+    "protein_g": 1.1,
+    "carbs_g": 2.9,
+    "fat_g": 0.1,
+    "fiber_g": 2.2,
+    "source": "TACO"
+  },
+  {
+    "name": "Chuchu, cozido",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 18.5,
+    "protein_g": 0.4,
+    "carbs_g": 4.8,
+    "fat_g": 0.0,
+    "fiber_g": 1.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Chuchu, cru",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 17.0,
+    "protein_g": 0.7,
+    "carbs_g": 4.1,
+    "fat_g": 0.1,
+    "fiber_g": 1.3,
+    "source": "TACO"
+  },
+  {
+    "name": "Coentro, folhas desidratadas",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 309.1,
+    "protein_g": 20.9,
+    "carbs_g": 48.0,
+    "fat_g": 10.4,
+    "fiber_g": 37.3,
+    "source": "TACO"
+  },
+  {
+    "name": "Couve, manteiga, crua",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 27.1,
+    "protein_g": 2.9,
+    "carbs_g": 4.3,
+    "fat_g": 0.5,
+    "fiber_g": 3.1,
+    "source": "TACO"
+  },
+  {
+    "name": "Couve, manteiga, refogada",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 90.3,
+    "protein_g": 1.7,
+    "carbs_g": 8.7,
+    "fat_g": 6.6,
+    "fiber_g": 5.7,
+    "source": "TACO"
+  },
+  {
+    "name": "Couve-flor, crua",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 22.6,
+    "protein_g": 1.9,
+    "carbs_g": 4.5,
+    "fat_g": 0.2,
+    "fiber_g": 2.4,
+    "source": "TACO"
+  },
+  {
+    "name": "Couve-flor, cozida",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 19.1,
+    "protein_g": 1.2,
+    "carbs_g": 3.9,
+    "fat_g": 0.3,
+    "fiber_g": 2.1,
+    "source": "TACO"
+  },
+  {
+    "name": "Espinafre, Nova Zelândia, cru",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 16.1,
+    "protein_g": 2.0,
+    "carbs_g": 2.6,
+    "fat_g": 0.2,
+    "fiber_g": 2.1,
+    "source": "TACO"
+  },
+  {
+    "name": "Espinafre, Nova Zelândia, refogado",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 67.3,
+    "protein_g": 2.7,
+    "carbs_g": 4.2,
+    "fat_g": 5.4,
+    "fiber_g": 2.5,
+    "source": "TACO"
+  },
+  {
+    "name": "Farinha, de mandioca, crua",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 360.9,
+    "protein_g": 1.6,
+    "carbs_g": 87.9,
+    "fat_g": 0.3,
+    "fiber_g": 6.4,
+    "source": "TACO"
+  },
+  {
+    "name": "Farinha, de mandioca, torrada",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 365.3,
+    "protein_g": 1.2,
+    "carbs_g": 89.2,
+    "fat_g": 0.3,
+    "fiber_g": 6.5,
+    "source": "TACO"
+  },
+  {
+    "name": "Farinha, de puba",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 360.2,
+    "protein_g": 1.6,
+    "carbs_g": 87.3,
+    "fat_g": 0.5,
+    "fiber_g": 4.2,
+    "source": "TACO"
+  },
+  {
+    "name": "Fécula, de mandioca",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 330.9,
+    "protein_g": 0.5,
+    "carbs_g": 81.1,
+    "fat_g": 0.3,
+    "fiber_g": 0.6,
+    "source": "TACO"
+  },
+  {
+    "name": "Feijão, broto, cru",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 38.7,
+    "protein_g": 4.2,
+    "carbs_g": 7.8,
+    "fat_g": 0.1,
+    "fiber_g": 2.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Inhame, cru",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 96.7,
+    "protein_g": 2.1,
+    "carbs_g": 23.2,
+    "fat_g": 0.2,
+    "fiber_g": 1.7,
+    "source": "TACO"
+  },
+  {
+    "name": "Jiló, cru",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 27.4,
+    "protein_g": 1.4,
+    "carbs_g": 6.2,
+    "fat_g": 0.2,
+    "fiber_g": 4.8,
+    "source": "TACO"
+  },
+  {
+    "name": "Jurubeba, crua",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 125.8,
+    "protein_g": 4.4,
+    "carbs_g": 23.1,
+    "fat_g": 3.9,
+    "fiber_g": 23.9,
+    "source": "TACO"
+  },
+  {
+    "name": "Mandioca, cozida",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 125.4,
+    "protein_g": 0.6,
+    "carbs_g": 30.1,
+    "fat_g": 0.3,
+    "fiber_g": 1.6,
+    "source": "TACO"
+  },
+  {
+    "name": "Mandioca, crua",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 151.4,
+    "protein_g": 1.1,
+    "carbs_g": 36.2,
+    "fat_g": 0.3,
+    "fiber_g": 1.9,
+    "source": "TACO"
+  },
+  {
+    "name": "Mandioca, farofa, temperada",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 405.7,
+    "protein_g": 2.1,
+    "carbs_g": 80.3,
+    "fat_g": 9.1,
+    "fiber_g": 7.8,
+    "source": "TACO"
+  },
+  {
+    "name": "Mandioca, frita",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 300.1,
+    "protein_g": 1.4,
+    "carbs_g": 50.3,
+    "fat_g": 11.2,
+    "fiber_g": 1.9,
+    "source": "TACO"
+  },
+  {
+    "name": "Manjericão, cru",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 21.1,
+    "protein_g": 2.0,
+    "carbs_g": 3.6,
+    "fat_g": 0.4,
+    "fiber_g": 3.3,
+    "source": "TACO"
+  },
+  {
+    "name": "Maxixe, cru",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 13.7,
+    "protein_g": 1.4,
+    "carbs_g": 2.7,
+    "fat_g": 0.1,
+    "fiber_g": 2.2,
+    "source": "TACO"
+  },
+  {
+    "name": "Mostarda, folha, crua",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 18.1,
+    "protein_g": 2.1,
+    "carbs_g": 3.2,
+    "fat_g": 0.2,
+    "fiber_g": 1.9,
+    "source": "TACO"
+  },
+  {
+    "name": "Nhoque, batata, cozido",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 180.8,
+    "protein_g": 5.9,
+    "carbs_g": 36.8,
+    "fat_g": 1.9,
+    "fiber_g": 1.8,
+    "source": "TACO"
+  },
+  {
+    "name": "Nabo, cru",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 18.2,
+    "protein_g": 1.2,
+    "carbs_g": 4.1,
+    "fat_g": 0.1,
+    "fiber_g": 2.6,
+    "source": "TACO"
+  },
+  {
+    "name": "Palmito, juçara, em conserva",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 23.2,
+    "protein_g": 1.8,
+    "carbs_g": 4.3,
+    "fat_g": 0.4,
+    "fiber_g": 3.1,
+    "source": "TACO"
+  },
+  {
+    "name": "Palmito, pupunha, em conserva",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 29.4,
+    "protein_g": 2.5,
+    "carbs_g": 5.5,
+    "fat_g": 0.5,
+    "fiber_g": 2.5,
+    "source": "TACO"
+  },
+  {
+    "name": "Pão, de queijo, assado",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 363.1,
+    "protein_g": 5.1,
+    "carbs_g": 34.2,
+    "fat_g": 24.6,
+    "fiber_g": 0.6,
+    "source": "TACO"
+  },
+  {
+    "name": "Pão, de queijo, cru",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 294.5,
+    "protein_g": 3.6,
+    "carbs_g": 38.5,
+    "fat_g": 14.0,
+    "fiber_g": 1.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Pepino, cru",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 9.5,
+    "protein_g": 0.9,
+    "carbs_g": 2.0,
+    "fat_g": 0.0,
+    "fiber_g": 1.1,
+    "source": "TACO"
+  },
+  {
+    "name": "Pimentão, amarelo, cru",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 27.9,
+    "protein_g": 1.2,
+    "carbs_g": 6.0,
+    "fat_g": 0.4,
+    "fiber_g": 1.9,
+    "source": "TACO"
+  },
+  {
+    "name": "Pimentão, verde, cru",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 21.3,
+    "protein_g": 1.1,
+    "carbs_g": 4.9,
+    "fat_g": 0.1,
+    "fiber_g": 2.6,
+    "source": "TACO"
+  },
+  {
+    "name": "Pimentão, vermelho, cru",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 23.3,
+    "protein_g": 1.0,
+    "carbs_g": 5.5,
+    "fat_g": 0.1,
+    "fiber_g": 1.6,
+    "source": "TACO"
+  },
+  {
+    "name": "Polvilho, doce",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 351.2,
+    "protein_g": 0.4,
+    "carbs_g": 86.8,
+    "fat_g": 0.0,
+    "fiber_g": 0.2,
+    "source": "TACO"
+  },
+  {
+    "name": "Quiabo, cru",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 29.9,
+    "protein_g": 1.9,
+    "carbs_g": 6.4,
+    "fat_g": 0.3,
+    "fiber_g": 4.6,
+    "source": "TACO"
+  },
+  {
+    "name": "Rabanete, cru",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 13.7,
+    "protein_g": 1.4,
+    "carbs_g": 2.7,
+    "fat_g": 0.1,
+    "fiber_g": 2.2,
+    "source": "TACO"
+  },
+  {
+    "name": "Repolho, branco, cru",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 17.1,
+    "protein_g": 0.9,
+    "carbs_g": 3.9,
+    "fat_g": 0.1,
+    "fiber_g": 1.9,
+    "source": "TACO"
+  },
+  {
+    "name": "Repolho, roxo, cru",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 30.9,
+    "protein_g": 1.9,
+    "carbs_g": 7.2,
+    "fat_g": 0.1,
+    "fiber_g": 2.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Repolho, roxo, refogado",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 41.8,
+    "protein_g": 1.8,
+    "carbs_g": 7.6,
+    "fat_g": 1.2,
+    "fiber_g": 1.8,
+    "source": "TACO"
+  },
+  {
+    "name": "Rúcula, crua",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 13.1,
+    "protein_g": 1.8,
+    "carbs_g": 2.2,
+    "fat_g": 0.1,
+    "fiber_g": 1.7,
+    "source": "TACO"
+  },
+  {
+    "name": "Salsa, crua",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 33.4,
+    "protein_g": 3.3,
+    "carbs_g": 5.7,
+    "fat_g": 0.6,
+    "fiber_g": 1.9,
+    "source": "TACO"
+  },
+  {
+    "name": "Seleta de legumes, enlatada",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 56.5,
+    "protein_g": 3.4,
+    "carbs_g": 12.7,
+    "fat_g": 0.4,
+    "fiber_g": 3.1,
+    "source": "TACO"
+  },
+  {
+    "name": "Serralha, crua",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 30.4,
+    "protein_g": 2.7,
+    "carbs_g": 4.9,
+    "fat_g": 0.7,
+    "fiber_g": 3.5,
+    "source": "TACO"
+  },
+  {
+    "name": "Taioba, crua",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 34.2,
+    "protein_g": 2.9,
+    "carbs_g": 5.4,
+    "fat_g": 0.9,
+    "fiber_g": 4.5,
+    "source": "TACO"
+  },
+  {
+    "name": "Tomate, com semente, cru",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 15.3,
+    "protein_g": 1.1,
+    "carbs_g": 3.1,
+    "fat_g": 0.2,
+    "fiber_g": 1.2,
+    "source": "TACO"
+  },
+  {
+    "name": "Tomate, extrato",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 60.9,
+    "protein_g": 2.4,
+    "carbs_g": 15.0,
+    "fat_g": 0.2,
+    "fiber_g": 2.8,
+    "source": "TACO"
+  },
+  {
+    "name": "Tomate, molho industrializado",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 38.4,
+    "protein_g": 1.4,
+    "carbs_g": 7.7,
+    "fat_g": 0.9,
+    "fiber_g": 3.1,
+    "source": "TACO"
+  },
+  {
+    "name": "Tomate, purê",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 27.9,
+    "protein_g": 1.4,
+    "carbs_g": 6.9,
+    "fat_g": 0.0,
+    "fiber_g": 1.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Tomate, salada",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 20.5,
+    "protein_g": 0.8,
+    "carbs_g": 5.1,
+    "fat_g": 0.0,
+    "fiber_g": 2.3,
+    "source": "TACO"
+  },
+  {
+    "name": "Vagem, crua",
+    "category": "Verduras, hortaliças e derivados",
+    "energy_kcal": 24.9,
+    "protein_g": 1.8,
+    "carbs_g": 5.3,
+    "fat_g": 0.2,
+    "fiber_g": 2.4,
+    "source": "TACO"
+  },
+  {
+    "name": "Abacate, cru",
+    "category": "Frutas e derivados",
+    "energy_kcal": 96.2,
+    "protein_g": 1.2,
+    "carbs_g": 6.0,
+    "fat_g": 8.4,
+    "fiber_g": 6.3,
+    "source": "TACO"
+  },
+  {
+    "name": "Abacaxi, cru",
+    "category": "Frutas e derivados",
+    "energy_kcal": 48.3,
+    "protein_g": 0.9,
+    "carbs_g": 12.3,
+    "fat_g": 0.1,
+    "fiber_g": 1.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Abacaxi, polpa, congelada",
+    "category": "Frutas e derivados",
+    "energy_kcal": 30.6,
+    "protein_g": 0.5,
+    "carbs_g": 7.8,
+    "fat_g": 0.1,
+    "fiber_g": 0.3,
+    "source": "TACO"
+  },
+  {
+    "name": "Abiu, cru",
+    "category": "Frutas e derivados",
+    "energy_kcal": 62.4,
+    "protein_g": 0.8,
+    "carbs_g": 14.9,
+    "fat_g": 0.7,
+    "fiber_g": 1.7,
+    "source": "TACO"
+  },
+  {
+    "name": "Açaí, polpa, com xarope de guaraná e glucose",
+    "category": "Frutas e derivados",
+    "energy_kcal": 110.3,
+    "protein_g": 0.7,
+    "carbs_g": 21.5,
+    "fat_g": 3.7,
+    "fiber_g": 1.7,
+    "source": "TACO"
+  },
+  {
+    "name": "Açaí, polpa, congelada",
+    "category": "Frutas e derivados",
+    "energy_kcal": 58.0,
+    "protein_g": 0.8,
+    "carbs_g": 6.2,
+    "fat_g": 3.9,
+    "fiber_g": 2.6,
+    "source": "TACO"
+  },
+  {
+    "name": "Acerola, crua",
+    "category": "Frutas e derivados",
+    "energy_kcal": 33.5,
+    "protein_g": 0.9,
+    "carbs_g": 8.0,
+    "fat_g": 0.2,
+    "fiber_g": 1.5,
+    "source": "TACO"
+  },
+  {
+    "name": "Acerola, polpa, congelada",
+    "category": "Frutas e derivados",
+    "energy_kcal": 21.9,
+    "protein_g": 0.6,
+    "carbs_g": 5.5,
+    "fat_g": 0.0,
+    "fiber_g": 0.7,
+    "source": "TACO"
+  },
+  {
+    "name": "Ameixa, calda, enlatada",
+    "category": "Frutas e derivados",
+    "energy_kcal": 182.8,
+    "protein_g": 0.4,
+    "carbs_g": 46.9,
+    "fat_g": 0.0,
+    "fiber_g": 0.5,
+    "source": "TACO"
+  },
+  {
+    "name": "Ameixa, crua",
+    "category": "Frutas e derivados",
+    "energy_kcal": 52.5,
+    "protein_g": 0.8,
+    "carbs_g": 13.9,
+    "fat_g": 0.0,
+    "fiber_g": 2.4,
+    "source": "TACO"
+  },
+  {
+    "name": "Ameixa, em calda, enlatada, drenada",
+    "category": "Frutas e derivados",
+    "energy_kcal": 177.4,
+    "protein_g": 1.0,
+    "carbs_g": 47.7,
+    "fat_g": 0.3,
+    "fiber_g": 4.5,
+    "source": "TACO"
+  },
+  {
+    "name": "Atemóia, crua",
+    "category": "Frutas e derivados",
+    "energy_kcal": 97.0,
+    "protein_g": 1.0,
+    "carbs_g": 25.3,
+    "fat_g": 0.3,
+    "fiber_g": 2.1,
+    "source": "TACO"
+  },
+  {
+    "name": "Banana, da terra, crua",
+    "category": "Frutas e derivados",
+    "energy_kcal": 128.0,
+    "protein_g": 1.4,
+    "carbs_g": 33.7,
+    "fat_g": 0.2,
+    "fiber_g": 1.5,
+    "source": "TACO"
+  },
+  {
+    "name": "Banana, doce em barra",
+    "category": "Frutas e derivados",
+    "energy_kcal": 280.1,
+    "protein_g": 2.2,
+    "carbs_g": 75.7,
+    "fat_g": 0.1,
+    "fiber_g": 3.8,
+    "source": "TACO"
+  },
+  {
+    "name": "Banana, figo, crua",
+    "category": "Frutas e derivados",
+    "energy_kcal": 105.1,
+    "protein_g": 1.1,
+    "carbs_g": 27.8,
+    "fat_g": 0.1,
+    "fiber_g": 2.8,
+    "source": "TACO"
+  },
+  {
+    "name": "Banana, maçã, crua",
+    "category": "Frutas e derivados",
+    "energy_kcal": 86.8,
+    "protein_g": 1.8,
+    "carbs_g": 22.3,
+    "fat_g": 0.1,
+    "fiber_g": 2.6,
+    "source": "TACO"
+  },
+  {
+    "name": "Banana, nanica, crua",
+    "category": "Frutas e derivados",
+    "energy_kcal": 91.5,
+    "protein_g": 1.4,
+    "carbs_g": 23.8,
+    "fat_g": 0.1,
+    "fiber_g": 1.9,
+    "source": "TACO"
+  },
+  {
+    "name": "Banana, ouro, crua",
+    "category": "Frutas e derivados",
+    "energy_kcal": 112.4,
+    "protein_g": 1.5,
+    "carbs_g": 29.3,
+    "fat_g": 0.2,
+    "fiber_g": 2.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Banana, pacova, crua",
+    "category": "Frutas e derivados",
+    "energy_kcal": 77.9,
+    "protein_g": 1.2,
+    "carbs_g": 20.3,
+    "fat_g": 0.1,
+    "fiber_g": 2.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Banana, prata, crua",
+    "category": "Frutas e derivados",
+    "energy_kcal": 98.2,
+    "protein_g": 1.3,
+    "carbs_g": 26.0,
+    "fat_g": 0.1,
+    "fiber_g": 2.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Cacau, cru",
+    "category": "Frutas e derivados",
+    "energy_kcal": 74.3,
+    "protein_g": 1.0,
+    "carbs_g": 19.4,
+    "fat_g": 0.1,
+    "fiber_g": 2.2,
+    "source": "TACO"
+  },
+  {
+    "name": "Cajá-Manga, cru",
+    "category": "Frutas e derivados",
+    "energy_kcal": 45.6,
+    "protein_g": 1.3,
+    "carbs_g": 11.4,
+    "fat_g": 0.0,
+    "fiber_g": 2.6,
+    "source": "TACO"
+  },
+  {
+    "name": "Cajá, polpa, congelada",
+    "category": "Frutas e derivados",
+    "energy_kcal": 26.3,
+    "protein_g": 0.6,
+    "carbs_g": 6.4,
+    "fat_g": 0.2,
+    "fiber_g": 1.4,
+    "source": "TACO"
+  },
+  {
+    "name": "Caju, cru",
+    "category": "Frutas e derivados",
+    "energy_kcal": 43.1,
+    "protein_g": 1.0,
+    "carbs_g": 10.3,
+    "fat_g": 0.3,
+    "fiber_g": 1.7,
+    "source": "TACO"
+  },
+  {
+    "name": "Caju, polpa, congelada",
+    "category": "Frutas e derivados",
+    "energy_kcal": 36.6,
+    "protein_g": 0.5,
+    "carbs_g": 9.4,
+    "fat_g": 0.2,
+    "fiber_g": 0.8,
+    "source": "TACO"
+  },
+  {
+    "name": "Caju, suco concentrado, envasado",
+    "category": "Frutas e derivados",
+    "energy_kcal": 45.1,
+    "protein_g": 0.4,
+    "carbs_g": 10.7,
+    "fat_g": 0.2,
+    "fiber_g": 0.6,
+    "source": "TACO"
+  },
+  {
+    "name": "Caqui, chocolate, cru",
+    "category": "Frutas e derivados",
+    "energy_kcal": 71.4,
+    "protein_g": 0.4,
+    "carbs_g": 19.3,
+    "fat_g": 0.1,
+    "fiber_g": 6.5,
+    "source": "TACO"
+  },
+  {
+    "name": "Carambola, crua",
+    "category": "Frutas e derivados",
+    "energy_kcal": 45.7,
+    "protein_g": 0.9,
+    "carbs_g": 11.5,
+    "fat_g": 0.2,
+    "fiber_g": 2.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Ciriguela, crua",
+    "category": "Frutas e derivados",
+    "energy_kcal": 75.6,
+    "protein_g": 1.4,
+    "carbs_g": 18.9,
+    "fat_g": 0.4,
+    "fiber_g": 3.9,
+    "source": "TACO"
+  },
+  {
+    "name": "Cupuaçu, cru",
+    "category": "Frutas e derivados",
+    "energy_kcal": 49.4,
+    "protein_g": 1.2,
+    "carbs_g": 10.4,
+    "fat_g": 1.0,
+    "fiber_g": 3.1,
+    "source": "TACO"
+  },
+  {
+    "name": "Cupuaçu, polpa, congelada",
+    "category": "Frutas e derivados",
+    "energy_kcal": 48.8,
+    "protein_g": 0.8,
+    "carbs_g": 11.4,
+    "fat_g": 0.6,
+    "fiber_g": 1.6,
+    "source": "TACO"
+  },
+  {
+    "name": "Figo, cru",
+    "category": "Frutas e derivados",
+    "energy_kcal": 41.4,
+    "protein_g": 1.0,
+    "carbs_g": 10.2,
+    "fat_g": 0.2,
+    "fiber_g": 1.8,
+    "source": "TACO"
+  },
+  {
+    "name": "Figo, enlatado, em calda",
+    "category": "Frutas e derivados",
+    "energy_kcal": 184.4,
+    "protein_g": 0.6,
+    "carbs_g": 50.3,
+    "fat_g": 0.1,
+    "fiber_g": 2.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Fruta-pão, crua",
+    "category": "Frutas e derivados",
+    "energy_kcal": 67.0,
+    "protein_g": 1.1,
+    "carbs_g": 17.2,
+    "fat_g": 0.2,
+    "fiber_g": 5.5,
+    "source": "TACO"
+  },
+  {
+    "name": "Goiaba, branca, com casca, crua",
+    "category": "Frutas e derivados",
+    "energy_kcal": 51.7,
+    "protein_g": 0.9,
+    "carbs_g": 12.4,
+    "fat_g": 0.5,
+    "fiber_g": 6.3,
+    "source": "TACO"
+  },
+  {
+    "name": "Goiaba, doce em pasta",
+    "category": "Frutas e derivados",
+    "energy_kcal": 269.0,
+    "protein_g": 0.6,
+    "carbs_g": 74.1,
+    "fat_g": 0.0,
+    "fiber_g": 3.7,
+    "source": "TACO"
+  },
+  {
+    "name": "Goiaba, doce, cascão",
+    "category": "Frutas e derivados",
+    "energy_kcal": 285.6,
+    "protein_g": 0.4,
+    "carbs_g": 78.7,
+    "fat_g": 0.1,
+    "fiber_g": 4.4,
+    "source": "TACO"
+  },
+  {
+    "name": "Goiaba, vermelha, com casca, crua",
+    "category": "Frutas e derivados",
+    "energy_kcal": 54.2,
+    "protein_g": 1.1,
+    "carbs_g": 13.0,
+    "fat_g": 0.4,
+    "fiber_g": 6.2,
+    "source": "TACO"
+  },
+  {
+    "name": "Graviola, crua",
+    "category": "Frutas e derivados",
+    "energy_kcal": 61.6,
+    "protein_g": 0.8,
+    "carbs_g": 15.8,
+    "fat_g": 0.2,
+    "fiber_g": 1.9,
+    "source": "TACO"
+  },
+  {
+    "name": "Graviola, polpa, congelada",
+    "category": "Frutas e derivados",
+    "energy_kcal": 38.3,
+    "protein_g": 0.6,
+    "carbs_g": 9.8,
+    "fat_g": 0.1,
+    "fiber_g": 1.2,
+    "source": "TACO"
+  },
+  {
+    "name": "Jabuticaba, crua",
+    "category": "Frutas e derivados",
+    "energy_kcal": 58.1,
+    "protein_g": 0.6,
+    "carbs_g": 15.3,
+    "fat_g": 0.1,
+    "fiber_g": 2.3,
+    "source": "TACO"
+  },
+  {
+    "name": "Jaca, crua",
+    "category": "Frutas e derivados",
+    "energy_kcal": 87.9,
+    "protein_g": 1.4,
+    "carbs_g": 22.5,
+    "fat_g": 0.3,
+    "fiber_g": 2.4,
+    "source": "TACO"
+  },
+  {
+    "name": "Jambo, cru",
+    "category": "Frutas e derivados",
+    "energy_kcal": 26.9,
+    "protein_g": 0.9,
+    "carbs_g": 6.5,
+    "fat_g": 0.1,
+    "fiber_g": 5.1,
+    "source": "TACO"
+  },
+  {
+    "name": "Jamelão, cru",
+    "category": "Frutas e derivados",
+    "energy_kcal": 41.0,
+    "protein_g": 0.5,
+    "carbs_g": 10.6,
+    "fat_g": 0.1,
+    "fiber_g": 1.8,
+    "source": "TACO"
+  },
+  {
+    "name": "Kiwi, cru",
+    "category": "Frutas e derivados",
+    "energy_kcal": 51.1,
+    "protein_g": 1.3,
+    "carbs_g": 11.5,
+    "fat_g": 0.6,
+    "fiber_g": 2.7,
+    "source": "TACO"
+  },
+  {
+    "name": "Laranja, baía, crua",
+    "category": "Frutas e derivados",
+    "energy_kcal": 45.4,
+    "protein_g": 1.0,
+    "carbs_g": 11.5,
+    "fat_g": 0.1,
+    "fiber_g": 1.1,
+    "source": "TACO"
+  },
+  {
+    "name": "Laranja, baía, suco",
+    "category": "Frutas e derivados",
+    "energy_kcal": 36.6,
+    "protein_g": 0.7,
+    "carbs_g": 8.7,
+    "fat_g": 0.0,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Laranja, da terra, crua",
+    "category": "Frutas e derivados",
+    "energy_kcal": 51.5,
+    "protein_g": 1.1,
+    "carbs_g": 12.9,
+    "fat_g": 0.2,
+    "fiber_g": 4.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Laranja, da terra, suco",
+    "category": "Frutas e derivados",
+    "energy_kcal": 41.0,
+    "protein_g": 0.7,
+    "carbs_g": 9.6,
+    "fat_g": 0.1,
+    "fiber_g": 1.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Laranja, lima, crua",
+    "category": "Frutas e derivados",
+    "energy_kcal": 45.7,
+    "protein_g": 1.1,
+    "carbs_g": 11.5,
+    "fat_g": 0.1,
+    "fiber_g": 1.8,
+    "source": "TACO"
+  },
+  {
+    "name": "Laranja, lima, suco",
+    "category": "Frutas e derivados",
+    "energy_kcal": 39.3,
+    "protein_g": 0.7,
+    "carbs_g": 9.2,
+    "fat_g": 0.1,
+    "fiber_g": 0.4,
+    "source": "TACO"
+  },
+  {
+    "name": "Laranja, pêra, crua",
+    "category": "Frutas e derivados",
+    "energy_kcal": 36.8,
+    "protein_g": 1.0,
+    "carbs_g": 8.9,
+    "fat_g": 0.1,
+    "fiber_g": 0.8,
+    "source": "TACO"
+  },
+  {
+    "name": "Laranja, pêra, suco",
+    "category": "Frutas e derivados",
+    "energy_kcal": 32.7,
+    "protein_g": 0.7,
+    "carbs_g": 7.6,
+    "fat_g": 0.1,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Laranja, valência, crua",
+    "category": "Frutas e derivados",
+    "energy_kcal": 46.1,
+    "protein_g": 0.8,
+    "carbs_g": 11.7,
+    "fat_g": 0.2,
+    "fiber_g": 1.7,
+    "source": "TACO"
+  },
+  {
+    "name": "Laranja, valência, suco",
+    "category": "Frutas e derivados",
+    "energy_kcal": 36.2,
+    "protein_g": 0.5,
+    "carbs_g": 8.6,
+    "fat_g": 0.1,
+    "fiber_g": 0.4,
+    "source": "TACO"
+  },
+  {
+    "name": "Limão, cravo, suco",
+    "category": "Frutas e derivados",
+    "energy_kcal": 14.1,
+    "protein_g": 0.3,
+    "carbs_g": 5.2,
+    "fat_g": 0.0,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Limão, galego, suco",
+    "category": "Frutas e derivados",
+    "energy_kcal": 22.2,
+    "protein_g": 0.6,
+    "carbs_g": 7.3,
+    "fat_g": 0.1,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Limão, tahiti, cru",
+    "category": "Frutas e derivados",
+    "energy_kcal": 31.8,
+    "protein_g": 0.9,
+    "carbs_g": 11.1,
+    "fat_g": 0.1,
+    "fiber_g": 1.2,
+    "source": "TACO"
+  },
+  {
+    "name": "Maçã, Argentina, com casca, crua",
+    "category": "Frutas e derivados",
+    "energy_kcal": 62.5,
+    "protein_g": 0.2,
+    "carbs_g": 16.6,
+    "fat_g": 0.2,
+    "fiber_g": 2.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Maçã, Fuji, com casca, crua",
+    "category": "Frutas e derivados",
+    "energy_kcal": 55.5,
+    "protein_g": 0.3,
+    "carbs_g": 15.2,
+    "fat_g": 0.0,
+    "fiber_g": 1.3,
+    "source": "TACO"
+  },
+  {
+    "name": "Macaúba, crua",
+    "category": "Frutas e derivados",
+    "energy_kcal": 404.3,
+    "protein_g": 2.1,
+    "carbs_g": 13.9,
+    "fat_g": 40.7,
+    "fiber_g": 13.4,
+    "source": "TACO"
+  },
+  {
+    "name": "Mamão, doce em calda, drenado",
+    "category": "Frutas e derivados",
+    "energy_kcal": 195.6,
+    "protein_g": 0.2,
+    "carbs_g": 54.0,
+    "fat_g": 0.1,
+    "fiber_g": 1.3,
+    "source": "TACO"
+  },
+  {
+    "name": "Mamão, Formosa, cru",
+    "category": "Frutas e derivados",
+    "energy_kcal": 45.3,
+    "protein_g": 0.8,
+    "carbs_g": 11.6,
+    "fat_g": 0.1,
+    "fiber_g": 1.8,
+    "source": "TACO"
+  },
+  {
+    "name": "Mamão, Papaia, cru",
+    "category": "Frutas e derivados",
+    "energy_kcal": 40.2,
+    "protein_g": 0.5,
+    "carbs_g": 10.4,
+    "fat_g": 0.1,
+    "fiber_g": 1.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Mamão verde, doce em calda, drenado",
+    "category": "Frutas e derivados",
+    "energy_kcal": 209.4,
+    "protein_g": 0.3,
+    "carbs_g": 57.6,
+    "fat_g": 0.1,
+    "fiber_g": 1.2,
+    "source": "TACO"
+  },
+  {
+    "name": "Manga, Haden, crua",
+    "category": "Frutas e derivados",
+    "energy_kcal": 63.5,
+    "protein_g": 0.4,
+    "carbs_g": 16.7,
+    "fat_g": 0.3,
+    "fiber_g": 1.6,
+    "source": "TACO"
+  },
+  {
+    "name": "Manga, Palmer, crua",
+    "category": "Frutas e derivados",
+    "energy_kcal": 72.5,
+    "protein_g": 0.4,
+    "carbs_g": 19.4,
+    "fat_g": 0.2,
+    "fiber_g": 1.6,
+    "source": "TACO"
+  },
+  {
+    "name": "Manga, polpa, congelada",
+    "category": "Frutas e derivados",
+    "energy_kcal": 48.3,
+    "protein_g": 0.4,
+    "carbs_g": 12.5,
+    "fat_g": 0.2,
+    "fiber_g": 1.1,
+    "source": "TACO"
+  },
+  {
+    "name": "Manga, Tommy Atkins, crua",
+    "category": "Frutas e derivados",
+    "energy_kcal": 50.7,
+    "protein_g": 0.9,
+    "carbs_g": 12.8,
+    "fat_g": 0.2,
+    "fiber_g": 2.1,
+    "source": "TACO"
+  },
+  {
+    "name": "Maracujá, cru",
+    "category": "Frutas e derivados",
+    "energy_kcal": 68.4,
+    "protein_g": 2.0,
+    "carbs_g": 12.3,
+    "fat_g": 2.1,
+    "fiber_g": 1.1,
+    "source": "TACO"
+  },
+  {
+    "name": "Maracujá, polpa, congelada",
+    "category": "Frutas e derivados",
+    "energy_kcal": 38.8,
+    "protein_g": 0.8,
+    "carbs_g": 9.6,
+    "fat_g": 0.2,
+    "fiber_g": 0.5,
+    "source": "TACO"
+  },
+  {
+    "name": "Maracujá, suco concentrado, envasado",
+    "category": "Frutas e derivados",
+    "energy_kcal": 42.0,
+    "protein_g": 0.8,
+    "carbs_g": 9.6,
+    "fat_g": 0.2,
+    "fiber_g": 0.4,
+    "source": "TACO"
+  },
+  {
+    "name": "Melancia, crua",
+    "category": "Frutas e derivados",
+    "energy_kcal": 32.6,
+    "protein_g": 0.9,
+    "carbs_g": 8.1,
+    "fat_g": 0.0,
+    "fiber_g": 0.1,
+    "source": "TACO"
+  },
+  {
+    "name": "Melão, cru",
+    "category": "Frutas e derivados",
+    "energy_kcal": 29.4,
+    "protein_g": 0.7,
+    "carbs_g": 7.5,
+    "fat_g": 0.0,
+    "fiber_g": 0.2,
+    "source": "TACO"
+  },
+  {
+    "name": "Mexerica, Murcote, crua",
+    "category": "Frutas e derivados",
+    "energy_kcal": 57.6,
+    "protein_g": 0.9,
+    "carbs_g": 14.9,
+    "fat_g": 0.1,
+    "fiber_g": 3.1,
+    "source": "TACO"
+  },
+  {
+    "name": "Mexerica, Rio, crua",
+    "category": "Frutas e derivados",
+    "energy_kcal": 36.9,
+    "protein_g": 0.7,
+    "carbs_g": 9.3,
+    "fat_g": 0.1,
+    "fiber_g": 2.7,
+    "source": "TACO"
+  },
+  {
+    "name": "Morango, cru",
+    "category": "Frutas e derivados",
+    "energy_kcal": 30.1,
+    "protein_g": 0.9,
+    "carbs_g": 6.8,
+    "fat_g": 0.3,
+    "fiber_g": 1.7,
+    "source": "TACO"
+  },
+  {
+    "name": "Nêspera, crua",
+    "category": "Frutas e derivados",
+    "energy_kcal": 42.5,
+    "protein_g": 0.3,
+    "carbs_g": 11.5,
+    "fat_g": 0.0,
+    "fiber_g": 3.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Pequi, cru",
+    "category": "Frutas e derivados",
+    "energy_kcal": 205.0,
+    "protein_g": 2.3,
+    "carbs_g": 13.0,
+    "fat_g": 18.0,
+    "fiber_g": 19.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Pêra, Park, crua",
+    "category": "Frutas e derivados",
+    "energy_kcal": 60.6,
+    "protein_g": 0.2,
+    "carbs_g": 16.1,
+    "fat_g": 0.2,
+    "fiber_g": 3.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Pêra, Williams, crua",
+    "category": "Frutas e derivados",
+    "energy_kcal": 53.3,
+    "protein_g": 0.6,
+    "carbs_g": 14.0,
+    "fat_g": 0.1,
+    "fiber_g": 3.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Pêssego, Aurora, cru",
+    "category": "Frutas e derivados",
+    "energy_kcal": 36.3,
+    "protein_g": 0.8,
+    "carbs_g": 9.3,
+    "fat_g": 0.0,
+    "fiber_g": 1.4,
+    "source": "TACO"
+  },
+  {
+    "name": "Pêssego, enlatado, em calda",
+    "category": "Frutas e derivados",
+    "energy_kcal": 63.1,
+    "protein_g": 0.7,
+    "carbs_g": 16.9,
+    "fat_g": 0.0,
+    "fiber_g": 1.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Pinha, crua",
+    "category": "Frutas e derivados",
+    "energy_kcal": 88.5,
+    "protein_g": 1.5,
+    "carbs_g": 22.4,
+    "fat_g": 0.3,
+    "fiber_g": 3.4,
+    "source": "TACO"
+  },
+  {
+    "name": "Pitanga, crua",
+    "category": "Frutas e derivados",
+    "energy_kcal": 41.4,
+    "protein_g": 0.9,
+    "carbs_g": 10.2,
+    "fat_g": 0.2,
+    "fiber_g": 3.2,
+    "source": "TACO"
+  },
+  {
+    "name": "Pitanga, polpa, congelada",
+    "category": "Frutas e derivados",
+    "energy_kcal": 19.1,
+    "protein_g": 0.3,
+    "carbs_g": 4.8,
+    "fat_g": 0.1,
+    "fiber_g": 0.7,
+    "source": "TACO"
+  },
+  {
+    "name": "Romã, crua",
+    "category": "Frutas e derivados",
+    "energy_kcal": 55.7,
+    "protein_g": 0.4,
+    "carbs_g": 15.1,
+    "fat_g": 0.0,
+    "fiber_g": 0.4,
+    "source": "TACO"
+  },
+  {
+    "name": "Tamarindo, cru",
+    "category": "Frutas e derivados",
+    "energy_kcal": 275.7,
+    "protein_g": 3.2,
+    "carbs_g": 72.5,
+    "fat_g": 0.5,
+    "fiber_g": 6.4,
+    "source": "TACO"
+  },
+  {
+    "name": "Tangerina, Poncã, crua",
+    "category": "Frutas e derivados",
+    "energy_kcal": 37.8,
+    "protein_g": 0.8,
+    "carbs_g": 9.6,
+    "fat_g": 0.1,
+    "fiber_g": 0.9,
+    "source": "TACO"
+  },
+  {
+    "name": "Tangerina, Poncã, suco",
+    "category": "Frutas e derivados",
+    "energy_kcal": 36.1,
+    "protein_g": 0.5,
+    "carbs_g": 8.8,
+    "fat_g": 0.0,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Tucumã, cru",
+    "category": "Frutas e derivados",
+    "energy_kcal": 262.0,
+    "protein_g": 2.1,
+    "carbs_g": 26.5,
+    "fat_g": 19.1,
+    "fiber_g": 12.7,
+    "source": "TACO"
+  },
+  {
+    "name": "Umbu, cru",
+    "category": "Frutas e derivados",
+    "energy_kcal": 37.0,
+    "protein_g": 0.8,
+    "carbs_g": 9.4,
+    "fat_g": 0.0,
+    "fiber_g": 2.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Umbu, polpa, congelada",
+    "category": "Frutas e derivados",
+    "energy_kcal": 33.9,
+    "protein_g": 0.5,
+    "carbs_g": 8.8,
+    "fat_g": 0.1,
+    "fiber_g": 1.3,
+    "source": "TACO"
+  },
+  {
+    "name": "Uva, Itália, crua",
+    "category": "Frutas e derivados",
+    "energy_kcal": 52.9,
+    "protein_g": 0.7,
+    "carbs_g": 13.6,
+    "fat_g": 0.2,
+    "fiber_g": 0.9,
+    "source": "TACO"
+  },
+  {
+    "name": "Uva, Rubi, crua",
+    "category": "Frutas e derivados",
+    "energy_kcal": 49.1,
+    "protein_g": 0.6,
+    "carbs_g": 12.7,
+    "fat_g": 0.2,
+    "fiber_g": 0.9,
+    "source": "TACO"
+  },
+  {
+    "name": "Uva, suco concentrado, envasado",
+    "category": "Frutas e derivados",
+    "energy_kcal": 57.7,
+    "protein_g": 0.0,
+    "carbs_g": 14.7,
+    "fat_g": 0.0,
+    "fiber_g": 0.2,
+    "source": "TACO"
+  },
+  {
+    "name": "Azeite, de dendê",
+    "category": "Gorduras e óleos",
+    "energy_kcal": 884.0,
+    "protein_g": 0.0,
+    "carbs_g": 0.0,
+    "fat_g": 100.0,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Azeite, de oliva, extra virgem",
+    "category": "Gorduras e óleos",
+    "energy_kcal": 884.0,
+    "protein_g": 0.0,
+    "carbs_g": 0.0,
+    "fat_g": 100.0,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Manteiga, com sal",
+    "category": "Gorduras e óleos",
+    "energy_kcal": 726.0,
+    "protein_g": 0.4,
+    "carbs_g": 0.1,
+    "fat_g": 82.4,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Manteiga, sem sal",
+    "category": "Gorduras e óleos",
+    "energy_kcal": 757.5,
+    "protein_g": 0.4,
+    "carbs_g": 0.0,
+    "fat_g": 86.0,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Margarina, com óleo hidrogenado, com sal (65% de lipídeos)",
+    "category": "Gorduras e óleos",
+    "energy_kcal": 596.1,
+    "protein_g": 0.0,
+    "carbs_g": 0.0,
+    "fat_g": 67.4,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Margarina, com óleo hidrogenado, sem sal (80% de lipídeos)",
+    "category": "Gorduras e óleos",
+    "energy_kcal": 722.5,
+    "protein_g": 0.0,
+    "carbs_g": 0.0,
+    "fat_g": 81.7,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Margarina, com óleo interesterificado, com sal (65%de lipídeos)",
+    "category": "Gorduras e óleos",
+    "energy_kcal": 594.5,
+    "protein_g": 0.0,
+    "carbs_g": 0.0,
+    "fat_g": 67.2,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Margarina, com óleo interesterificado, sem sal (65% de lipídeos)",
+    "category": "Gorduras e óleos",
+    "energy_kcal": 593.1,
+    "protein_g": 0.0,
+    "carbs_g": 0.0,
+    "fat_g": 67.1,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Óleo, de babaçu",
+    "category": "Gorduras e óleos",
+    "energy_kcal": 884.0,
+    "protein_g": 0.0,
+    "carbs_g": 0.0,
+    "fat_g": 100.0,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Óleo, de canola",
+    "category": "Gorduras e óleos",
+    "energy_kcal": 884.0,
+    "protein_g": 0.0,
+    "carbs_g": 0.0,
+    "fat_g": 100.0,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Óleo, de girassol",
+    "category": "Gorduras e óleos",
+    "energy_kcal": 884.0,
+    "protein_g": 0.0,
+    "carbs_g": 0.0,
+    "fat_g": 100.0,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Óleo, de milho",
+    "category": "Gorduras e óleos",
+    "energy_kcal": 884.0,
+    "protein_g": 0.0,
+    "carbs_g": 0.0,
+    "fat_g": 100.0,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Óleo, de pequi",
+    "category": "Gorduras e óleos",
+    "energy_kcal": 884.0,
+    "protein_g": 0.0,
+    "carbs_g": 0.0,
+    "fat_g": 100.0,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Óleo, de soja",
+    "category": "Gorduras e óleos",
+    "energy_kcal": 884.0,
+    "protein_g": 0.0,
+    "carbs_g": 0.0,
+    "fat_g": 100.0,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Abadejo, filé, congelado, assado",
+    "category": "Pescados e frutos do mar",
+    "energy_kcal": 111.6,
+    "protein_g": 23.5,
+    "carbs_g": 0.0,
+    "fat_g": 1.2,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Abadejo, filé, congelado,cozido",
+    "category": "Pescados e frutos do mar",
+    "energy_kcal": 91.1,
+    "protein_g": 19.3,
+    "carbs_g": 0.0,
+    "fat_g": 0.9,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Abadejo, filé, congelado, cru",
+    "category": "Pescados e frutos do mar",
+    "energy_kcal": 59.1,
+    "protein_g": 13.1,
+    "carbs_g": 0.0,
+    "fat_g": 0.4,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Abadejo, filé, congelado, grelhado",
+    "category": "Pescados e frutos do mar",
+    "energy_kcal": 129.6,
+    "protein_g": 27.6,
+    "carbs_g": 0.0,
+    "fat_g": 1.3,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Atum, conserva em óleo",
+    "category": "Pescados e frutos do mar",
+    "energy_kcal": 165.9,
+    "protein_g": 26.2,
+    "carbs_g": 0.0,
+    "fat_g": 6.0,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Atum, fresco, cru",
+    "category": "Pescados e frutos do mar",
+    "energy_kcal": 117.5,
+    "protein_g": 25.7,
+    "carbs_g": 0.0,
+    "fat_g": 0.9,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Bacalhau, salgado, cru",
+    "category": "Pescados e frutos do mar",
+    "energy_kcal": 135.9,
+    "protein_g": 29.0,
+    "carbs_g": 0.0,
+    "fat_g": 1.3,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Bacalhau, salgado, refogado",
+    "category": "Pescados e frutos do mar",
+    "energy_kcal": 139.7,
+    "protein_g": 24.0,
+    "carbs_g": 1.2,
+    "fat_g": 3.6,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Cação, posta, com farinha de trigo, frita",
+    "category": "Pescados e frutos do mar",
+    "energy_kcal": 208.3,
+    "protein_g": 25.0,
+    "carbs_g": 3.1,
+    "fat_g": 10.0,
+    "fiber_g": 0.5,
+    "source": "TACO"
+  },
+  {
+    "name": "Cação, posta, cozida",
+    "category": "Pescados e frutos do mar",
+    "energy_kcal": 116.0,
+    "protein_g": 25.6,
+    "carbs_g": 0.0,
+    "fat_g": 0.7,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Cação, posta, crua",
+    "category": "Pescados e frutos do mar",
+    "energy_kcal": 83.3,
+    "protein_g": 17.9,
+    "carbs_g": 0.0,
+    "fat_g": 0.8,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Camarão, Rio Grande, grande, cozido",
+    "category": "Pescados e frutos do mar",
+    "energy_kcal": 90.0,
+    "protein_g": 19.0,
+    "carbs_g": 0.0,
+    "fat_g": 1.0,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Camarão, Rio Grande, grande, cru",
+    "category": "Pescados e frutos do mar",
+    "energy_kcal": 47.2,
+    "protein_g": 10.0,
+    "carbs_g": 0.0,
+    "fat_g": 0.5,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Camarão, Sete Barbas, sem cabeça, com casca, frito",
+    "category": "Pescados e frutos do mar",
+    "energy_kcal": 231.2,
+    "protein_g": 18.4,
+    "carbs_g": 2.9,
+    "fat_g": 15.6,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Caranguejo, cozido",
+    "category": "Pescados e frutos do mar",
+    "energy_kcal": 82.7,
+    "protein_g": 18.5,
+    "carbs_g": 0.0,
+    "fat_g": 0.4,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Corimba, cru",
+    "category": "Pescados e frutos do mar",
+    "energy_kcal": 128.2,
+    "protein_g": 17.4,
+    "carbs_g": -0.0,
+    "fat_g": 6.0,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Corimbatá, assado",
+    "category": "Pescados e frutos do mar",
+    "energy_kcal": 261.5,
+    "protein_g": 19.9,
+    "carbs_g": 0.0,
+    "fat_g": 19.6,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Corimbatá, cozido",
+    "category": "Pescados e frutos do mar",
+    "energy_kcal": 238.7,
+    "protein_g": 20.1,
+    "carbs_g": 0.0,
+    "fat_g": 16.9,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Corvina de água doce, crua",
+    "category": "Pescados e frutos do mar",
+    "energy_kcal": 101.0,
+    "protein_g": 18.9,
+    "carbs_g": 0.0,
+    "fat_g": 2.2,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Corvina do mar, crua",
+    "category": "Pescados e frutos do mar",
+    "energy_kcal": 94.0,
+    "protein_g": 18.6,
+    "carbs_g": 0.0,
+    "fat_g": 1.6,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Corvina grande, assada",
+    "category": "Pescados e frutos do mar",
+    "energy_kcal": 146.5,
+    "protein_g": 26.8,
+    "carbs_g": 0.0,
+    "fat_g": 3.6,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Corvina grande, cozida",
+    "category": "Pescados e frutos do mar",
+    "energy_kcal": 100.1,
+    "protein_g": 23.4,
+    "carbs_g": 0.0,
+    "fat_g": 2.6,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Dourada de água doce, fresca",
+    "category": "Pescados e frutos do mar",
+    "energy_kcal": 131.2,
+    "protein_g": 18.8,
+    "carbs_g": 0.0,
+    "fat_g": 5.6,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Lambari, congelado, cru",
+    "category": "Pescados e frutos do mar",
+    "energy_kcal": 130.8,
+    "protein_g": 16.8,
+    "carbs_g": 0.0,
+    "fat_g": 6.5,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Lambari, congelado, frito",
+    "category": "Pescados e frutos do mar",
+    "energy_kcal": 326.9,
+    "protein_g": 28.4,
+    "carbs_g": 0.0,
+    "fat_g": 22.8,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Lambari, fresco, cru",
+    "category": "Pescados e frutos do mar",
+    "energy_kcal": 151.6,
+    "protein_g": 15.7,
+    "carbs_g": 0.0,
+    "fat_g": 9.4,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Manjuba, com farinha de trigo, frita",
+    "category": "Pescados e frutos do mar",
+    "energy_kcal": 343.6,
+    "protein_g": 23.4,
+    "carbs_g": 10.2,
+    "fat_g": 22.6,
+    "fiber_g": 0.4,
+    "source": "TACO"
+  },
+  {
+    "name": "Manjuba, frita",
+    "category": "Pescados e frutos do mar",
+    "energy_kcal": 349.3,
+    "protein_g": 30.1,
+    "carbs_g": 0.0,
+    "fat_g": 24.5,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Merluza, filé, assado",
+    "category": "Pescados e frutos do mar",
+    "energy_kcal": 121.9,
+    "protein_g": 26.6,
+    "carbs_g": 0.0,
+    "fat_g": 0.9,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Merluza, filé, cru",
+    "category": "Pescados e frutos do mar",
+    "energy_kcal": 89.1,
+    "protein_g": 16.6,
+    "carbs_g": 0.0,
+    "fat_g": 2.0,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Merluza, filé, frito",
+    "category": "Pescados e frutos do mar",
+    "energy_kcal": 191.6,
+    "protein_g": 26.9,
+    "carbs_g": 0.0,
+    "fat_g": 8.5,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Pescada, branca, crua",
+    "category": "Pescados e frutos do mar",
+    "energy_kcal": 110.9,
+    "protein_g": 16.3,
+    "carbs_g": 0.0,
+    "fat_g": 4.6,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Pescada, branca, frita",
+    "category": "Pescados e frutos do mar",
+    "energy_kcal": 223.0,
+    "protein_g": 27.4,
+    "carbs_g": 0.0,
+    "fat_g": 11.8,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Pescada, filé, com farinha de trigo, frito",
+    "category": "Pescados e frutos do mar",
+    "energy_kcal": 283.4,
+    "protein_g": 21.4,
+    "carbs_g": 5.0,
+    "fat_g": 19.1,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Pescada, filé, cru",
+    "category": "Pescados e frutos do mar",
+    "energy_kcal": 107.2,
+    "protein_g": 16.6,
+    "carbs_g": 0.0,
+    "fat_g": 4.0,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Pescada, filé, frito",
+    "category": "Pescados e frutos do mar",
+    "energy_kcal": 154.3,
+    "protein_g": 28.6,
+    "carbs_g": 0.0,
+    "fat_g": 3.6,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Pescada, filé, molho escabeche",
+    "category": "Pescados e frutos do mar",
+    "energy_kcal": 142.0,
+    "protein_g": 11.8,
+    "carbs_g": 5.0,
+    "fat_g": 8.0,
+    "fiber_g": 0.8,
+    "source": "TACO"
+  },
+  {
+    "name": "Pescadinha, crua",
+    "category": "Pescados e frutos do mar",
+    "energy_kcal": 76.4,
+    "protein_g": 15.5,
+    "carbs_g": 0.0,
+    "fat_g": 1.1,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Pintado, assado",
+    "category": "Pescados e frutos do mar",
+    "energy_kcal": 191.6,
+    "protein_g": 36.5,
+    "carbs_g": 0.0,
+    "fat_g": 4.0,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Pintado, cru",
+    "category": "Pescados e frutos do mar",
+    "energy_kcal": 91.1,
+    "protein_g": 18.6,
+    "carbs_g": 0.0,
+    "fat_g": 1.3,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Pintado, grelhado",
+    "category": "Pescados e frutos do mar",
+    "energy_kcal": 152.2,
+    "protein_g": 30.8,
+    "carbs_g": 0.0,
+    "fat_g": 2.3,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Porquinho, cru",
+    "category": "Pescados e frutos do mar",
+    "energy_kcal": 93.0,
+    "protein_g": 20.5,
+    "carbs_g": 0.0,
+    "fat_g": 0.6,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Salmão, filé, com pele, fresco,  grelhado",
+    "category": "Pescados e frutos do mar",
+    "energy_kcal": 228.7,
+    "protein_g": 23.9,
+    "carbs_g": 0.0,
+    "fat_g": 14.0,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Salmão, sem pele, fresco, cru",
+    "category": "Pescados e frutos do mar",
+    "energy_kcal": 169.8,
+    "protein_g": 19.3,
+    "carbs_g": 0.0,
+    "fat_g": 9.7,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Salmão, sem pele, fresco, grelhado",
+    "category": "Pescados e frutos do mar",
+    "energy_kcal": 242.7,
+    "protein_g": 26.1,
+    "carbs_g": 0.0,
+    "fat_g": 14.5,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Sardinha, assada",
+    "category": "Pescados e frutos do mar",
+    "energy_kcal": 164.4,
+    "protein_g": 32.2,
+    "carbs_g": 0.0,
+    "fat_g": 3.0,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Sardinha, conserva em óleo",
+    "category": "Pescados e frutos do mar",
+    "energy_kcal": 285.0,
+    "protein_g": 15.9,
+    "carbs_g": 0.0,
+    "fat_g": 24.0,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Sardinha, frita",
+    "category": "Pescados e frutos do mar",
+    "energy_kcal": 257.0,
+    "protein_g": 33.4,
+    "carbs_g": 0.0,
+    "fat_g": 12.7,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Sardinha, inteira, crua",
+    "category": "Pescados e frutos do mar",
+    "energy_kcal": 113.9,
+    "protein_g": 21.1,
+    "carbs_g": 0.0,
+    "fat_g": 2.6,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Tucunaré, filé, congelado, cru",
+    "category": "Pescados e frutos do mar",
+    "energy_kcal": 87.7,
+    "protein_g": 18.0,
+    "carbs_g": -0.0,
+    "fat_g": 1.2,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Apresuntado",
+    "category": "Carnes e derivados",
+    "energy_kcal": 128.9,
+    "protein_g": 13.4,
+    "carbs_g": 2.9,
+    "fat_g": 6.7,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Caldo de carne, tablete",
+    "category": "Carnes e derivados",
+    "energy_kcal": 240.6,
+    "protein_g": 7.8,
+    "carbs_g": 15.1,
+    "fat_g": 16.6,
+    "fiber_g": 0.6,
+    "source": "TACO"
+  },
+  {
+    "name": "Caldo de galinha, tablete",
+    "category": "Carnes e derivados",
+    "energy_kcal": 251.4,
+    "protein_g": 6.3,
+    "carbs_g": 10.6,
+    "fat_g": 20.4,
+    "fiber_g": 11.8,
+    "source": "TACO"
+  },
+  {
+    "name": "Carne, bovina, acém, moído, cozido",
+    "category": "Carnes e derivados",
+    "energy_kcal": 212.4,
+    "protein_g": 26.7,
+    "carbs_g": 0.0,
+    "fat_g": 10.9,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Carne, bovina, acém, moído, cru",
+    "category": "Carnes e derivados",
+    "energy_kcal": 136.6,
+    "protein_g": 19.4,
+    "carbs_g": 0.0,
+    "fat_g": 5.9,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Carne, bovina, acém, sem gordura, cozido",
+    "category": "Carnes e derivados",
+    "energy_kcal": 214.6,
+    "protein_g": 27.3,
+    "carbs_g": 0.0,
+    "fat_g": 10.9,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Carne, bovina, acém, sem gordura, cru",
+    "category": "Carnes e derivados",
+    "energy_kcal": 144.0,
+    "protein_g": 20.8,
+    "carbs_g": 0.0,
+    "fat_g": 6.1,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Carne, bovina, almôndegas, cruas",
+    "category": "Carnes e derivados",
+    "energy_kcal": 189.3,
+    "protein_g": 12.3,
+    "carbs_g": 9.8,
+    "fat_g": 11.2,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Carne, bovina, almôndegas, fritas",
+    "category": "Carnes e derivados",
+    "energy_kcal": 271.8,
+    "protein_g": 18.2,
+    "carbs_g": 14.3,
+    "fat_g": 15.8,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Carne, bovina, bucho, cozido",
+    "category": "Carnes e derivados",
+    "energy_kcal": 133.0,
+    "protein_g": 21.6,
+    "carbs_g": 0.0,
+    "fat_g": 4.5,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Carne, bovina, bucho, cru",
+    "category": "Carnes e derivados",
+    "energy_kcal": 137.3,
+    "protein_g": 20.5,
+    "carbs_g": 0.0,
+    "fat_g": 5.5,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Carne, bovina, capa de contra-filé, com gordura, crua",
+    "category": "Carnes e derivados",
+    "energy_kcal": 216.9,
+    "protein_g": 19.2,
+    "carbs_g": 0.0,
+    "fat_g": 15.0,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Carne, bovina, capa de contra-filé, com gordura, grelhada",
+    "category": "Carnes e derivados",
+    "energy_kcal": 311.7,
+    "protein_g": 30.7,
+    "carbs_g": 0.0,
+    "fat_g": 20.0,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Carne, bovina, capa de contra-filé, sem gordura, crua",
+    "category": "Carnes e derivados",
+    "energy_kcal": 131.1,
+    "protein_g": 21.5,
+    "carbs_g": 0.0,
+    "fat_g": 4.3,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Carne, bovina, capa de contra-filé, sem gordura, grelhada",
+    "category": "Carnes e derivados",
+    "energy_kcal": 239.4,
+    "protein_g": 35.1,
+    "carbs_g": -0.0,
+    "fat_g": 9.9,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Carne, bovina, charque, cozido",
+    "category": "Carnes e derivados",
+    "energy_kcal": 262.8,
+    "protein_g": 36.4,
+    "carbs_g": 0.0,
+    "fat_g": 11.9,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Carne, bovina, charque, cru",
+    "category": "Carnes e derivados",
+    "energy_kcal": 248.9,
+    "protein_g": 22.7,
+    "carbs_g": 0.0,
+    "fat_g": 16.8,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Carne, bovina, contra-filé, à milanesa",
+    "category": "Carnes e derivados",
+    "energy_kcal": 351.6,
+    "protein_g": 20.6,
+    "carbs_g": 12.2,
+    "fat_g": 24.0,
+    "fiber_g": 0.4,
+    "source": "TACO"
+  },
+  {
+    "name": "Carne, bovina, contra-filé de costela, cru",
+    "category": "Carnes e derivados",
+    "energy_kcal": 202.4,
+    "protein_g": 19.8,
+    "carbs_g": 0.0,
+    "fat_g": 13.1,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Carne, bovina, contra-filé de costela, grelhado",
+    "category": "Carnes e derivados",
+    "energy_kcal": 274.9,
+    "protein_g": 29.9,
+    "carbs_g": 0.0,
+    "fat_g": 16.3,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Carne, bovina, contra-filé, com gordura, cru",
+    "category": "Carnes e derivados",
+    "energy_kcal": 205.9,
+    "protein_g": 21.1,
+    "carbs_g": 0.0,
+    "fat_g": 12.8,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Carne, bovina, contra-filé, com gordura, grelhado",
+    "category": "Carnes e derivados",
+    "energy_kcal": 278.1,
+    "protein_g": 32.4,
+    "carbs_g": 0.0,
+    "fat_g": 15.5,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Carne, bovina, contra-filé, sem gordura, cru",
+    "category": "Carnes e derivados",
+    "energy_kcal": 156.6,
+    "protein_g": 24.0,
+    "carbs_g": 0.0,
+    "fat_g": 6.0,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Carne, bovina, contra-filé, sem gordura, grelhado",
+    "category": "Carnes e derivados",
+    "energy_kcal": 193.7,
+    "protein_g": 35.9,
+    "carbs_g": 0.0,
+    "fat_g": 4.5,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Carne, bovina, costela, assada",
+    "category": "Carnes e derivados",
+    "energy_kcal": 373.0,
+    "protein_g": 28.8,
+    "carbs_g": 0.0,
+    "fat_g": 27.7,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Carne, bovina, costela, crua",
+    "category": "Carnes e derivados",
+    "energy_kcal": 357.7,
+    "protein_g": 16.7,
+    "carbs_g": 0.0,
+    "fat_g": 31.8,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Carne, bovina, coxão duro, sem gordura, cozido",
+    "category": "Carnes e derivados",
+    "energy_kcal": 216.6,
+    "protein_g": 31.9,
+    "carbs_g": 0.0,
+    "fat_g": 8.9,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Carne, bovina, coxão duro, sem gordura, cru",
+    "category": "Carnes e derivados",
+    "energy_kcal": 148.0,
+    "protein_g": 21.5,
+    "carbs_g": 0.0,
+    "fat_g": 6.2,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Carne, bovina, coxão mole, sem gordura, cozido",
+    "category": "Carnes e derivados",
+    "energy_kcal": 218.7,
+    "protein_g": 32.4,
+    "carbs_g": 0.0,
+    "fat_g": 8.9,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Carne, bovina, coxão mole, sem gordura, cru",
+    "category": "Carnes e derivados",
+    "energy_kcal": 169.1,
+    "protein_g": 21.2,
+    "carbs_g": 0.0,
+    "fat_g": 8.7,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Carne, bovina, cupim, assado",
+    "category": "Carnes e derivados",
+    "energy_kcal": 330.1,
+    "protein_g": 28.6,
+    "carbs_g": 0.0,
+    "fat_g": 23.0,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Carne, bovina, cupim, cru",
+    "category": "Carnes e derivados",
+    "energy_kcal": 221.4,
+    "protein_g": 19.5,
+    "carbs_g": 0.0,
+    "fat_g": 15.3,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Carne, bovina, fígado, cru",
+    "category": "Carnes e derivados",
+    "energy_kcal": 141.0,
+    "protein_g": 20.7,
+    "carbs_g": 1.1,
+    "fat_g": 5.4,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Carne, bovina, fígado, grelhado",
+    "category": "Carnes e derivados",
+    "energy_kcal": 225.0,
+    "protein_g": 29.9,
+    "carbs_g": 4.2,
+    "fat_g": 9.0,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Carne, bovina, filé mingnon, sem gordura, cru",
+    "category": "Carnes e derivados",
+    "energy_kcal": 142.9,
+    "protein_g": 21.6,
+    "carbs_g": 0.0,
+    "fat_g": 5.6,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Carne, bovina, filé mingnon, sem gordura, grelhado",
+    "category": "Carnes e derivados",
+    "energy_kcal": 219.7,
+    "protein_g": 32.8,
+    "carbs_g": 0.0,
+    "fat_g": 8.8,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Carne, bovina, flanco, sem gordura, cozido",
+    "category": "Carnes e derivados",
+    "energy_kcal": 195.6,
+    "protein_g": 29.4,
+    "carbs_g": 0.0,
+    "fat_g": 7.8,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Carne, bovina, flanco, sem gordura, cru",
+    "category": "Carnes e derivados",
+    "energy_kcal": 141.5,
+    "protein_g": 20.0,
+    "carbs_g": 0.0,
+    "fat_g": 6.2,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Carne, bovina, fraldinha, com gordura, cozida",
+    "category": "Carnes e derivados",
+    "energy_kcal": 338.4,
+    "protein_g": 24.2,
+    "carbs_g": 0.0,
+    "fat_g": 26.0,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Carne, bovina, fraldinha, com gordura, crua",
+    "category": "Carnes e derivados",
+    "energy_kcal": 220.7,
+    "protein_g": 17.6,
+    "carbs_g": 0.0,
+    "fat_g": 16.1,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Carne, bovina, lagarto, cozido",
+    "category": "Carnes e derivados",
+    "energy_kcal": 222.5,
+    "protein_g": 32.9,
+    "carbs_g": 0.0,
+    "fat_g": 9.1,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Carne, bovina, lagarto, cru",
+    "category": "Carnes e derivados",
+    "energy_kcal": 134.9,
+    "protein_g": 20.5,
+    "carbs_g": 0.0,
+    "fat_g": 5.2,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Carne, bovina, língua, cozida",
+    "category": "Carnes e derivados",
+    "energy_kcal": 314.9,
+    "protein_g": 21.4,
+    "carbs_g": 0.0,
+    "fat_g": 24.8,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Carne, bovina, língua, crua",
+    "category": "Carnes e derivados",
+    "energy_kcal": 215.2,
+    "protein_g": 17.1,
+    "carbs_g": 0.0,
+    "fat_g": 15.8,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Carne, bovina, maminha, crua",
+    "category": "Carnes e derivados",
+    "energy_kcal": 152.8,
+    "protein_g": 20.9,
+    "carbs_g": 0.0,
+    "fat_g": 7.0,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Carne, bovina, maminha, grelhada",
+    "category": "Carnes e derivados",
+    "energy_kcal": 153.1,
+    "protein_g": 30.7,
+    "carbs_g": 0.0,
+    "fat_g": 2.4,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Carne, bovina, miolo de alcatra, sem gordura, cru",
+    "category": "Carnes e derivados",
+    "energy_kcal": 162.9,
+    "protein_g": 21.6,
+    "carbs_g": 0.0,
+    "fat_g": 7.8,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Carne, bovina, miolo de alcatra, sem gordura, grelhado",
+    "category": "Carnes e derivados",
+    "energy_kcal": 241.4,
+    "protein_g": 31.9,
+    "carbs_g": 0.0,
+    "fat_g": 11.6,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Carne, bovina, músculo, sem gordura, cozido",
+    "category": "Carnes e derivados",
+    "energy_kcal": 193.8,
+    "protein_g": 31.2,
+    "carbs_g": 0.0,
+    "fat_g": 6.7,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Carne, bovina, músculo, sem gordura, cru",
+    "category": "Carnes e derivados",
+    "energy_kcal": 141.6,
+    "protein_g": 21.6,
+    "carbs_g": 0.0,
+    "fat_g": 5.5,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Carne, bovina, paleta, com gordura, crua",
+    "category": "Carnes e derivados",
+    "energy_kcal": 158.7,
+    "protein_g": 21.4,
+    "carbs_g": 0.0,
+    "fat_g": 7.5,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Carne, bovina, paleta, sem gordura, cozida",
+    "category": "Carnes e derivados",
+    "energy_kcal": 193.7,
+    "protein_g": 29.7,
+    "carbs_g": 0.0,
+    "fat_g": 7.4,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Carne, bovina, paleta, sem gordura, crua",
+    "category": "Carnes e derivados",
+    "energy_kcal": 140.9,
+    "protein_g": 21.0,
+    "carbs_g": 0.0,
+    "fat_g": 5.7,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Carne, bovina, patinho, sem gordura, cru",
+    "category": "Carnes e derivados",
+    "energy_kcal": 133.5,
+    "protein_g": 21.7,
+    "carbs_g": 0.0,
+    "fat_g": 4.5,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Carne, bovina, patinho, sem gordura, grelhado",
+    "category": "Carnes e derivados",
+    "energy_kcal": 219.3,
+    "protein_g": 35.9,
+    "carbs_g": 0.0,
+    "fat_g": 7.3,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Carne, bovina, peito, sem gordura, cozido",
+    "category": "Carnes e derivados",
+    "energy_kcal": 338.5,
+    "protein_g": 22.2,
+    "carbs_g": 0.0,
+    "fat_g": 27.0,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Carne, bovina, peito, sem gordura, cru",
+    "category": "Carnes e derivados",
+    "energy_kcal": 259.3,
+    "protein_g": 17.6,
+    "carbs_g": 0.0,
+    "fat_g": 20.4,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Carne, bovina, picanha, com gordura, crua",
+    "category": "Carnes e derivados",
+    "energy_kcal": 212.9,
+    "protein_g": 18.8,
+    "carbs_g": 0.0,
+    "fat_g": 14.7,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Carne, bovina, picanha, com gordura, grelhada",
+    "category": "Carnes e derivados",
+    "energy_kcal": 288.8,
+    "protein_g": 26.4,
+    "carbs_g": 0.0,
+    "fat_g": 19.5,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Carne, bovina, picanha, sem gordura, crua",
+    "category": "Carnes e derivados",
+    "energy_kcal": 133.5,
+    "protein_g": 21.2,
+    "carbs_g": 0.0,
+    "fat_g": 4.7,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Carne, bovina, picanha, sem gordura, grelhada",
+    "category": "Carnes e derivados",
+    "energy_kcal": 238.5,
+    "protein_g": 31.9,
+    "carbs_g": 0.0,
+    "fat_g": 11.3,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Carne, bovina, seca, cozida",
+    "category": "Carnes e derivados",
+    "energy_kcal": 312.8,
+    "protein_g": 26.9,
+    "carbs_g": 0.0,
+    "fat_g": 21.9,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Carne, bovina, seca, crua",
+    "category": "Carnes e derivados",
+    "energy_kcal": 312.7,
+    "protein_g": 19.7,
+    "carbs_g": 0.0,
+    "fat_g": 25.4,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Coxinha de frango, frita",
+    "category": "Carnes e derivados",
+    "energy_kcal": 283.0,
+    "protein_g": 9.6,
+    "carbs_g": 34.5,
+    "fat_g": 11.8,
+    "fiber_g": 5.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Croquete, de carne, cru",
+    "category": "Carnes e derivados",
+    "energy_kcal": 245.8,
+    "protein_g": 12.0,
+    "carbs_g": 13.9,
+    "fat_g": 15.6,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Croquete, de carne, frito",
+    "category": "Carnes e derivados",
+    "energy_kcal": 346.7,
+    "protein_g": 16.9,
+    "carbs_g": 18.1,
+    "fat_g": 22.7,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Empada de frango, pré-cozida, assada",
+    "category": "Carnes e derivados",
+    "energy_kcal": 358.2,
+    "protein_g": 6.9,
+    "carbs_g": 47.5,
+    "fat_g": 15.6,
+    "fiber_g": 2.2,
+    "source": "TACO"
+  },
+  {
+    "name": "Empada, de frango, pré-cozida",
+    "category": "Carnes e derivados",
+    "energy_kcal": 377.5,
+    "protein_g": 7.3,
+    "carbs_g": 35.5,
+    "fat_g": 22.9,
+    "fiber_g": 2.2,
+    "source": "TACO"
+  },
+  {
+    "name": "Frango, asa, com pele, crua",
+    "category": "Carnes e derivados",
+    "energy_kcal": 213.2,
+    "protein_g": 18.1,
+    "carbs_g": 0.0,
+    "fat_g": 15.1,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Frango, caipira, inteiro, com pele, cozido",
+    "category": "Carnes e derivados",
+    "energy_kcal": 242.9,
+    "protein_g": 23.9,
+    "carbs_g": 0.0,
+    "fat_g": 15.6,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Frango, caipira, inteiro, sem pele, cozido",
+    "category": "Carnes e derivados",
+    "energy_kcal": 195.8,
+    "protein_g": 29.6,
+    "carbs_g": 0.0,
+    "fat_g": 7.7,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Frango, coração, cru",
+    "category": "Carnes e derivados",
+    "energy_kcal": 221.5,
+    "protein_g": 12.6,
+    "carbs_g": 0.0,
+    "fat_g": 18.6,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Frango, coração, grelhado",
+    "category": "Carnes e derivados",
+    "energy_kcal": 207.3,
+    "protein_g": 22.4,
+    "carbs_g": 0.6,
+    "fat_g": 12.1,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Frango, coxa, com pele, assada",
+    "category": "Carnes e derivados",
+    "energy_kcal": 215.1,
+    "protein_g": 28.5,
+    "carbs_g": 0.1,
+    "fat_g": 10.4,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Frango, coxa, com pele, crua",
+    "category": "Carnes e derivados",
+    "energy_kcal": 161.5,
+    "protein_g": 17.1,
+    "carbs_g": 0.0,
+    "fat_g": 9.8,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Frango, coxa, sem pele, cozida",
+    "category": "Carnes e derivados",
+    "energy_kcal": 167.4,
+    "protein_g": 26.9,
+    "carbs_g": 0.0,
+    "fat_g": 5.8,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Frango, coxa, sem pele, crua",
+    "category": "Carnes e derivados",
+    "energy_kcal": 119.9,
+    "protein_g": 17.8,
+    "carbs_g": 0.0,
+    "fat_g": 4.9,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Frango, fígado, cru",
+    "category": "Carnes e derivados",
+    "energy_kcal": 106.5,
+    "protein_g": 17.6,
+    "carbs_g": -0.0,
+    "fat_g": 3.5,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Frango, filé, à milanesa",
+    "category": "Carnes e derivados",
+    "energy_kcal": 220.9,
+    "protein_g": 28.5,
+    "carbs_g": 7.5,
+    "fat_g": 7.8,
+    "fiber_g": 1.1,
+    "source": "TACO"
+  },
+  {
+    "name": "Frango, inteiro, com pele, cru",
+    "category": "Carnes e derivados",
+    "energy_kcal": 226.3,
+    "protein_g": 16.4,
+    "carbs_g": 0.0,
+    "fat_g": 17.3,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Frango, inteiro, sem pele, assado",
+    "category": "Carnes e derivados",
+    "energy_kcal": 187.3,
+    "protein_g": 28.0,
+    "carbs_g": 0.0,
+    "fat_g": 7.5,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Frango, inteiro, sem pele, cozido",
+    "category": "Carnes e derivados",
+    "energy_kcal": 170.4,
+    "protein_g": 25.0,
+    "carbs_g": 0.0,
+    "fat_g": 7.1,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Frango, inteiro, sem pele, cru",
+    "category": "Carnes e derivados",
+    "energy_kcal": 129.1,
+    "protein_g": 20.6,
+    "carbs_g": 0.0,
+    "fat_g": 4.6,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Frango, peito, com pele, assado",
+    "category": "Carnes e derivados",
+    "energy_kcal": 211.7,
+    "protein_g": 33.4,
+    "carbs_g": 0.0,
+    "fat_g": 7.6,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Frango, peito, com pele, cru",
+    "category": "Carnes e derivados",
+    "energy_kcal": 149.5,
+    "protein_g": 20.8,
+    "carbs_g": 0.0,
+    "fat_g": 6.7,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Frango, peito, sem pele, cozido",
+    "category": "Carnes e derivados",
+    "energy_kcal": 162.9,
+    "protein_g": 31.5,
+    "carbs_g": 0.0,
+    "fat_g": 3.2,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Frango, peito, sem pele, cru",
+    "category": "Carnes e derivados",
+    "energy_kcal": 119.2,
+    "protein_g": 21.5,
+    "carbs_g": 0.0,
+    "fat_g": 3.0,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Frango, peito, sem pele, grelhado",
+    "category": "Carnes e derivados",
+    "energy_kcal": 159.2,
+    "protein_g": 32.0,
+    "carbs_g": 0.0,
+    "fat_g": 2.5,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Frango, sobrecoxa, com pele, assada",
+    "category": "Carnes e derivados",
+    "energy_kcal": 259.6,
+    "protein_g": 28.7,
+    "carbs_g": 0.0,
+    "fat_g": 15.2,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Frango, sobrecoxa, com pele, crua",
+    "category": "Carnes e derivados",
+    "energy_kcal": 254.5,
+    "protein_g": 15.5,
+    "carbs_g": 0.0,
+    "fat_g": 20.9,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Frango, sobrecoxa, sem pele, assada",
+    "category": "Carnes e derivados",
+    "energy_kcal": 232.9,
+    "protein_g": 29.2,
+    "carbs_g": 0.0,
+    "fat_g": 12.0,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Frango, sobrecoxa, sem pele, crua",
+    "category": "Carnes e derivados",
+    "energy_kcal": 161.8,
+    "protein_g": 17.6,
+    "carbs_g": 0.0,
+    "fat_g": 9.6,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Hambúrguer, bovino, cru",
+    "category": "Carnes e derivados",
+    "energy_kcal": 214.8,
+    "protein_g": 13.2,
+    "carbs_g": 4.2,
+    "fat_g": 16.2,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Hambúrguer, bovino, frito",
+    "category": "Carnes e derivados",
+    "energy_kcal": 258.3,
+    "protein_g": 20.0,
+    "carbs_g": 6.3,
+    "fat_g": 17.0,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Hambúrguer, bovino, grelhado",
+    "category": "Carnes e derivados",
+    "energy_kcal": 209.8,
+    "protein_g": 13.2,
+    "carbs_g": 11.3,
+    "fat_g": 12.4,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Lingüiça, frango, crua",
+    "category": "Carnes e derivados",
+    "energy_kcal": 218.1,
+    "protein_g": 14.2,
+    "carbs_g": 0.0,
+    "fat_g": 17.4,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Lingüiça, frango, frita",
+    "category": "Carnes e derivados",
+    "energy_kcal": 245.5,
+    "protein_g": 18.3,
+    "carbs_g": 0.0,
+    "fat_g": 18.5,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Lingüiça, frango, grelhada",
+    "category": "Carnes e derivados",
+    "energy_kcal": 243.7,
+    "protein_g": 18.2,
+    "carbs_g": 0.0,
+    "fat_g": 18.4,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Lingüiça, porco, crua",
+    "category": "Carnes e derivados",
+    "energy_kcal": 227.2,
+    "protein_g": 16.1,
+    "carbs_g": 0.0,
+    "fat_g": 17.6,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Lingüiça, porco, frita",
+    "category": "Carnes e derivados",
+    "energy_kcal": 279.5,
+    "protein_g": 20.5,
+    "carbs_g": 0.0,
+    "fat_g": 21.3,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Lingüiça, porco, grelhada",
+    "category": "Carnes e derivados",
+    "energy_kcal": 296.5,
+    "protein_g": 23.2,
+    "carbs_g": 0.0,
+    "fat_g": 21.9,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Mortadela",
+    "category": "Carnes e derivados",
+    "energy_kcal": 268.8,
+    "protein_g": 12.0,
+    "carbs_g": 5.8,
+    "fat_g": 21.6,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Peru, congelado, assado",
+    "category": "Carnes e derivados",
+    "energy_kcal": 163.1,
+    "protein_g": 26.2,
+    "carbs_g": 0.0,
+    "fat_g": 5.7,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Peru, congelado, cru",
+    "category": "Carnes e derivados",
+    "energy_kcal": 93.7,
+    "protein_g": 18.1,
+    "carbs_g": 0.0,
+    "fat_g": 1.8,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Porco, bisteca, crua",
+    "category": "Carnes e derivados",
+    "energy_kcal": 164.1,
+    "protein_g": 21.5,
+    "carbs_g": 0.0,
+    "fat_g": 8.0,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Porco, bisteca, frita",
+    "category": "Carnes e derivados",
+    "energy_kcal": 311.2,
+    "protein_g": 33.7,
+    "carbs_g": 0.0,
+    "fat_g": 18.5,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Porco, bisteca, grelhada",
+    "category": "Carnes e derivados",
+    "energy_kcal": 280.1,
+    "protein_g": 28.9,
+    "carbs_g": 0.0,
+    "fat_g": 17.4,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Porco, costela, assada",
+    "category": "Carnes e derivados",
+    "energy_kcal": 402.2,
+    "protein_g": 30.2,
+    "carbs_g": 0.0,
+    "fat_g": 30.3,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Porco, costela, crua",
+    "category": "Carnes e derivados",
+    "energy_kcal": 255.6,
+    "protein_g": 18.0,
+    "carbs_g": 0.0,
+    "fat_g": 19.8,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Porco, lombo, assado",
+    "category": "Carnes e derivados",
+    "energy_kcal": 210.2,
+    "protein_g": 35.7,
+    "carbs_g": 0.0,
+    "fat_g": 6.4,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Porco, lombo, cru",
+    "category": "Carnes e derivados",
+    "energy_kcal": 175.6,
+    "protein_g": 22.6,
+    "carbs_g": 0.0,
+    "fat_g": 8.8,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Porco, orelha, salgada, crua",
+    "category": "Carnes e derivados",
+    "energy_kcal": 258.5,
+    "protein_g": 18.5,
+    "carbs_g": 0.0,
+    "fat_g": 19.9,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Porco, pernil, assado",
+    "category": "Carnes e derivados",
+    "energy_kcal": 262.3,
+    "protein_g": 32.1,
+    "carbs_g": 0.0,
+    "fat_g": 13.9,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Porco, pernil, cru",
+    "category": "Carnes e derivados",
+    "energy_kcal": 186.1,
+    "protein_g": 20.1,
+    "carbs_g": 0.0,
+    "fat_g": 11.1,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Porco, rabo, salgado, cru",
+    "category": "Carnes e derivados",
+    "energy_kcal": 377.4,
+    "protein_g": 15.6,
+    "carbs_g": 0.0,
+    "fat_g": 34.5,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Presunto, com capa de gordura",
+    "category": "Carnes e derivados",
+    "energy_kcal": 127.8,
+    "protein_g": 14.4,
+    "carbs_g": 1.4,
+    "fat_g": 6.8,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Presunto, sem capa de gordura",
+    "category": "Carnes e derivados",
+    "energy_kcal": 93.7,
+    "protein_g": 14.3,
+    "carbs_g": 2.1,
+    "fat_g": 2.7,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Quibe, assado",
+    "category": "Carnes e derivados",
+    "energy_kcal": 136.2,
+    "protein_g": 14.6,
+    "carbs_g": 12.9,
+    "fat_g": 2.7,
+    "fiber_g": 1.9,
+    "source": "TACO"
+  },
+  {
+    "name": "Quibe, cru",
+    "category": "Carnes e derivados",
+    "energy_kcal": 109.5,
+    "protein_g": 12.4,
+    "carbs_g": 10.8,
+    "fat_g": 1.7,
+    "fiber_g": 1.6,
+    "source": "TACO"
+  },
+  {
+    "name": "Quibe, frito",
+    "category": "Carnes e derivados",
+    "energy_kcal": 253.8,
+    "protein_g": 14.9,
+    "carbs_g": 12.3,
+    "fat_g": 15.8,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Salame",
+    "category": "Carnes e derivados",
+    "energy_kcal": 397.8,
+    "protein_g": 25.8,
+    "carbs_g": 2.9,
+    "fat_g": 30.6,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Toucinho, cru",
+    "category": "Carnes e derivados",
+    "energy_kcal": 592.5,
+    "protein_g": 11.5,
+    "carbs_g": 0.0,
+    "fat_g": 60.3,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Toucinho, frito",
+    "category": "Carnes e derivados",
+    "energy_kcal": 696.6,
+    "protein_g": 27.3,
+    "carbs_g": 0.0,
+    "fat_g": 64.3,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Bebida láctea, pêssego",
+    "category": "Leite e derivados",
+    "energy_kcal": 55.2,
+    "protein_g": 2.1,
+    "carbs_g": 7.6,
+    "fat_g": 1.9,
+    "fiber_g": 0.3,
+    "source": "TACO"
+  },
+  {
+    "name": "Creme de Leite",
+    "category": "Leite e derivados",
+    "energy_kcal": 221.5,
+    "protein_g": 1.5,
+    "carbs_g": 4.5,
+    "fat_g": 22.5,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Iogurte, natural",
+    "category": "Leite e derivados",
+    "energy_kcal": 51.5,
+    "protein_g": 4.1,
+    "carbs_g": 1.9,
+    "fat_g": 3.0,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Iogurte, natural, desnatado",
+    "category": "Leite e derivados",
+    "energy_kcal": 41.5,
+    "protein_g": 3.8,
+    "carbs_g": 5.8,
+    "fat_g": 0.3,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Iogurte, sabor abacaxi",
+    "category": "Leite e derivados",
+    "energy_kcal": 0.0,
+    "protein_g": 0.0,
+    "carbs_g": 0.0,
+    "fat_g": 0.0,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Iogurte, sabor morango",
+    "category": "Leite e derivados",
+    "energy_kcal": 69.6,
+    "protein_g": 2.7,
+    "carbs_g": 9.7,
+    "fat_g": 2.3,
+    "fiber_g": 0.2,
+    "source": "TACO"
+  },
+  {
+    "name": "Iogurte, sabor pêssego",
+    "category": "Leite e derivados",
+    "energy_kcal": 67.8,
+    "protein_g": 2.5,
+    "carbs_g": 9.4,
+    "fat_g": 2.3,
+    "fiber_g": 0.7,
+    "source": "TACO"
+  },
+  {
+    "name": "Leite, condensado",
+    "category": "Leite e derivados",
+    "energy_kcal": 312.6,
+    "protein_g": 7.7,
+    "carbs_g": 57.0,
+    "fat_g": 6.7,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Leite, de cabra",
+    "category": "Leite e derivados",
+    "energy_kcal": 66.4,
+    "protein_g": 3.1,
+    "carbs_g": 5.2,
+    "fat_g": 3.8,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Leite, de vaca, achocolatado",
+    "category": "Leite e derivados",
+    "energy_kcal": 82.8,
+    "protein_g": 2.1,
+    "carbs_g": 14.2,
+    "fat_g": 2.2,
+    "fiber_g": 0.6,
+    "source": "TACO"
+  },
+  {
+    "name": "Leite, de vaca, desnatado, pó",
+    "category": "Leite e derivados",
+    "energy_kcal": 361.6,
+    "protein_g": 34.7,
+    "carbs_g": 53.0,
+    "fat_g": 0.9,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Leite, de vaca, desnatado, UHT",
+    "category": "Leite e derivados",
+    "energy_kcal": 0.0,
+    "protein_g": 0.0,
+    "carbs_g": 0.0,
+    "fat_g": 0.0,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Leite, de vaca, integral",
+    "category": "Leite e derivados",
+    "energy_kcal": 0.0,
+    "protein_g": 0.0,
+    "carbs_g": 0.0,
+    "fat_g": 0.0,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Leite, de vaca, integral, pó",
+    "category": "Leite e derivados",
+    "energy_kcal": 496.7,
+    "protein_g": 25.4,
+    "carbs_g": 39.2,
+    "fat_g": 26.9,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Leite, fermentado",
+    "category": "Leite e derivados",
+    "energy_kcal": 69.6,
+    "protein_g": 1.9,
+    "carbs_g": 15.7,
+    "fat_g": 0.1,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Queijo, minas, frescal",
+    "category": "Leite e derivados",
+    "energy_kcal": 264.3,
+    "protein_g": 17.4,
+    "carbs_g": 3.2,
+    "fat_g": 20.2,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Queijo, minas, meia cura",
+    "category": "Leite e derivados",
+    "energy_kcal": 320.7,
+    "protein_g": 21.2,
+    "carbs_g": 3.6,
+    "fat_g": 24.6,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Queijo, mozarela",
+    "category": "Leite e derivados",
+    "energy_kcal": 329.9,
+    "protein_g": 22.6,
+    "carbs_g": 3.0,
+    "fat_g": 25.2,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Queijo, parmesão",
+    "category": "Leite e derivados",
+    "energy_kcal": 453.0,
+    "protein_g": 35.6,
+    "carbs_g": 1.7,
+    "fat_g": 33.5,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Queijo, pasteurizado",
+    "category": "Leite e derivados",
+    "energy_kcal": 303.1,
+    "protein_g": 9.4,
+    "carbs_g": 5.7,
+    "fat_g": 27.4,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Queijo, petit suisse, morango",
+    "category": "Leite e derivados",
+    "energy_kcal": 121.1,
+    "protein_g": 5.8,
+    "carbs_g": 18.5,
+    "fat_g": 2.8,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Queijo, prato",
+    "category": "Leite e derivados",
+    "energy_kcal": 359.9,
+    "protein_g": 22.7,
+    "carbs_g": 1.9,
+    "fat_g": 29.1,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Queijo, requeijão, cremoso",
+    "category": "Leite e derivados",
+    "energy_kcal": 256.6,
+    "protein_g": 9.6,
+    "carbs_g": 2.4,
+    "fat_g": 23.4,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Queijo, ricota",
+    "category": "Leite e derivados",
+    "energy_kcal": 139.7,
+    "protein_g": 12.6,
+    "carbs_g": 3.8,
+    "fat_g": 8.1,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Bebida isotônica, sabores variados",
+    "category": "Bebidas (alcoólicas e não alcoólicas)",
+    "energy_kcal": 25.6,
+    "protein_g": 0.0,
+    "carbs_g": 6.4,
+    "fat_g": 0.0,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Café, infusão 10%",
+    "category": "Bebidas (alcoólicas e não alcoólicas)",
+    "energy_kcal": 9.1,
+    "protein_g": 0.7,
+    "carbs_g": 1.5,
+    "fat_g": 0.1,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Cana, aguardente 1",
+    "category": "Bebidas (alcoólicas e não alcoólicas)",
+    "energy_kcal": 215.7,
+    "protein_g": 0.0,
+    "carbs_g": 0.0,
+    "fat_g": 0.0,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Cana, caldo de",
+    "category": "Bebidas (alcoólicas e não alcoólicas)",
+    "energy_kcal": 65.3,
+    "protein_g": 0.0,
+    "carbs_g": 18.2,
+    "fat_g": 0.0,
+    "fiber_g": 0.1,
+    "source": "TACO"
+  },
+  {
+    "name": "Cerveja, pilsen 2",
+    "category": "Bebidas (alcoólicas e não alcoólicas)",
+    "energy_kcal": 40.7,
+    "protein_g": 0.6,
+    "carbs_g": 3.3,
+    "fat_g": 0.0,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Chá, erva-doce, infusão 5%",
+    "category": "Bebidas (alcoólicas e não alcoólicas)",
+    "energy_kcal": 1.4,
+    "protein_g": 0.0,
+    "carbs_g": 0.4,
+    "fat_g": 0.0,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Chá, mate, infusão 5%",
+    "category": "Bebidas (alcoólicas e não alcoólicas)",
+    "energy_kcal": 2.7,
+    "protein_g": 0.0,
+    "carbs_g": 0.6,
+    "fat_g": 0.1,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Chá, preto, infusão 5%",
+    "category": "Bebidas (alcoólicas e não alcoólicas)",
+    "energy_kcal": 2.2,
+    "protein_g": 0.0,
+    "carbs_g": 0.6,
+    "fat_g": 0.0,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Coco, água de",
+    "category": "Bebidas (alcoólicas e não alcoólicas)",
+    "energy_kcal": 21.5,
+    "protein_g": 0.0,
+    "carbs_g": 5.3,
+    "fat_g": 0.0,
+    "fiber_g": 0.1,
+    "source": "TACO"
+  },
+  {
+    "name": "Refrigerante, tipo água tônica",
+    "category": "Bebidas (alcoólicas e não alcoólicas)",
+    "energy_kcal": 30.8,
+    "protein_g": 0.0,
+    "carbs_g": 8.0,
+    "fat_g": 0.0,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Refrigerante, tipo cola",
+    "category": "Bebidas (alcoólicas e não alcoólicas)",
+    "energy_kcal": 33.5,
+    "protein_g": 0.0,
+    "carbs_g": 8.7,
+    "fat_g": 0.0,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Refrigerante, tipo guaraná",
+    "category": "Bebidas (alcoólicas e não alcoólicas)",
+    "energy_kcal": 38.7,
+    "protein_g": 0.0,
+    "carbs_g": 10.0,
+    "fat_g": 0.0,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Refrigerante, tipo laranja",
+    "category": "Bebidas (alcoólicas e não alcoólicas)",
+    "energy_kcal": 45.6,
+    "protein_g": 0.0,
+    "carbs_g": 11.8,
+    "fat_g": 0.0,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Refrigerante, tipo limão",
+    "category": "Bebidas (alcoólicas e não alcoólicas)",
+    "energy_kcal": 39.7,
+    "protein_g": 0.0,
+    "carbs_g": 10.3,
+    "fat_g": 0.0,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Omelete, de queijo",
+    "category": "Ovos e derivados",
+    "energy_kcal": 268.0,
+    "protein_g": 15.6,
+    "carbs_g": 0.4,
+    "fat_g": 22.0,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Ovo, de codorna, inteiro, cru",
+    "category": "Ovos e derivados",
+    "energy_kcal": 176.9,
+    "protein_g": 13.7,
+    "carbs_g": 0.8,
+    "fat_g": 12.7,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Ovo, de galinha, clara, cozida/10minutos",
+    "category": "Ovos e derivados",
+    "energy_kcal": 59.4,
+    "protein_g": 13.4,
+    "carbs_g": 0.0,
+    "fat_g": 0.1,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Ovo, de galinha, gema, cozida/10minutos",
+    "category": "Ovos e derivados",
+    "energy_kcal": 352.7,
+    "protein_g": 15.9,
+    "carbs_g": 1.6,
+    "fat_g": 30.8,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Ovo, de galinha, inteiro, cozido/10minutos",
+    "category": "Ovos e derivados",
+    "energy_kcal": 145.7,
+    "protein_g": 13.3,
+    "carbs_g": 0.6,
+    "fat_g": 9.5,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Ovo, de galinha, inteiro, cru",
+    "category": "Ovos e derivados",
+    "energy_kcal": 143.1,
+    "protein_g": 13.0,
+    "carbs_g": 1.6,
+    "fat_g": 8.9,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Ovo, de galinha, inteiro, frito",
+    "category": "Ovos e derivados",
+    "energy_kcal": 240.2,
+    "protein_g": 15.6,
+    "carbs_g": 1.2,
+    "fat_g": 18.6,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Achocolatado, pó",
+    "category": "Produtos açucarados",
+    "energy_kcal": 401.0,
+    "protein_g": 4.2,
+    "carbs_g": 91.2,
+    "fat_g": 2.2,
+    "fiber_g": 3.9,
+    "source": "TACO"
+  },
+  {
+    "name": "Açúcar, cristal",
+    "category": "Produtos açucarados",
+    "energy_kcal": 386.8,
+    "protein_g": 0.3,
+    "carbs_g": 99.6,
+    "fat_g": 0.0,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Açúcar, mascavo",
+    "category": "Produtos açucarados",
+    "energy_kcal": 368.6,
+    "protein_g": 0.8,
+    "carbs_g": 94.5,
+    "fat_g": 0.1,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Açúcar, refinado",
+    "category": "Produtos açucarados",
+    "energy_kcal": 386.6,
+    "protein_g": 0.3,
+    "carbs_g": 99.5,
+    "fat_g": 0.0,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Chocolate, ao leite",
+    "category": "Produtos açucarados",
+    "energy_kcal": 539.6,
+    "protein_g": 7.2,
+    "carbs_g": 59.6,
+    "fat_g": 30.3,
+    "fiber_g": 2.2,
+    "source": "TACO"
+  },
+  {
+    "name": "Chocolate, ao leite, com castanha do Pará",
+    "category": "Produtos açucarados",
+    "energy_kcal": 558.9,
+    "protein_g": 7.4,
+    "carbs_g": 55.4,
+    "fat_g": 34.2,
+    "fiber_g": 2.5,
+    "source": "TACO"
+  },
+  {
+    "name": "Chocolate, ao leite, dietético",
+    "category": "Produtos açucarados",
+    "energy_kcal": 556.8,
+    "protein_g": 6.9,
+    "carbs_g": 56.3,
+    "fat_g": 33.8,
+    "fiber_g": 2.8,
+    "source": "TACO"
+  },
+  {
+    "name": "Chocolate, meio amargo",
+    "category": "Produtos açucarados",
+    "energy_kcal": 474.9,
+    "protein_g": 4.9,
+    "carbs_g": 62.4,
+    "fat_g": 29.9,
+    "fiber_g": 4.9,
+    "source": "TACO"
+  },
+  {
+    "name": "Cocada branca",
+    "category": "Produtos açucarados",
+    "energy_kcal": 448.8,
+    "protein_g": 1.1,
+    "carbs_g": 81.4,
+    "fat_g": 13.6,
+    "fiber_g": 3.6,
+    "source": "TACO"
+  },
+  {
+    "name": "Doce, de abóbora, cremoso",
+    "category": "Produtos açucarados",
+    "energy_kcal": 198.9,
+    "protein_g": 0.9,
+    "carbs_g": 54.6,
+    "fat_g": 0.2,
+    "fiber_g": 2.3,
+    "source": "TACO"
+  },
+  {
+    "name": "Doce, de leite, cremoso",
+    "category": "Produtos açucarados",
+    "energy_kcal": 306.3,
+    "protein_g": 5.5,
+    "carbs_g": 59.5,
+    "fat_g": 6.0,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Geléia, mocotó, natural",
+    "category": "Produtos açucarados",
+    "energy_kcal": 106.1,
+    "protein_g": 2.1,
+    "carbs_g": 24.2,
+    "fat_g": 0.1,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Glicose de milho",
+    "category": "Produtos açucarados",
+    "energy_kcal": 292.1,
+    "protein_g": 0.0,
+    "carbs_g": 79.4,
+    "fat_g": 0.0,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Maria mole",
+    "category": "Produtos açucarados",
+    "energy_kcal": 301.2,
+    "protein_g": 3.8,
+    "carbs_g": 73.6,
+    "fat_g": 0.2,
+    "fiber_g": 0.7,
+    "source": "TACO"
+  },
+  {
+    "name": "Maria mole, coco queimado",
+    "category": "Produtos açucarados",
+    "energy_kcal": 306.6,
+    "protein_g": 3.9,
+    "carbs_g": 75.1,
+    "fat_g": 0.1,
+    "fiber_g": 0.6,
+    "source": "TACO"
+  },
+  {
+    "name": "Marmelada",
+    "category": "Produtos açucarados",
+    "energy_kcal": 257.2,
+    "protein_g": 0.4,
+    "carbs_g": 70.8,
+    "fat_g": 0.1,
+    "fiber_g": 4.1,
+    "source": "TACO"
+  },
+  {
+    "name": "Mel, de abelha",
+    "category": "Produtos açucarados",
+    "energy_kcal": 309.2,
+    "protein_g": 0.0,
+    "carbs_g": 84.0,
+    "fat_g": 0.0,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Melado",
+    "category": "Produtos açucarados",
+    "energy_kcal": 296.5,
+    "protein_g": 0.0,
+    "carbs_g": 76.6,
+    "fat_g": 0.0,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Quindim",
+    "category": "Produtos açucarados",
+    "energy_kcal": 411.3,
+    "protein_g": 4.7,
+    "carbs_g": 46.3,
+    "fat_g": 24.4,
+    "fiber_g": 3.2,
+    "source": "TACO"
+  },
+  {
+    "name": "Rapadura",
+    "category": "Produtos açucarados",
+    "energy_kcal": 352.0,
+    "protein_g": 1.0,
+    "carbs_g": 90.8,
+    "fat_g": 0.1,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Café, pó, torrado",
+    "category": "Miscelâneas",
+    "energy_kcal": 418.6,
+    "protein_g": 14.7,
+    "carbs_g": 65.8,
+    "fat_g": 11.9,
+    "fiber_g": 51.2,
+    "source": "TACO"
+  },
+  {
+    "name": "Capuccino, pó",
+    "category": "Miscelâneas",
+    "energy_kcal": 417.4,
+    "protein_g": 11.3,
+    "carbs_g": 73.6,
+    "fat_g": 8.6,
+    "fiber_g": 2.4,
+    "source": "TACO"
+  },
+  {
+    "name": "Fermento em pó, químico",
+    "category": "Miscelâneas",
+    "energy_kcal": 89.7,
+    "protein_g": 0.5,
+    "carbs_g": 43.9,
+    "fat_g": 0.1,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Fermento, biológico, levedura, tablete",
+    "category": "Miscelâneas",
+    "energy_kcal": 89.8,
+    "protein_g": 17.0,
+    "carbs_g": 7.7,
+    "fat_g": 1.5,
+    "fiber_g": 4.2,
+    "source": "TACO"
+  },
+  {
+    "name": "Gelatina, sabores variados, pó",
+    "category": "Miscelâneas",
+    "energy_kcal": 380.2,
+    "protein_g": 8.9,
+    "carbs_g": 89.2,
+    "fat_g": 0.0,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Sal, dietético",
+    "category": "Miscelâneas",
+    "energy_kcal": 0.0,
+    "protein_g": 0.0,
+    "carbs_g": 0.0,
+    "fat_g": 0.0,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Sal, grosso",
+    "category": "Miscelâneas",
+    "energy_kcal": 0.0,
+    "protein_g": 0.0,
+    "carbs_g": 0.0,
+    "fat_g": 0.0,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Shoyu",
+    "category": "Miscelâneas",
+    "energy_kcal": 60.9,
+    "protein_g": 3.3,
+    "carbs_g": 11.6,
+    "fat_g": 0.3,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Tempero a base de sal",
+    "category": "Miscelâneas",
+    "energy_kcal": 21.3,
+    "protein_g": 2.7,
+    "carbs_g": 2.1,
+    "fat_g": 0.3,
+    "fiber_g": 0.6,
+    "source": "TACO"
+  },
+  {
+    "name": "Azeitona, preta, conserva",
+    "category": "Outros alimentos industrializados",
+    "energy_kcal": 194.2,
+    "protein_g": 1.2,
+    "carbs_g": 5.5,
+    "fat_g": 20.3,
+    "fiber_g": 4.6,
+    "source": "TACO"
+  },
+  {
+    "name": "Azeitona, verde, conserva",
+    "category": "Outros alimentos industrializados",
+    "energy_kcal": 136.9,
+    "protein_g": 0.9,
+    "carbs_g": 4.1,
+    "fat_g": 14.2,
+    "fiber_g": 3.8,
+    "source": "TACO"
+  },
+  {
+    "name": "Chantilly, spray, com gordura vegetal",
+    "category": "Outros alimentos industrializados",
+    "energy_kcal": 315.0,
+    "protein_g": 0.5,
+    "carbs_g": 16.9,
+    "fat_g": 27.3,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Leite, de coco",
+    "category": "Outros alimentos industrializados",
+    "energy_kcal": 166.2,
+    "protein_g": 1.0,
+    "carbs_g": 2.2,
+    "fat_g": 18.4,
+    "fiber_g": 0.7,
+    "source": "TACO"
+  },
+  {
+    "name": "Maionese, tradicional com ovos",
+    "category": "Outros alimentos industrializados",
+    "energy_kcal": 302.2,
+    "protein_g": 0.6,
+    "carbs_g": 7.9,
+    "fat_g": 30.5,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Acarajé",
+    "category": "Alimentos preparados",
+    "energy_kcal": 289.2,
+    "protein_g": 8.3,
+    "carbs_g": 19.1,
+    "fat_g": 19.9,
+    "fiber_g": 9.4,
+    "source": "TACO"
+  },
+  {
+    "name": "Arroz carreteiro",
+    "category": "Alimentos preparados",
+    "energy_kcal": 153.8,
+    "protein_g": 10.8,
+    "carbs_g": 11.6,
+    "fat_g": 7.1,
+    "fiber_g": 1.5,
+    "source": "TACO"
+  },
+  {
+    "name": "Baião de dois, arroz e feijão-de-corda",
+    "category": "Alimentos preparados",
+    "energy_kcal": 135.7,
+    "protein_g": 6.2,
+    "carbs_g": 20.4,
+    "fat_g": 3.2,
+    "fiber_g": 5.1,
+    "source": "TACO"
+  },
+  {
+    "name": "Barreado",
+    "category": "Alimentos preparados",
+    "energy_kcal": 165.0,
+    "protein_g": 18.3,
+    "carbs_g": 0.2,
+    "fat_g": 9.5,
+    "fiber_g": 0.1,
+    "source": "TACO"
+  },
+  {
+    "name": "Bife à cavalo, com contra filé",
+    "category": "Alimentos preparados",
+    "energy_kcal": 291.2,
+    "protein_g": 23.7,
+    "carbs_g": 0.0,
+    "fat_g": 21.1,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Bolinho de arroz",
+    "category": "Alimentos preparados",
+    "energy_kcal": 273.5,
+    "protein_g": 8.0,
+    "carbs_g": 41.7,
+    "fat_g": 8.3,
+    "fiber_g": 2.7,
+    "source": "TACO"
+  },
+  {
+    "name": "Camarão à baiana",
+    "category": "Alimentos preparados",
+    "energy_kcal": 100.8,
+    "protein_g": 7.9,
+    "carbs_g": 3.2,
+    "fat_g": 6.0,
+    "fiber_g": 0.4,
+    "source": "TACO"
+  },
+  {
+    "name": "Charuto, de repolho",
+    "category": "Alimentos preparados",
+    "energy_kcal": 78.2,
+    "protein_g": 6.8,
+    "carbs_g": 10.1,
+    "fat_g": 1.1,
+    "fiber_g": 1.5,
+    "source": "TACO"
+  },
+  {
+    "name": "Cuscuz, de milho, cozido com sal",
+    "category": "Alimentos preparados",
+    "energy_kcal": 113.5,
+    "protein_g": 2.2,
+    "carbs_g": 25.3,
+    "fat_g": 0.7,
+    "fiber_g": 2.1,
+    "source": "TACO"
+  },
+  {
+    "name": "Cuscuz, paulista",
+    "category": "Alimentos preparados",
+    "energy_kcal": 142.1,
+    "protein_g": 2.6,
+    "carbs_g": 22.5,
+    "fat_g": 4.6,
+    "fiber_g": 2.4,
+    "source": "TACO"
+  },
+  {
+    "name": "Cuxá, molho",
+    "category": "Alimentos preparados",
+    "energy_kcal": 80.1,
+    "protein_g": 5.6,
+    "carbs_g": 5.7,
+    "fat_g": 3.6,
+    "fiber_g": 3.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Dobradinha",
+    "category": "Alimentos preparados",
+    "energy_kcal": 124.5,
+    "protein_g": 19.8,
+    "carbs_g": 0.0,
+    "fat_g": 4.4,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Estrogonofe de carne",
+    "category": "Alimentos preparados",
+    "energy_kcal": 173.1,
+    "protein_g": 15.0,
+    "carbs_g": 3.0,
+    "fat_g": 10.8,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Estrogonofe de frango",
+    "category": "Alimentos preparados",
+    "energy_kcal": 156.8,
+    "protein_g": 17.6,
+    "carbs_g": 2.6,
+    "fat_g": 8.0,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Feijão tropeiro mineiro",
+    "category": "Alimentos preparados",
+    "energy_kcal": 151.6,
+    "protein_g": 10.2,
+    "carbs_g": 19.6,
+    "fat_g": 6.8,
+    "fiber_g": 3.6,
+    "source": "TACO"
+  },
+  {
+    "name": "L",
+    "category": "Alimentos preparados",
+    "energy_kcal": 116.9,
+    "protein_g": 8.7,
+    "carbs_g": 11.6,
+    "fat_g": 6.5,
+    "fiber_g": 5.1,
+    "source": "TACO"
+  },
+  {
+    "name": "Frango, com açafrão",
+    "category": "Alimentos preparados",
+    "energy_kcal": 112.8,
+    "protein_g": 9.7,
+    "carbs_g": 4.1,
+    "fat_g": 6.2,
+    "fiber_g": 0.2,
+    "source": "TACO"
+  },
+  {
+    "name": "Macarrão, molho bolognesa",
+    "category": "Alimentos preparados",
+    "energy_kcal": 119.5,
+    "protein_g": 4.9,
+    "carbs_g": 22.5,
+    "fat_g": 0.9,
+    "fiber_g": 0.8,
+    "source": "TACO"
+  },
+  {
+    "name": "Maniçoba",
+    "category": "Alimentos preparados",
+    "energy_kcal": 134.2,
+    "protein_g": 10.0,
+    "carbs_g": 3.4,
+    "fat_g": 8.7,
+    "fiber_g": 2.2,
+    "source": "TACO"
+  },
+  {
+    "name": "Quibebe",
+    "category": "Alimentos preparados",
+    "energy_kcal": 86.3,
+    "protein_g": 8.6,
+    "carbs_g": 6.6,
+    "fat_g": 2.7,
+    "fiber_g": 1.7,
+    "source": "TACO"
+  },
+  {
+    "name": "Salada, de legumes, com maionese",
+    "category": "Alimentos preparados",
+    "energy_kcal": 96.1,
+    "protein_g": 1.1,
+    "carbs_g": 8.9,
+    "fat_g": 7.0,
+    "fiber_g": 2.2,
+    "source": "TACO"
+  },
+  {
+    "name": "Salada, de legumes, cozida no vapor",
+    "category": "Alimentos preparados",
+    "energy_kcal": 35.4,
+    "protein_g": 2.0,
+    "carbs_g": 7.1,
+    "fat_g": 0.3,
+    "fiber_g": 2.5,
+    "source": "TACO"
+  },
+  {
+    "name": "Salpicão, de frango",
+    "category": "Alimentos preparados",
+    "energy_kcal": 147.9,
+    "protein_g": 13.9,
+    "carbs_g": 4.6,
+    "fat_g": 7.8,
+    "fiber_g": 0.4,
+    "source": "TACO"
+  },
+  {
+    "name": "Sarapatel",
+    "category": "Alimentos preparados",
+    "energy_kcal": 123.0,
+    "protein_g": 18.5,
+    "carbs_g": 1.1,
+    "fat_g": 4.4,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Tabule",
+    "category": "Alimentos preparados",
+    "energy_kcal": 57.5,
+    "protein_g": 2.0,
+    "carbs_g": 10.6,
+    "fat_g": 1.2,
+    "fiber_g": 2.1,
+    "source": "TACO"
+  },
+  {
+    "name": "Tacacá",
+    "category": "Alimentos preparados",
+    "energy_kcal": 46.9,
+    "protein_g": 7.0,
+    "carbs_g": 3.4,
+    "fat_g": 0.4,
+    "fiber_g": 0.2,
+    "source": "TACO"
+  },
+  {
+    "name": "Tapioca, com manteiga",
+    "category": "Alimentos preparados",
+    "energy_kcal": 347.8,
+    "protein_g": 0.1,
+    "carbs_g": 63.6,
+    "fat_g": 10.9,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Tucupi, com pimenta-de-cheiro",
+    "category": "Alimentos preparados",
+    "energy_kcal": 27.2,
+    "protein_g": 2.1,
+    "carbs_g": 4.7,
+    "fat_g": 0.3,
+    "fiber_g": 0.2,
+    "source": "TACO"
+  },
+  {
+    "name": "Vaca atolada",
+    "category": "Alimentos preparados",
+    "energy_kcal": 144.9,
+    "protein_g": 5.1,
+    "carbs_g": 10.1,
+    "fat_g": 9.3,
+    "fiber_g": 2.3,
+    "source": "TACO"
+  },
+  {
+    "name": "Vatapá",
+    "category": "Alimentos preparados",
+    "energy_kcal": 254.9,
+    "protein_g": 6.0,
+    "carbs_g": 9.7,
+    "fat_g": 23.2,
+    "fiber_g": 1.7,
+    "source": "TACO"
+  },
+  {
+    "name": "Virado à paulista",
+    "category": "Alimentos preparados",
+    "energy_kcal": 306.9,
+    "protein_g": 10.2,
+    "carbs_g": 14.1,
+    "fat_g": 25.6,
+    "fiber_g": 2.2,
+    "source": "TACO"
+  },
+  {
+    "name": "Yakisoba",
+    "category": "Alimentos preparados",
+    "energy_kcal": 112.8,
+    "protein_g": 7.5,
+    "carbs_g": 18.3,
+    "fat_g": 2.6,
+    "fiber_g": 1.1,
+    "source": "TACO"
+  },
+  {
+    "name": "Amendoim, grão, cru",
+    "category": "Leguminosas e derivados",
+    "energy_kcal": 544.1,
+    "protein_g": 27.2,
+    "carbs_g": 20.3,
+    "fat_g": 43.9,
+    "fiber_g": 8.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Amendoim, torrado, salgado",
+    "category": "Leguminosas e derivados",
+    "energy_kcal": 605.8,
+    "protein_g": 22.5,
+    "carbs_g": 18.7,
+    "fat_g": 54.0,
+    "fiber_g": 7.8,
+    "source": "TACO"
+  },
+  {
+    "name": "Ervilha, em vagem",
+    "category": "Leguminosas e derivados",
+    "energy_kcal": 88.1,
+    "protein_g": 7.5,
+    "carbs_g": 14.2,
+    "fat_g": 0.5,
+    "fiber_g": 9.7,
+    "source": "TACO"
+  },
+  {
+    "name": "Ervilha, enlatada, drenada",
+    "category": "Leguminosas e derivados",
+    "energy_kcal": 73.8,
+    "protein_g": 4.6,
+    "carbs_g": 13.4,
+    "fat_g": 0.4,
+    "fiber_g": 5.1,
+    "source": "TACO"
+  },
+  {
+    "name": "Feijão, carioca, cozido",
+    "category": "Leguminosas e derivados",
+    "energy_kcal": 76.4,
+    "protein_g": 4.8,
+    "carbs_g": 13.6,
+    "fat_g": 0.5,
+    "fiber_g": 8.5,
+    "source": "TACO"
+  },
+  {
+    "name": "Feijão, carioca, cru",
+    "category": "Leguminosas e derivados",
+    "energy_kcal": 329.0,
+    "protein_g": 20.0,
+    "carbs_g": 61.2,
+    "fat_g": 1.3,
+    "fiber_g": 18.4,
+    "source": "TACO"
+  },
+  {
+    "name": "Feijão, fradinho, cozido",
+    "category": "Leguminosas e derivados",
+    "energy_kcal": 78.0,
+    "protein_g": 5.1,
+    "carbs_g": 13.5,
+    "fat_g": 0.6,
+    "fiber_g": 7.5,
+    "source": "TACO"
+  },
+  {
+    "name": "Feijão, fradinho, cru",
+    "category": "Leguminosas e derivados",
+    "energy_kcal": 339.2,
+    "protein_g": 20.2,
+    "carbs_g": 61.2,
+    "fat_g": 2.4,
+    "fiber_g": 23.6,
+    "source": "TACO"
+  },
+  {
+    "name": "Feijão, jalo, cozido",
+    "category": "Leguminosas e derivados",
+    "energy_kcal": 92.7,
+    "protein_g": 6.1,
+    "carbs_g": 16.5,
+    "fat_g": 0.5,
+    "fiber_g": 13.9,
+    "source": "TACO"
+  },
+  {
+    "name": "Feijão, jalo, cru",
+    "category": "Leguminosas e derivados",
+    "energy_kcal": 327.9,
+    "protein_g": 20.1,
+    "carbs_g": 61.5,
+    "fat_g": 0.9,
+    "fiber_g": 30.3,
+    "source": "TACO"
+  },
+  {
+    "name": "Feijão, preto, cozido",
+    "category": "Leguminosas e derivados",
+    "energy_kcal": 77.0,
+    "protein_g": 4.5,
+    "carbs_g": 14.0,
+    "fat_g": 0.5,
+    "fiber_g": 8.4,
+    "source": "TACO"
+  },
+  {
+    "name": "Feijão, preto, cru",
+    "category": "Leguminosas e derivados",
+    "energy_kcal": 323.6,
+    "protein_g": 21.3,
+    "carbs_g": 58.8,
+    "fat_g": 1.2,
+    "fiber_g": 21.8,
+    "source": "TACO"
+  },
+  {
+    "name": "Feijão, rajado, cozido",
+    "category": "Leguminosas e derivados",
+    "energy_kcal": 84.7,
+    "protein_g": 5.5,
+    "carbs_g": 15.3,
+    "fat_g": 0.4,
+    "fiber_g": 9.3,
+    "source": "TACO"
+  },
+  {
+    "name": "Feijão, rajado, cru",
+    "category": "Leguminosas e derivados",
+    "energy_kcal": 325.8,
+    "protein_g": 17.3,
+    "carbs_g": 62.9,
+    "fat_g": 1.2,
+    "fiber_g": 24.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Feijão, rosinha, cozido",
+    "category": "Leguminosas e derivados",
+    "energy_kcal": 67.9,
+    "protein_g": 4.5,
+    "carbs_g": 11.8,
+    "fat_g": 0.5,
+    "fiber_g": 4.8,
+    "source": "TACO"
+  },
+  {
+    "name": "Feijão, rosinha, cru",
+    "category": "Leguminosas e derivados",
+    "energy_kcal": 337.0,
+    "protein_g": 20.9,
+    "carbs_g": 62.2,
+    "fat_g": 1.3,
+    "fiber_g": 20.6,
+    "source": "TACO"
+  },
+  {
+    "name": "Feijão, roxo, cozido",
+    "category": "Leguminosas e derivados",
+    "energy_kcal": 76.9,
+    "protein_g": 5.7,
+    "carbs_g": 12.9,
+    "fat_g": 0.5,
+    "fiber_g": 11.5,
+    "source": "TACO"
+  },
+  {
+    "name": "Feijão, roxo, cru",
+    "category": "Leguminosas e derivados",
+    "energy_kcal": 331.4,
+    "protein_g": 22.2,
+    "carbs_g": 60.0,
+    "fat_g": 1.2,
+    "fiber_g": 33.8,
+    "source": "TACO"
+  },
+  {
+    "name": "Grão-de-bico, cru",
+    "category": "Leguminosas e derivados",
+    "energy_kcal": 354.7,
+    "protein_g": 21.2,
+    "carbs_g": 57.9,
+    "fat_g": 5.4,
+    "fiber_g": 12.4,
+    "source": "TACO"
+  },
+  {
+    "name": "Guandu, cru",
+    "category": "Leguminosas e derivados",
+    "energy_kcal": 344.1,
+    "protein_g": 19.0,
+    "carbs_g": 64.0,
+    "fat_g": 2.1,
+    "fiber_g": 21.3,
+    "source": "TACO"
+  },
+  {
+    "name": "Lentilha, cozida",
+    "category": "Leguminosas e derivados",
+    "energy_kcal": 92.6,
+    "protein_g": 6.3,
+    "carbs_g": 16.3,
+    "fat_g": 0.5,
+    "fiber_g": 7.9,
+    "source": "TACO"
+  },
+  {
+    "name": "Lentilha, crua",
+    "category": "Leguminosas e derivados",
+    "energy_kcal": 339.1,
+    "protein_g": 23.2,
+    "carbs_g": 62.0,
+    "fat_g": 0.8,
+    "fiber_g": 16.9,
+    "source": "TACO"
+  },
+  {
+    "name": "Paçoca, amendoim",
+    "category": "Leguminosas e derivados",
+    "energy_kcal": 486.9,
+    "protein_g": 16.0,
+    "carbs_g": 52.4,
+    "fat_g": 26.1,
+    "fiber_g": 7.3,
+    "source": "TACO"
+  },
+  {
+    "name": "Pé-de-moleque, amendoim",
+    "category": "Leguminosas e derivados",
+    "energy_kcal": 503.2,
+    "protein_g": 13.2,
+    "carbs_g": 54.7,
+    "fat_g": 28.0,
+    "fiber_g": 3.4,
+    "source": "TACO"
+  },
+  {
+    "name": "Soja, farinha",
+    "category": "Leguminosas e derivados",
+    "energy_kcal": 404.0,
+    "protein_g": 36.0,
+    "carbs_g": 38.4,
+    "fat_g": 14.6,
+    "fiber_g": 20.2,
+    "source": "TACO"
+  },
+  {
+    "name": "Soja, extrato solúvel, natural, fluido",
+    "category": "Leguminosas e derivados",
+    "energy_kcal": 39.1,
+    "protein_g": 2.4,
+    "carbs_g": 4.3,
+    "fat_g": 1.6,
+    "fiber_g": 0.4,
+    "source": "TACO"
+  },
+  {
+    "name": "Soja, extrato solúvel, pó",
+    "category": "Leguminosas e derivados",
+    "energy_kcal": 458.9,
+    "protein_g": 35.7,
+    "carbs_g": 28.5,
+    "fat_g": 26.2,
+    "fiber_g": 7.3,
+    "source": "TACO"
+  },
+  {
+    "name": "Soja, queijo (tofu)",
+    "category": "Leguminosas e derivados",
+    "energy_kcal": 64.5,
+    "protein_g": 6.6,
+    "carbs_g": 2.1,
+    "fat_g": 4.0,
+    "fiber_g": 0.8,
+    "source": "TACO"
+  },
+  {
+    "name": "Tremoço, cru",
+    "category": "Leguminosas e derivados",
+    "energy_kcal": 381.3,
+    "protein_g": 33.6,
+    "carbs_g": 43.8,
+    "fat_g": 10.3,
+    "fiber_g": 32.3,
+    "source": "TACO"
+  },
+  {
+    "name": "Tremoço, em conserva",
+    "category": "Leguminosas e derivados",
+    "energy_kcal": 120.6,
+    "protein_g": 11.1,
+    "carbs_g": 12.4,
+    "fat_g": 3.8,
+    "fiber_g": 14.4,
+    "source": "TACO"
+  },
+  {
+    "name": "Amêndoa, torrada, salgada",
+    "category": "Nozes e sementes",
+    "energy_kcal": 580.7,
+    "protein_g": 18.6,
+    "carbs_g": 29.5,
+    "fat_g": 47.3,
+    "fiber_g": 11.6,
+    "source": "TACO"
+  },
+  {
+    "name": "Castanha-de-caju, torrada, salgada",
+    "category": "Nozes e sementes",
+    "energy_kcal": 570.2,
+    "protein_g": 18.5,
+    "carbs_g": 29.1,
+    "fat_g": 46.3,
+    "fiber_g": 3.7,
+    "source": "TACO"
+  },
+  {
+    "name": "Castanha-do-Brasil, crua",
+    "category": "Nozes e sementes",
+    "energy_kcal": 643.0,
+    "protein_g": 14.5,
+    "carbs_g": 15.1,
+    "fat_g": 63.5,
+    "fiber_g": 7.9,
+    "source": "TACO"
+  },
+  {
+    "name": "Coco, cru",
+    "category": "Nozes e sementes",
+    "energy_kcal": 406.5,
+    "protein_g": 3.7,
+    "carbs_g": 10.4,
+    "fat_g": 42.0,
+    "fiber_g": 5.4,
+    "source": "TACO"
+  },
+  {
+    "name": "Coco,  verde, cru",
+    "category": "Nozes e sementes",
+    "energy_kcal": 0.0,
+    "protein_g": 0.0,
+    "carbs_g": 0.0,
+    "fat_g": 0.0,
+    "fiber_g": 0.0,
+    "source": "TACO"
+  },
+  {
+    "name": "Farinha, de mesocarpo de babaçu, crua",
+    "category": "Nozes e sementes",
+    "energy_kcal": 328.8,
+    "protein_g": 1.4,
+    "carbs_g": 79.2,
+    "fat_g": 0.2,
+    "fiber_g": 17.9,
+    "source": "TACO"
+  },
+  {
+    "name": "Gergelim, semente",
+    "category": "Nozes e sementes",
+    "energy_kcal": 583.5,
+    "protein_g": 21.2,
+    "carbs_g": 21.6,
+    "fat_g": 50.4,
+    "fiber_g": 11.9,
+    "source": "TACO"
+  },
+  {
+    "name": "Linhaça, semente",
+    "category": "Nozes e sementes",
+    "energy_kcal": 495.1,
+    "protein_g": 14.1,
+    "carbs_g": 43.3,
+    "fat_g": 32.3,
+    "fiber_g": 33.5,
+    "source": "TACO"
+  },
+  {
+    "name": "Pinhão, cozido",
+    "category": "Nozes e sementes",
+    "energy_kcal": 174.4,
+    "protein_g": 3.0,
+    "carbs_g": 43.9,
+    "fat_g": 0.7,
+    "fiber_g": 15.6,
+    "source": "TACO"
+  },
+  {
+    "name": "Pupunha, cozida",
+    "category": "Nozes e sementes",
+    "energy_kcal": 218.5,
+    "protein_g": 2.5,
+    "carbs_g": 29.6,
+    "fat_g": 12.8,
+    "fiber_g": 4.3,
+    "source": "TACO"
+  },
+  {
+    "name": "Noz, crua",
+    "category": "Nozes e sementes",
+    "energy_kcal": 620.1,
+    "protein_g": 14.0,
+    "carbs_g": 18.4,
+    "fat_g": 59.4,
+    "fiber_g": 7.2,
+    "source": "TACO"
+  },
+  {
     "name": "Orelha-de-padre, semente, seca, remolho em água, cozida, drenada, s/ óleo, s/ sal, Lablab purpureus (L) Sweet",
     "category": "Leguminosas e derivados",
     "energy_kcal": 121.0,
