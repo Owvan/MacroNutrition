@@ -9,7 +9,7 @@ from app.services.macro_services import (
     OMS_PRESET
 )
 from app.services.profile_services import get_user_profile, save_or_update_user_profile
-from app.services.dashboard_services import get_dashboard_data, add_weight_entry
+from app.services.dashboard_services import get_dashboard_data, add_weight_entry, update_weight_entry, delete_weight_entry
 from app.services.taco_services import search_taco_foods, get_taco_food_by_id
 from app.services.openfoodfacts_services import fetch_product_by_barcode, search_openfoodfacts_by_name
 from app.services.diet_services import (
@@ -49,6 +49,39 @@ def log_weight():
             flash('Informe um valor de peso válido.', 'danger')
     except Exception as e:
         flash(f'Erro ao registrar peso: {str(e)}', 'danger')
+
+    return redirect(url_for('main.dashboard'))
+
+
+@main.route('/dashboard/editar-peso/<int:entry_id>', methods=['POST'])
+@login_required
+def edit_weight(entry_id):
+    user_id = session.get('user_id')
+    weight = request.form.get('weight')
+    recorded_date = request.form.get('recorded_date', get_today_date_str())
+    notes = request.form.get('notes', '')
+
+    try:
+        if weight and float(weight) > 0:
+            update_weight_entry(user_id, entry_id, weight, recorded_date, notes)
+            flash('Registro de peso atualizado com sucesso!', 'success')
+        else:
+            flash('Informe um valor de peso válido.', 'danger')
+    except Exception as e:
+        flash(f'Erro ao atualizar peso: {str(e)}', 'danger')
+
+    return redirect(url_for('main.dashboard'))
+
+
+@main.route('/dashboard/excluir-peso/<int:entry_id>', methods=['POST'])
+@login_required
+def delete_weight(entry_id):
+    user_id = session.get('user_id')
+    try:
+        delete_weight_entry(user_id, entry_id)
+        flash('Registro de peso excluído com sucesso.', 'success')
+    except Exception as e:
+        flash(f'Erro ao excluir registro de peso: {str(e)}', 'danger')
 
     return redirect(url_for('main.dashboard'))
 

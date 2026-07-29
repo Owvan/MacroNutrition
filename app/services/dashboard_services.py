@@ -33,15 +33,60 @@ def add_weight_entry(user_id, weight, date_str=None, notes=None):
             VALUES (?, ?, ?, ?)
         ''', (user_id, weight, date_str, notes))
 
-    # Also update current_weight in user_profiles
-    cursor.execute('''
-        UPDATE user_profiles
-        SET current_weight = ?, updated_at = CURRENT_TIMESTAMP
-        WHERE user_id = ?
-    ''', (weight, user_id))
+    sync_latest_profile_weight(cursor, user_id)
 
     db.commit()
     return True
+
+def update_weight_entry(user_id, entry_id, weight, date_str, notes=None):
+    """Atualiza um registro de peso existente do usuário."""
+    db = get_db()
+    cursor = db.cursor()
+
+    weight = float(weight)
+    notes = str(notes or '').strip()
+
+    cursor.execute('''
+        UPDATE weight_history
+        SET weight = ?, recorded_date = ?, notes = ?
+        WHERE id = ? AND user_id = ?
+    ''', (weight, date_str, notes, entry_id, user_id))
+
+    sync_latest_profile_weight(cursor, user_id)
+
+    db.commit()
+    return True
+
+def delete_weight_entry(user_id, entry_id):
+    """Exclui uma medição do histórico de peso do usuário."""
+    db = get_db()
+    cursor = db.cursor()
+
+    cursor.execute('''
+        DELETE FROM weight_history
+        WHERE id = ? AND user_id = ?
+    ''', (entry_id, user_id))
+
+    sync_latest_profile_weight(cursor, user_id)
+
+    db.commit()
+    return True
+
+def sync_latest_profile_weight(cursor, user_id):
+    """Sincroniza o peso atual do perfil com a medição mais recente do histórico."""
+    cursor.execute('''
+        SELECT weight FROM weight_history
+        WHERE user_id = ?
+        ORDER BY recorded_date DESC, id DESC
+        LIMIT 1
+    ''', (user_id,))
+    latest = cursor.fetchone()
+    if latest:
+        cursor.execute('''
+            UPDATE user_profiles
+            SET current_weight = ?, updated_at = CURRENT_TIMESTAMP
+            WHERE user_id = ?
+        ''', (latest['weight'], user_id))
 
 def get_weight_history(user_id, limit=30):
     """Retorna o histórico de peso registrado ordenado por data ascendente para gráficos."""

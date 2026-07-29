@@ -22,6 +22,9 @@
                     <button type="button" class="btn btn-teal btn-sm px-3 shadow-sm" data-bs-toggle="modal" data-bs-target="#logWeightModal">
                         <i class="bi bi-plus-circle me-1"></i> Registrar Peso
                     </button>
+                    <button type="button" class="btn btn-outline-teal btn-sm px-3" data-bs-toggle="modal" data-bs-target="#manageWeightModal">
+                        <i class="bi bi-pencil-square me-1"></i> Gerenciar Peso
+                    </button>
                 </div>
             </div>
         </div>
@@ -116,9 +119,14 @@
                 <h5 class="fw-bold text-dark m-0 d-flex align-items-center">
                     <i class="bi bi-graph-up-arrow text-teal me-2"></i> Evolução de Peso Corporal (kg)
                 </h5>
-                <button type="button" class="btn btn-outline-teal btn-sm py-1 px-3" data-bs-toggle="modal" data-bs-target="#logWeightModal">
-                    <i class="bi bi-plus-lg me-1"></i> Adicionar Medição
-                </button>
+                <div class="d-flex gap-2">
+                    <button type="button" class="btn btn-outline-teal btn-sm py-1 px-3" data-bs-toggle="modal" data-bs-target="#manageWeightModal">
+                        <i class="bi bi-pencil-square me-1"></i> Gerenciar Registros
+                    </button>
+                    <button type="button" class="btn btn-teal btn-sm py-1 px-3" data-bs-toggle="modal" data-bs-target="#logWeightModal">
+                        <i class="bi bi-plus-lg me-1"></i> Novo Peso
+                    </button>
+                </div>
             </div>
 
             <div class="my-auto py-2" style="position: relative; height: 280px;">
@@ -161,7 +169,7 @@
     </div>
 </div>
 
-<!-- Modal: Registrar Peso Atual -->
+<!-- Modal 1: Registrar Peso Atual -->
 <div class="modal fade" id="logWeightModal" tabindex="-1" aria-labelledby="logWeightModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content border-0 shadow" style="border-radius: 14px; overflow: hidden;">
@@ -201,6 +209,112 @@
         </div>
     </div>
 </div>
+
+<!-- Modal 2: Gerenciar Histórico de Peso (Edição e Exclusão) -->
+<div class="modal fade" id="manageWeightModal" tabindex="-1" aria-labelledby="manageWeightModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content border-0 shadow" style="border-radius: 14px; overflow: hidden;">
+            <div class="modal-header bg-teal text-white">
+                <h5 class="modal-title fw-bold m-0 d-flex align-items-center" id="manageWeightModalLabel">
+                    <i class="bi bi-pencil-square me-2"></i> Gerenciar Registros de Peso
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <div class="modal-body p-0">
+                {% if data.weight_history %}
+                    <div class="table-responsive">
+                        <table class="table table-custom align-middle mb-0">
+                            <thead>
+                                <tr>
+                                    <th class="ps-4">Data</th>
+                                    <th>Peso Medido</th>
+                                    <th>Observações</th>
+                                    <th class="text-end pe-4">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in data.weight_history %}
+                                    <tr>
+                                        <td class="ps-4 fw-bold text-dark">{{ item.recorded_date }}</td>
+                                        <td>
+                                            <span class="badge bg-teal-light text-teal fs-6 fw-extrabold px-3 py-1">
+                                                {{ item.weight }} kg
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <small class="text-muted">{{ item.notes or '-' }}</small>
+                                        </td>
+                                        <td class="text-end pe-4">
+                                            <button type="button" class="btn btn-outline-warning btn-sm py-1 px-2 me-1" data-bs-toggle="modal" data-bs-target="#editWeightModal_{{ item.id }}" title="Editar Registro">
+                                                <i class="bi bi-pencil"></i>
+                                            </button>
+                                            <form method="POST" action="{{ url_for('main.delete_weight', entry_id=item.id) }}" class="d-inline" onsubmit="return confirm('Deseja excluir a medição de {{ item.weight }}kg em {{ item.recorded_date }}?');">
+                                                <button type="submit" class="btn btn-outline-danger btn-sm py-1 px-2" title="Excluir Registro">
+                                                    <i class="bi bi-trash3"></i>
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="p-4 text-center text-muted">
+                        <i class="bi bi-card-checklist fs-3 d-block mb-1"></i>
+                        Nenhum registro de peso encontrado.
+                    </div>
+                {% endif %}
+            </div>
+            <div class="modal-footer bg-light border-0">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modais Individuais de Edição de Peso -->
+{% if data.weight_history %}
+    {% for item in data.weight_history %}
+        <div class="modal fade" id="editWeightModal_{{ item.id }}" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content border-0 shadow" style="border-radius: 14px; overflow: hidden;">
+                    <div class="modal-header bg-warning text-dark">
+                        <h5 class="modal-title fw-bold m-0 d-flex align-items-center">
+                            <i class="bi bi-pencil-fill me-2"></i> Editar Peso: {{ item.recorded_date }}
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                    </div>
+                    <form method="POST" action="{{ url_for('main.edit_weight', entry_id=item.id) }}">
+                        <div class="modal-body p-4">
+                            <div class="mb-3">
+                                <label for="edit_weight_{{ item.id }}" class="form-label fw-semibold">Peso (kg)</label>
+                                <div class="input-group input-group-lg">
+                                    <input type="number" step="0.1" min="20" max="300" class="form-control text-center fw-extrabold text-teal" id="edit_weight_{{ item.id }}" name="weight" value="{{ item.weight }}" required>
+                                    <span class="input-group-text bg-light text-muted">kg</span>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="edit_date_{{ item.id }}" class="form-label fw-semibold">Data</label>
+                                <input type="date" class="form-control px-3" id="edit_date_{{ item.id }}" name="recorded_date" value="{{ item.recorded_date }}" required>
+                            </div>
+
+                            <div class="mb-0">
+                                <label for="edit_notes_{{ item.id }}" class="form-label fw-semibold">Observações</label>
+                                <input type="text" class="form-control px-3" id="edit_notes_{{ item.id }}" name="notes" value="{{ item.notes or '' }}">
+                            </div>
+                        </div>
+                        <div class="modal-footer bg-light border-0">
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-warning fw-bold">Salvar Alterações</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endif %}
 {% endblock %}
 
 {% block scripts %}
