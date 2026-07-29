@@ -80,7 +80,6 @@ def calculator():
             }
         }
     elif not calculation_result and user_profile:
-        # Pre-populate calculator automatically from user profile
         weight = user_profile['current_weight']
         height = user_profile['height']
         age = user_profile['age']
@@ -128,12 +127,13 @@ def save_profile():
     goal_type = request.form.get('goal_type')
     target_weight_change_kg = request.form.get('target_weight_change_kg')
     target_timeframe_weeks = request.form.get('target_timeframe_weeks')
+    weekly_pace = request.form.get('weekly_pace', 'recommended')
     activity_level = request.form.get('activity_level')
 
     try:
         save_or_update_user_profile(
             user_id, full_name, gender, age, height, current_weight,
-            goal_type, target_weight_change_kg, target_timeframe_weeks, activity_level
+            goal_type, target_weight_change_kg, target_timeframe_weeks, activity_level, weekly_pace
         )
         flash('Perfil e metas salvas com sucesso! Dados sincronizados com a calculadora corporal.', 'success')
         return redirect(url_for('main.calculator'))

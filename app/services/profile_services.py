@@ -6,6 +6,14 @@ GOAL_LABELS = {
     'maintenance': 'Manutenção de Peso'
 }
 
+PACE_PRESETS = {
+    'conservative': {'rate': 0.25, 'label': 'Conservador / Suave', 'desc': '0.25 kg / semana - Ritmo leve e sustentável.'},
+    'recommended': {'rate': 0.50, 'label': 'Recomendado (Saudável)', 'desc': '0.50 kg / semana - Ritmo padrão ideal segundo a OMS.'},
+    'moderate': {'rate': 0.75, 'label': 'Moderado / Desafiador', 'desc': '0.75 kg / semana - Ritmo mais rápido que exige disciplina.'},
+    'aggressive': {'rate': 1.00, 'label': 'Agressivo', 'desc': '1.00 kg / semana - Ritmo intenso com alto déficit.'},
+    'custom': {'rate': 0, 'label': 'Personalizado', 'desc': 'Definido livremente por peso e prazo.'}
+}
+
 def calculate_bmi_info(height_cm, weight_kg):
     """Calcula IMC, classificação OMS e faixa de peso ideal."""
     height_m = float(height_cm or 170) / 100.0
@@ -131,7 +139,7 @@ def get_user_profile(user_id):
     cursor = db.cursor()
     cursor.execute('''
         SELECT id, user_id, full_name, gender, age, height, current_weight,
-               goal_type, target_weight_change_kg, target_timeframe_weeks,
+               goal_type, target_weight_change_kg, target_timeframe_weeks, weekly_pace,
                activity_level, created_at, updated_at
         FROM user_profiles
         WHERE user_id = ?
@@ -158,7 +166,7 @@ def get_user_profile(user_id):
     
     return profile
 
-def save_or_update_user_profile(user_id, full_name, gender, age, height, current_weight, goal_type, target_weight_change_kg, target_timeframe_weeks, activity_level):
+def save_or_update_user_profile(user_id, full_name, gender, age, height, current_weight, goal_type, target_weight_change_kg, target_timeframe_weeks, activity_level, weekly_pace='recommended'):
     """Cria ou atualiza o perfil e metas do usuário."""
     db = get_db()
     cursor = db.cursor()
@@ -171,6 +179,7 @@ def save_or_update_user_profile(user_id, full_name, gender, age, height, current
     goal_type = str(goal_type or 'weight_loss').strip()
     target_weight_change_kg = float(target_weight_change_kg or 0.0)
     target_timeframe_weeks = int(target_timeframe_weeks or 8)
+    weekly_pace = str(weekly_pace or 'recommended').strip()
     activity_level = float(activity_level or 1.2)
 
     cursor.execute('SELECT id FROM user_profiles WHERE user_id = ?', (user_id,))
@@ -187,16 +196,17 @@ def save_or_update_user_profile(user_id, full_name, gender, age, height, current
                 goal_type = ?,
                 target_weight_change_kg = ?,
                 target_timeframe_weeks = ?,
+                weekly_pace = ?,
                 activity_level = ?,
                 updated_at = CURRENT_TIMESTAMP
             WHERE user_id = ?
-        ''', (full_name, gender, age, height, current_weight, goal_type, target_weight_change_kg, target_timeframe_weeks, activity_level, user_id))
+        ''', (full_name, gender, age, height, current_weight, goal_type, target_weight_change_kg, target_timeframe_weeks, weekly_pace, activity_level, user_id))
     else:
         cursor.execute('''
             INSERT INTO user_profiles
-            (user_id, full_name, gender, age, height, current_weight, goal_type, target_weight_change_kg, target_timeframe_weeks, activity_level)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        ''', (user_id, full_name, gender, age, height, current_weight, goal_type, target_weight_change_kg, target_timeframe_weeks, activity_level))
+            (user_id, full_name, gender, age, height, current_weight, goal_type, target_weight_change_kg, target_timeframe_weeks, weekly_pace, activity_level)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ''', (user_id, full_name, gender, age, height, current_weight, goal_type, target_weight_change_kg, target_timeframe_weeks, weekly_pace, activity_level))
 
     db.commit()
     return True

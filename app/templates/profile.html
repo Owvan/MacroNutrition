@@ -13,7 +13,7 @@
                         <i class="bi bi-person-badge-fill me-1"></i> Perfil Corporal & Metas OMS
                     </span>
                     <h1 class="fw-extrabold text-dark mb-1">Seus Dados & Objetivos de Saúde</h1>
-                    <p class="text-muted mb-0">Cadastre seus dados e metas. O sistema calcula seu IMC, sugere a faixa de peso ideal e avalia se sua meta é Recomendada, Moderada ou Agressiva.</p>
+                    <p class="text-muted mb-0">Cadastre seus dados e escolha o ritmo semanal ideal. O sistema calcula o prazo em semanas e sincroniza com a calculadora corporal.</p>
                 </div>
                 {% if profile %}
                     <div class="mt-3 mt-md-0 text-md-end">
@@ -107,11 +107,11 @@
                     </div>
                 </div>
 
-                <!-- Seção 2: Objetivos & Metas Temporais com Classificação de Ritmo -->
+                <!-- Seção 2: Objetivos & Escolha de Ritmo Semanal -->
                 <div class="col-12 col-md-6">
                     <div class="card card-custom p-4 h-100 shadow-sm border-0">
                         <h5 class="fw-bold text-dark mb-3 d-flex align-items-center">
-                            <i class="bi bi-bullseye me-2 text-teal"></i> Objetivo & Meta Temporal
+                            <i class="bi bi-bullseye me-2 text-teal"></i> Objetivo & Ritmo Semanal
                         </h5>
 
                         <label class="form-label fw-semibold mb-2">Objetivo Principal de Saúde</label>
@@ -145,20 +145,55 @@
                             </div>
                         </div>
 
+                        <!-- Seletor de Ritmo Semanal Desejado -->
+                        <div id="pace_selector_box" class="mb-3">
+                            <label class="form-label fw-semibold text-dark mb-2">Escolha o Ritmo Semanal Desejado</label>
+                            <div class="row g-2">
+                                <div class="col-6 col-sm-3">
+                                    <input type="radio" class="btn-check" name="weekly_pace" id="pace_cons" value="conservative" {% if profile and profile.weekly_pace == 'conservative' %}checked{% endif %} onchange="onPaceSelected('conservative')">
+                                    <label class="btn btn-outline-info w-100 p-2 text-center" for="pace_cons">
+                                        <small class="d-block fw-bold">Conservador</small>
+                                        <span class="fs-7">0.25 kg/sem</span>
+                                    </label>
+                                </div>
+                                <div class="col-6 col-sm-3">
+                                    <input type="radio" class="btn-check" name="weekly_pace" id="pace_recom" value="recommended" {% if not profile or profile.weekly_pace == 'recommended' %}checked{% endif %} onchange="onPaceSelected('recommended')">
+                                    <label class="btn btn-outline-success w-100 p-2 text-center" for="pace_recom">
+                                        <small class="d-block fw-bold">Recomendado</small>
+                                        <span class="fs-7">0.50 kg/sem</span>
+                                    </label>
+                                </div>
+                                <div class="col-6 col-sm-3">
+                                    <input type="radio" class="btn-check" name="weekly_pace" id="pace_mod" value="moderate" {% if profile and profile.weekly_pace == 'moderate' %}checked{% endif %} onchange="onPaceSelected('moderate')">
+                                    <label class="btn btn-outline-warning w-100 p-2 text-center" for="pace_mod">
+                                        <small class="d-block fw-bold">Moderado</small>
+                                        <span class="fs-7">0.75 kg/sem</span>
+                                    </label>
+                                </div>
+                                <div class="col-6 col-sm-3">
+                                    <input type="radio" class="btn-check" name="weekly_pace" id="pace_agg" value="aggressive" {% if profile and profile.weekly_pace == 'aggressive' %}checked{% endif %} onchange="onPaceSelected('aggressive')">
+                                    <label class="btn btn-outline-danger w-100 p-2 text-center" for="pace_agg">
+                                        <small class="d-block fw-bold">Agressivo</small>
+                                        <span class="fs-7">1.00 kg/sem</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
                         <!-- Definição da Meta Quantitativa e Prazo -->
                         <div id="target_fields_box" class="p-3 bg-light rounded-3 border mb-3">
                             <div class="row g-3 mb-2">
                                 <div class="col-6">
                                     <label for="target_weight_change_kg" class="form-label fs-7 fw-semibold text-dark" id="target_weight_label">Meta de Peso (kg)</label>
                                     <div class="input-group input-group-sm">
-                                        <input type="number" step="0.5" min="0" max="100" class="form-control text-center fw-bold" id="target_weight_change_kg" name="target_weight_change_kg" value="{{ profile.target_weight_change_kg if profile else 5.0 }}" oninput="calculateIMCAndProjections()">
+                                        <input type="number" step="0.5" min="0" max="100" class="form-control text-center fw-bold" id="target_weight_change_kg" name="target_weight_change_kg" value="{{ profile.target_weight_change_kg if profile else 5.0 }}" oninput="onWeightOrTimeframeChanged()">
                                         <span class="input-group-text bg-white text-muted">kg</span>
                                     </div>
                                 </div>
                                 <div class="col-6">
-                                    <label for="target_timeframe_weeks" class="form-label fs-7 fw-semibold text-dark">Prazo (Semanas)</label>
+                                    <label for="target_timeframe_weeks" class="form-label fs-7 fw-semibold text-dark">Prazo Calculado (Semanas)</label>
                                     <div class="input-group input-group-sm">
-                                        <input type="number" step="1" min="1" max="104" class="form-control text-center fw-bold" id="target_timeframe_weeks" name="target_timeframe_weeks" value="{{ profile.target_timeframe_weeks if profile else 8 }}" oninput="calculateIMCAndProjections()">
+                                        <input type="number" step="1" min="1" max="104" class="form-control text-center fw-bold" id="target_timeframe_weeks" name="target_timeframe_weeks" value="{{ profile.target_timeframe_weeks if profile else 8 }}" oninput="onWeightOrTimeframeChanged()">
                                         <span class="input-group-text bg-white text-muted">sem</span>
                                     </div>
                                 </div>
@@ -167,13 +202,13 @@
                             <!-- Banner de Ritmo Semanal & Categoria (Recomendado, Moderado, Agressivo) -->
                             <div class="p-3 bg-white rounded border text-center mt-3">
                                 <div class="d-flex align-items-center justify-content-between mb-1">
-                                    <span class="fs-7 text-muted fw-semibold">RITMO SEMANAL:</span>
+                                    <span class="fs-7 text-muted fw-semibold">RITMO SELECIONADO:</span>
                                     <span class="badge bg-success" id="rate_category_badge">
                                         <i class="bi bi-check-circle-fill me-1"></i> Recomendado (Saudável)
                                     </span>
                                 </div>
                                 <div class="fs-5 fw-extrabold text-teal my-1" id="weekly_rate_value">
-                                    -0.63 kg / semana
+                                    -0.50 kg / semana
                                 </div>
                                 <small class="text-muted d-block fs-7" id="rate_category_desc">
                                     Ritmo ideal segundo a OMS para queimar gordura preservando massa muscular.
@@ -198,6 +233,39 @@
 let globalSuggestedChange = 0;
 let globalSuggestedWeeks = 8;
 let globalSuggestedGoal = 'weight_loss';
+
+const PACE_RATES = {
+    'conservative': 0.25,
+    'recommended': 0.50,
+    'moderate': 0.75,
+    'aggressive': 1.00
+};
+
+function onPaceSelected(paceKey) {
+    const changeKg = parseFloat(document.getElementById('target_weight_change_kg').value) || 0;
+    const rate = PACE_RATES[paceKey];
+
+    if (rate && changeKg > 0) {
+        const calculatedWeeks = Math.max(1, Math.round(changeKg / rate));
+        document.getElementById('target_timeframe_weeks').value = calculatedWeeks;
+    }
+    updateRateClassification();
+}
+
+function onWeightOrTimeframeChanged() {
+    const changeKg = parseFloat(document.getElementById('target_weight_change_kg').value) || 0;
+    const weeks = parseInt(document.getElementById('target_timeframe_weeks').value) || 1;
+
+    if (changeKg > 0 && weeks > 0) {
+        const rate = (changeKg / weeks).toFixed(2);
+        // Highlight matching pace button if close
+        if (Math.abs(rate - 0.25) <= 0.05) document.getElementById('pace_cons').checked = true;
+        else if (Math.abs(rate - 0.50) <= 0.05) document.getElementById('pace_recom').checked = true;
+        else if (Math.abs(rate - 0.75) <= 0.05) document.getElementById('pace_mod').checked = true;
+        else if (Math.abs(rate - 1.00) <= 0.05) document.getElementById('pace_agg').checked = true;
+    }
+    updateRateClassification();
+}
 
 function calculateIMCAndProjections() {
     const hCm = parseFloat(document.getElementById('height').value) || 170;
@@ -252,7 +320,6 @@ function calculateIMCAndProjections() {
     }
     globalSuggestedWeeks = Math.max(4, Math.round(globalSuggestedChange / 0.5));
 
-    // Rate Calculation
     updateGoalUI();
 }
 
@@ -260,14 +327,19 @@ function updateGoalUI() {
     const isMaint = document.getElementById('goal_maint').checked;
     const isGain = document.getElementById('goal_gain').checked;
     const label = document.getElementById('target_weight_label');
+    const paceBox = document.getElementById('pace_selector_box');
 
     if (isMaint) {
         if (label) label.textContent = 'Alteração Desejada (kg)';
         document.getElementById('target_weight_change_kg').value = 0;
-    } else if (isGain) {
-        if (label) label.textContent = 'Meta de Ganho de Peso (kg)';
+        if (paceBox) paceBox.style.display = 'none';
     } else {
-        if (label) label.textContent = 'Meta de Perda de Peso (kg)';
+        if (paceBox) paceBox.style.display = 'block';
+        if (isGain) {
+            if (label) label.textContent = 'Meta de Ganho de Peso (kg)';
+        } else {
+            if (label) label.textContent = 'Meta de Perda de Peso (kg)';
+        }
     }
     updateRateClassification();
 }
@@ -348,7 +420,8 @@ function applySuggestedMeta() {
     }
 
     document.getElementById('target_weight_change_kg').value = globalSuggestedChange;
-    document.getElementById('target_timeframe_weeks').value = globalSuggestedWeeks;
+    document.getElementById('pace_recom').checked = true;
+    onPaceSelected('recommended');
 
     updateGoalUI();
 }

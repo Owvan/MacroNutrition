@@ -49,12 +49,18 @@ def init_db():
             goal_type TEXT DEFAULT 'weight_loss',
             target_weight_change_kg REAL DEFAULT 0.0,
             target_timeframe_weeks INTEGER DEFAULT 8,
+            weekly_pace TEXT DEFAULT 'recommended',
             activity_level REAL DEFAULT 1.2,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
         );
     ''')
+
+    cursor.execute("PRAGMA table_info(user_profiles)")
+    prof_cols = [row[1] for row in cursor.fetchall()]
+    if 'weekly_pace' not in prof_cols:
+        cursor.execute("ALTER TABLE user_profiles ADD COLUMN weekly_pace TEXT DEFAULT 'recommended'")
 
     # BMR Records table
     cursor.execute('''
