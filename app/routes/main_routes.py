@@ -8,6 +8,7 @@ from app.services.macro_services import (
     PRESETS,
     OMS_PRESET
 )
+from app.services.profile_services import get_user_profile, save_or_update_user_profile
 from app.services.taco_services import search_taco_foods, get_taco_food_by_id
 from app.services.openfoodfacts_services import fetch_product_by_barcode, search_openfoodfacts_by_name
 from app.services.diet_services import (
@@ -27,6 +28,7 @@ main = Blueprint('main', __name__)
 def calculator():
     user_id = session.get('user_id')
     latest_bmr = get_latest_user_bmr(user_id)
+    user_profile = get_user_profile(user_id)
     calculation_result = None
 
     if request.method == 'POST':
@@ -77,8 +79,68 @@ def calculator():
                 'weight_gain_normal': round(tdee + 500, 2)
             }
         }
+    elif not calculation_result and user_profile:
+        # Pre-populate calculator automatically from user profile
+        weight = user_profile['current_weight']
+        height = user_profile['height']
+        age = user_profile['age']
+        gender = user_profile['gender']
+        activity_level = user_profile['activity_level']
+        
+        bmr, tdee = calculate_bmr_and_tdee(gender, weight, height, age, activity_level)
+        calculation_result = {
+            'gender': gender,
+            'weight': weight,
+            'height': height,
+            'age': age,
+            'activity_level': activity_level,
+            'bmr': bmr,
+            'tdee': tdee,
+            'from_profile': True,
+            'targets': {
+                'weight_loss_mild': round(tdee - 300, 2),
+                'weight_loss_normal': round(tdee - 500, 2),
+                'weight_gain_mild': round(tdee + 300, 2),
+                'weight_gain_normal': round(tdee + 500, 2)
+            }
+        }
             
-    return render_template('bmr_calculator.html', result=calculation_result)
+    return render_template('bmr_calculator.html', result=calculation_result, profile=user_profile)
+
+
+@main.route('/perfil', methods=['GET'])
+@login_required
+def profile():
+    user_id = session.get('user_id')
+    user_prof = get_user_profile(user_id)
+    return render_template('profile.html', profile=user_prof)
+
+
+@main.route('/salvar-perfil', methods=['POST'])
+@login_required
+def save_profile():
+    user_id = session.get('user_id')
+    full_name = request.form.get('full_name')
+    gender = request.form.get('gender')
+    age = request.form.get('age')
+    height = request.form.get('height')
+    current_weight = request.form.get('current_weight')
+    goal_type = request.form.get('goal_type')
+    target_weight_change_kg = request.form.get('target_weight_change_kg')
+    target_timeframe_weeks = request.form.get('target_timeframe_weeks')
+    activity_level = request.form.get('activity_level')
+
+    try:
+        save_or_update_user_profile(
+            user_id, full_name, gender, age, height, current_weight,
+            goal_type, target_weight_change_kg, target_timeframe_weeks, activity_level
+        )
+        flash('Perfil e metas salvas com sucesso! Dados sincronizados com a calculadora corporal.', 'success')
+        return redirect(url_for('main.calculator'))
+    except Exception as e:
+        flash(f'Erro ao salvar perfil: {str(e)}', 'danger')
+
+    return redirect(url_for('main.profile'))
 
 
 @main.route('/macronutrientes', methods=['GET', 'POST'])

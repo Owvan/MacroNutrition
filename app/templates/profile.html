@@ -1,0 +1,212 @@
+{% extends 'base.html' %}
+
+{% block title %}Meu Perfil & Metas - MacroNutrition{% endblock %}
+
+{% block content %}
+<div class="row g-4 justify-content-center">
+    <!-- Header Hero Banner -->
+    <div class="col-12 col-lg-10">
+        <div class="card card-custom p-4 bg-white border-0 shadow-sm">
+            <div class="d-md-flex align-items-center justify-content-between">
+                <div>
+                    <span class="badge bg-teal-light text-teal px-3 py-2 rounded-pill fw-semibold mb-2">
+                        <i class="bi bi-person-badge-fill me-1"></i> Perfil Corporal & Metas
+                    </span>
+                    <h1 class="fw-extrabold text-dark mb-1">Seus Dados & Objetivos de Saúde</h1>
+                    <p class="text-muted mb-0">Cadastre seus dados e metas. Eles serão sincronizados automaticamente com a calculadora e futuros relatórios da sua dashboard.</p>
+                </div>
+                {% if profile %}
+                    <div class="mt-3 mt-md-0 text-md-end">
+                        <span class="badge bg-success bg-opacity-10 text-success fs-7 px-3 py-2 border border-success border-opacity-25 rounded-pill">
+                            <i class="bi bi-check-circle-fill me-1"></i> Perfil Cadastrado
+                        </span>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Formulário Principal de Perfil -->
+    <div class="col-12 col-lg-10">
+        <form method="POST" action="{{ url_for('main.save_profile') }}">
+            <div class="row g-4">
+                <!-- Seção 1: Dados Pessoais e Biométricos -->
+                <div class="col-12 col-md-6">
+                    <div class="card card-custom p-4 h-100 shadow-sm border-0">
+                        <h5 class="fw-bold text-dark mb-3 d-flex align-items-center">
+                            <i class="bi bi-person-lines-fill me-2 text-teal"></i> Dados Pessoais & Biometria
+                        </h5>
+
+                        <div class="mb-3">
+                            <label for="full_name" class="form-label fw-semibold">Nome Completo</label>
+                            <input type="text" class="form-control px-3" id="full_name" name="full_name" value="{{ profile.full_name if profile else '' }}" placeholder="Ex: Vinícius Silva" required>
+                        </div>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-6">
+                                <label for="gender" class="form-label fw-semibold">Gênero Biológico</label>
+                                <select class="form-select" id="gender" name="gender">
+                                    <option value="male" {% if not profile or profile.gender == 'male' %}selected{% endif %}>Masculino</option>
+                                    <option value="female" {% if profile and profile.gender == 'female' %}selected{% endif %}>Feminino</option>
+                                </select>
+                            </div>
+                            <div class="col-6">
+                                <label for="age" class="form-label fw-semibold">Idade (anos)</label>
+                                <input type="number" min="12" max="120" class="form-control px-3 text-center fw-bold" id="age" name="age" value="{{ profile.age if profile else 25 }}" required>
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-6">
+                                <label for="height" class="form-label fw-semibold">Altura (cm)</label>
+                                <div class="input-group">
+                                    <input type="number" step="0.5" min="100" max="250" class="form-control text-center fw-bold" id="height" name="height" value="{{ profile.height if profile else 170.0 }}" required>
+                                    <span class="input-group-text bg-light text-muted">cm</span>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <label for="current_weight" class="form-label fw-semibold">Peso Atual (kg)</label>
+                                <div class="input-group">
+                                    <input type="number" step="0.1" min="30" max="300" class="form-control text-center fw-bold text-teal" id="current_weight" name="current_weight" value="{{ profile.current_weight if profile else 70.0 }}" required>
+                                    <span class="input-group-text bg-light text-muted">kg</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-0">
+                            <label for="activity_level" class="form-label fw-semibold">Nível de Atividade Física Diária</label>
+                            <select class="form-select" id="activity_level" name="activity_level">
+                                <option value="1.2" {% if not profile or profile.activity_level == 1.2 %}selected{% endif %}>Sedentário (pouco ou nenhum exercício)</option>
+                                <option value="1.375" {% if profile and profile.activity_level == 1.375 %}selected{% endif %}>Levemente Ativo (exercício 1 a 3 dias/semana)</option>
+                                <option value="1.55" {% if profile and profile.activity_level == 1.55 %}selected{% endif %}>Moderadamente Ativo (exercício 3 a 5 dias/semana)</option>
+                                <option value="1.725" {% if profile and profile.activity_level == 1.725 %}selected{% endif %}>Muito Ativo (exercício pesado 6 a 7 dias/semana)</option>
+                                <option value="1.9" {% if profile and profile.activity_level == 1.9 %}selected{% endif %}>Extremamente Ativo (atleta ou trabalho físico pesado)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Seção 2: Objetivos & Metas Temporais -->
+                <div class="col-12 col-md-6">
+                    <div class="card card-custom p-4 h-100 shadow-sm border-0">
+                        <h5 class="fw-bold text-dark mb-3 d-flex align-items-center">
+                            <i class="bi bi-bullseye me-2 text-teal"></i> Objetivo & Meta Temporal
+                        </h5>
+
+                        <label class="form-label fw-semibold mb-2">Objetivo Principal de Saúde</label>
+                        <div class="row g-2 mb-3">
+                            <div class="col-12">
+                                <div class="form-check card-custom p-3 border border-2 border-light hover-shadow cursor-pointer">
+                                    <input class="form-check-input ms-1 me-2" type="radio" name="goal_type" id="goal_loss" value="weight_loss" {% if not profile or profile.goal_type == 'weight_loss' %}checked{% endif %} onchange="updateGoalUI()">
+                                    <label class="form-check-label fw-bold text-dark cursor-pointer" for="goal_loss">
+                                        🎯 Emagrecimento / Perda de Gordura
+                                        <small class="d-block text-muted font-normal fs-7">Foco em déficit calórico e preservação de massa magra</small>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-check card-custom p-3 border border-2 border-light hover-shadow cursor-pointer">
+                                    <input class="form-check-input ms-1 me-2" type="radio" name="goal_type" id="goal_gain" value="weight_gain" {% if profile and profile.goal_type == 'weight_gain' %}checked{% endif %} onchange="updateGoalUI()">
+                                    <label class="form-check-label fw-bold text-dark cursor-pointer" for="goal_gain">
+                                        💪 Ganho de Peso / Massa Muscular (Hipertrofia)
+                                        <small class="d-block text-muted font-normal fs-7">Foco em superávit calórico limpo e hipertrofia</small>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-check card-custom p-3 border border-2 border-light hover-shadow cursor-pointer">
+                                    <input class="form-check-input ms-1 me-2" type="radio" name="goal_type" id="goal_maint" value="maintenance" {% if profile and profile.goal_type == 'maintenance' %}checked{% endif %} onchange="updateGoalUI()">
+                                    <label class="form-check-label fw-bold text-dark cursor-pointer" for="goal_maint">
+                                        ⚖️ Manutenção do Peso Atual
+                                        <small class="d-block text-muted font-normal fs-7">Foco em estabilidade calórica e saúde geral</small>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Definição da Meta Quantitativa e Prazo -->
+                        <div id="target_fields_box" class="p-3 bg-light rounded-3 border mb-3">
+                            <div class="row g-3">
+                                <div class="col-6">
+                                    <label for="target_weight_change_kg" class="form-label fs-7 fw-semibold text-dark" id="target_weight_label">Meta de Peso (kg)</label>
+                                    <div class="input-group input-group-sm">
+                                        <input type="number" step="0.5" min="0" max="100" class="form-control text-center fw-bold" id="target_weight_change_kg" name="target_weight_change_kg" value="{{ profile.target_weight_change_kg if profile else 5.0 }}" oninput="calculateWeeklyProjection()">
+                                        <span class="input-group-text bg-white text-muted">kg</span>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label for="target_timeframe_weeks" class="form-label fs-7 fw-semibold text-dark">Prazo (Semanas)</label>
+                                    <div class="input-group input-group-sm">
+                                        <input type="number" step="1" min="1" max="104" class="form-control text-center fw-bold" id="target_timeframe_weeks" name="target_timeframe_weeks" value="{{ profile.target_timeframe_weeks if profile else 8 }}" oninput="calculateWeeklyProjection()">
+                                        <span class="input-group-text bg-white text-muted">sem</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-3 p-2 bg-white rounded border text-center">
+                                <small class="text-muted d-block fs-7">Projeção Semanal Estimada:</small>
+                                <strong class="text-teal fs-6" id="weekly_projection_label">0.63 kg / semana</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Botão de Ação -->
+                <div class="col-12 text-end">
+                    <button type="submit" class="btn btn-teal btn-lg px-5 shadow-sm">
+                        <i class="bi bi-floppy-fill me-2"></i> Salvar Perfil & Atualizar Calculadora
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+function updateGoalUI() {
+    const isMaint = document.getElementById('goal_maint').checked;
+    const isGain = document.getElementById('goal_gain').checked;
+    const targetBox = document.getElementById('target_fields_box');
+    const label = document.getElementById('target_weight_label');
+
+    if (isMaint) {
+        if (label) label.textContent = 'Alteração Desejada (kg)';
+        document.getElementById('target_weight_change_kg').value = 0;
+    } else if (isGain) {
+        if (label) label.textContent = 'Meta de Ganho de Peso (kg)';
+    } else {
+        if (label) label.textContent = 'Meta de Perda de Peso (kg)';
+    }
+    calculateWeeklyProjection();
+}
+
+function calculateWeeklyProjection() {
+    const changeKg = parseFloat(document.getElementById('target_weight_change_kg').value) || 0;
+    const weeks = parseInt(document.getElementById('target_timeframe_weeks').value) || 1;
+    const isGain = document.getElementById('goal_gain').checked;
+    const isMaint = document.getElementById('goal_maint').checked;
+    const labelEl = document.getElementById('weekly_projection_label');
+
+    if (!labelEl) return;
+
+    if (isMaint || changeKg === 0) {
+        labelEl.textContent = 'Manter peso estável (0 kg / semana)';
+        labelEl.className = 'text-dark fs-6';
+        return;
+    }
+
+    const rate = (changeKg / Math.max(weeks, 1)).toFixed(2);
+    if (isGain) {
+        labelEl.textContent = `+${rate} kg por semana (Ganho)`;
+        labelEl.className = 'text-primary fs-6 fw-bold';
+    } else {
+        labelEl.textContent = `-${rate} kg por semana (Perda)`;
+        labelEl.className = 'text-teal fs-6 fw-bold';
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    updateGoalUI();
+});
+</script>
+{% endblock %}

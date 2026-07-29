@@ -36,6 +36,26 @@ def init_db():
         );
     ''')
 
+    # User Profiles & Goals table
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS user_profiles (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER UNIQUE NOT NULL,
+            full_name TEXT,
+            gender TEXT DEFAULT 'male',
+            age INTEGER DEFAULT 25,
+            height REAL DEFAULT 170.0,
+            current_weight REAL DEFAULT 70.0,
+            goal_type TEXT DEFAULT 'weight_loss',
+            target_weight_change_kg REAL DEFAULT 0.0,
+            target_timeframe_weeks INTEGER DEFAULT 8,
+            activity_level REAL DEFAULT 1.2,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
+        );
+    ''')
+
     # BMR Records table
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS bmr_records (
