@@ -56,6 +56,7 @@ def init_db():
             age INTEGER DEFAULT 25,
             height REAL DEFAULT 170.0,
             current_weight REAL DEFAULT 70.0,
+            target_weight REAL DEFAULT 65.0,
             goal_type TEXT DEFAULT 'weight_loss',
             target_weight_change_kg REAL DEFAULT 0.0,
             target_timeframe_weeks INTEGER DEFAULT 8,
@@ -71,6 +72,8 @@ def init_db():
     prof_cols = [row[1] for row in cursor.fetchall()]
     if 'weekly_pace' not in prof_cols:
         cursor.execute("ALTER TABLE user_profiles ADD COLUMN weekly_pace TEXT DEFAULT 'recommended'")
+    if 'target_weight' not in prof_cols:
+        cursor.execute("ALTER TABLE user_profiles ADD COLUMN target_weight REAL DEFAULT 65.0")
 
     # Weight History Table
     cursor.execute('''

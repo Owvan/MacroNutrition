@@ -203,19 +203,19 @@ def save_profile():
     age = request.form.get('age')
     height = request.form.get('height')
     current_weight = request.form.get('current_weight')
-    goal_type = request.form.get('goal_type')
-    target_weight_change_kg = request.form.get('target_weight_change_kg')
-    target_timeframe_weeks = request.form.get('target_timeframe_weeks')
+    target_weight = request.form.get('target_weight')
+    weekly_rate_kg = request.form.get('weekly_rate_kg', 0.50)
     weekly_pace = request.form.get('weekly_pace', 'recommended')
     activity_level = request.form.get('activity_level')
+    goal_type = request.form.get('goal_type')
 
     try:
         save_or_update_user_profile(
-            user_id, full_name, gender, age, height, current_weight,
-            goal_type, target_weight_change_kg, target_timeframe_weeks, activity_level, weekly_pace
+            user_id, full_name, gender, age, height, current_weight, target_weight,
+            weekly_rate_kg, activity_level, weekly_pace, goal_type
         )
-        flash('Perfil e metas salvas com sucesso! Dados sincronizados com a calculadora corporal.', 'success')
-        return redirect(url_for('main.calculator'))
+        flash('Perfil e metas salvas com sucesso! Dados sincronizados com a calculadora e a dashboard.', 'success')
+        return redirect(url_for('main.dashboard'))
     except Exception as e:
         flash(f'Erro ao salvar perfil: {str(e)}', 'danger')
 

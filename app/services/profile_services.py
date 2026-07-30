@@ -6,12 +6,11 @@ GOAL_LABELS = {
     'maintenance': 'Manutenção de Peso'
 }
 
-PACE_PRESETS = {
-    'conservative': {'rate': 0.25, 'label': 'Conservador / Suave', 'desc': '0.25 kg / semana - Ritmo leve e sustentável.'},
-    'recommended': {'rate': 0.50, 'label': 'Recomendado (Saudável)', 'desc': '0.50 kg / semana - Ritmo padrão ideal segundo a OMS.'},
-    'moderate': {'rate': 0.75, 'label': 'Moderado / Desafiador', 'desc': '0.75 kg / semana - Ritmo mais rápido que exige disciplina.'},
-    'aggressive': {'rate': 1.00, 'label': 'Agressivo', 'desc': '1.00 kg / semana - Ritmo intenso com alto déficit.'},
-    'custom': {'rate': 0, 'label': 'Personalizado', 'desc': 'Definido livremente por peso e prazo.'}
+PACE_RATES = {
+    'conservative': 0.25,
+    'recommended': 0.50,
+    'moderate': 0.75,
+    'aggressive': 1.00
 }
 
 def calculate_bmi_info(height_cm, weight_kg):
@@ -27,21 +26,27 @@ def calculate_bmi_info(height_cm, weight_kg):
     if bmi < 18.5:
         category = 'Abaixo do peso'
         color = 'warning'
+        risk_desc = 'Riscos: desnutrição, imunidade reduzida, osteopenia, fadiga crônica e perda de massa muscular.'
     elif bmi < 25.0:
         category = 'Peso Normal (Ideal)'
         color = 'success'
+        risk_desc = 'Faixa saudável! Menor risco de doenças crônicas não transmissíveis e equilíbrio metabólico.'
     elif bmi < 30.0:
         category = 'Sobrepeso'
         color = 'warning'
+        risk_desc = 'Riscos: elevação inicial da pressão arterial, resistência à insulina e alteração de colesterol.'
     elif bmi < 35.0:
         category = 'Obesidade Grau I'
         color = 'danger'
+        risk_desc = 'Riscos: aumento significativo no risco de Diabetes Tipo 2, hipertensão arterial e esteatose hepática.'
     elif bmi < 40.0:
         category = 'Obesidade Grau II'
         color = 'danger'
+        risk_desc = 'Riscos: alto risco metabólico e cardiovascular, apneia do sono e sobrecarga nas articulações.'
     else:
         category = 'Obesidade Grau III'
         color = 'danger'
+        risk_desc = 'Riscos: altíssimo risco de eventos cardiovasculares (infarto/AVC). Requer atenção médica imediata.'
         
     min_ideal = round(18.5 * (height_m ** 2), 1)
     max_ideal = round(24.9 * (height_m ** 2), 1)
@@ -63,6 +68,7 @@ def calculate_bmi_info(height_cm, weight_kg):
         'bmi': bmi,
         'category': category,
         'color': color,
+        'risk_desc': risk_desc,
         'min_ideal': min_ideal,
         'max_ideal': max_ideal,
         'suggested_ideal': suggested_ideal,
@@ -134,11 +140,11 @@ def classify_weekly_rate(goal_type, weekly_rate_kg):
             }
 
 def get_user_profile(user_id):
-    """Retorna o perfil do usuário cadastrado no banco com dados de IMC e metas calculadas."""
+    """Retorna o perfil do usuário cadastrado no banco com dados de IMC, peso meta e estimativa de tempo."""
     db = get_db()
     cursor = db.cursor()
     cursor.execute('''
-        SELECT id, user_id, full_name, gender, age, height, current_weight,
+        SELECT id, user_id, full_name, gender, age, height, current_weight, target_weight,
                goal_type, target_weight_change_kg, target_timeframe_weeks, weekly_pace,
                activity_level, created_at, updated_at
         FROM user_profiles
@@ -149,25 +155,55 @@ def get_user_profile(user_id):
         return None
     
     profile = dict(row)
+    cur_w = profile['current_weight']
+    
+    # Fill target_weight if missing
+    if not profile.get('target_weight'):
+        chg = profile.get('target_weight_change_kg', 0.0)
+        goal = profile.get('goal_type', 'weight_loss')
+        if goal == 'weight_loss':
+            profile['target_weight'] = round(cur_w - chg, 1)
+        elif goal == 'weight_gain':
+            profile['target_weight'] = round(cur_w + chg, 1)
+        else:
+            profile['target_weight'] = cur_w
+            
+    tar_w = profile['target_weight']
+    diff_kg = round(abs(cur_w - tar_w), 1)
+    profile['weight_difference_kg'] = diff_kg
+
+    # Determine goal label automatically based on weights
+    if tar_w < cur_w:
+        profile['goal_type'] = 'weight_loss'
+    elif tar_w > cur_w:
+        profile['goal_type'] = 'weight_gain'
+    else:
+        profile['goal_type'] = 'maintenance'
+        
     profile['goal_label'] = GOAL_LABELS.get(profile['goal_type'], 'Manutenção de Peso')
     
     # IMC Info
-    bmi_info = calculate_bmi_info(profile['height'], profile['current_weight'])
+    bmi_info = calculate_bmi_info(profile['height'], cur_w)
     profile['bmi_info'] = bmi_info
     
-    # Calculate weekly target rate
+    # Calculate weekly target rate & weeks
     weeks = profile.get('target_timeframe_weeks') or 1
-    change_kg = profile.get('target_weight_change_kg') or 0.0
-    weekly_rate = round(change_kg / max(weeks, 1), 2)
+    if diff_kg > 0:
+        weekly_rate = round(diff_kg / max(weeks, 1), 2)
+    else:
+        weekly_rate = 0.0
+
     profile['weekly_rate_kg'] = weekly_rate
+    profile['calculated_weeks'] = max(1, int(round(diff_kg / weekly_rate))) if weekly_rate > 0 else 0
+    profile['calculated_months'] = round(profile['calculated_weeks'] / 4.33, 1)
     
     # Classify weekly rate
     profile['rate_classification'] = classify_weekly_rate(profile['goal_type'], weekly_rate)
     
     return profile
 
-def save_or_update_user_profile(user_id, full_name, gender, age, height, current_weight, goal_type, target_weight_change_kg, target_timeframe_weeks, activity_level, weekly_pace='recommended'):
-    """Cria ou atualiza o perfil e metas do usuário."""
+def save_or_update_user_profile(user_id, full_name, gender, age, height, current_weight, target_weight, weekly_rate_kg, activity_level, weekly_pace='recommended', goal_type=None):
+    """Cria ou atualiza o perfil e metas do usuário com base no peso meta e ritmo semanal."""
     db = get_db()
     cursor = db.cursor()
 
@@ -176,11 +212,26 @@ def save_or_update_user_profile(user_id, full_name, gender, age, height, current
     age = int(age or 25)
     height = float(height or 170.0)
     current_weight = float(current_weight or 70.0)
-    goal_type = str(goal_type or 'weight_loss').strip()
-    target_weight_change_kg = float(target_weight_change_kg or 0.0)
-    target_timeframe_weeks = int(target_timeframe_weeks or 8)
-    weekly_pace = str(weekly_pace or 'recommended').strip()
+    target_weight = float(target_weight or 65.0)
+    weekly_rate_kg = float(weekly_rate_kg or 0.50)
     activity_level = float(activity_level or 1.2)
+    weekly_pace = str(weekly_pace or 'recommended').strip()
+
+    # Determine goal type & diff
+    if target_weight < current_weight:
+        computed_goal = 'weight_loss'
+    elif target_weight > current_weight:
+        computed_goal = 'weight_gain'
+    else:
+        computed_goal = 'maintenance'
+
+    goal_type = goal_type or computed_goal
+    target_weight_change_kg = round(abs(current_weight - target_weight), 1)
+
+    if weekly_rate_kg > 0 and target_weight_change_kg > 0:
+        target_timeframe_weeks = max(1, int(round(target_weight_change_kg / weekly_rate_kg)))
+    else:
+        target_timeframe_weeks = 8
 
     cursor.execute('SELECT id FROM user_profiles WHERE user_id = ?', (user_id,))
     existing = cursor.fetchone()
@@ -193,6 +244,7 @@ def save_or_update_user_profile(user_id, full_name, gender, age, height, current
                 age = ?,
                 height = ?,
                 current_weight = ?,
+                target_weight = ?,
                 goal_type = ?,
                 target_weight_change_kg = ?,
                 target_timeframe_weeks = ?,
@@ -200,13 +252,13 @@ def save_or_update_user_profile(user_id, full_name, gender, age, height, current
                 activity_level = ?,
                 updated_at = CURRENT_TIMESTAMP
             WHERE user_id = ?
-        ''', (full_name, gender, age, height, current_weight, goal_type, target_weight_change_kg, target_timeframe_weeks, weekly_pace, activity_level, user_id))
+        ''', (full_name, gender, age, height, current_weight, target_weight, goal_type, target_weight_change_kg, target_timeframe_weeks, weekly_pace, activity_level, user_id))
     else:
         cursor.execute('''
             INSERT INTO user_profiles
-            (user_id, full_name, gender, age, height, current_weight, goal_type, target_weight_change_kg, target_timeframe_weeks, weekly_pace, activity_level)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        ''', (user_id, full_name, gender, age, height, current_weight, goal_type, target_weight_change_kg, target_timeframe_weeks, weekly_pace, activity_level))
+            (user_id, full_name, gender, age, height, current_weight, target_weight, goal_type, target_weight_change_kg, target_timeframe_weeks, weekly_pace, activity_level)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ''', (user_id, full_name, gender, age, height, current_weight, target_weight, goal_type, target_weight_change_kg, target_timeframe_weeks, weekly_pace, activity_level))
 
     db.commit()
     return True

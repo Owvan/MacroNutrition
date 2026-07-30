@@ -13,7 +13,7 @@
                         <i class="bi bi-person-badge-fill me-1"></i> Perfil Corporal & Metas OMS
                     </span>
                     <h1 class="fw-extrabold text-dark mb-1">Seus Dados & Objetivos de Saúde</h1>
-                    <p class="text-muted mb-0">Cadastre seus dados e escolha o ritmo semanal ideal. O sistema calcula o prazo em semanas e sincroniza com a calculadora corporal.</p>
+                    <p class="text-muted mb-0">Informe o seu peso desejado e o ritmo semanal. O sistema calcula automaticamente o tempo necessário e a estimativa de semanas e meses.</p>
                 </div>
                 {% if profile %}
                     <div class="mt-3 mt-md-0 text-md-end">
@@ -45,7 +45,7 @@
                         <div class="row g-3 mb-3">
                             <div class="col-6">
                                 <label for="gender" class="form-label fw-semibold">Gênero Biológico</label>
-                                <select class="form-select" id="gender" name="gender" onchange="calculateIMCAndProjections()">
+                                <select class="form-select" id="gender" name="gender" onchange="calculateLiveProfile()">
                                     <option value="male" {% if not profile or profile.gender == 'male' %}selected{% endif %}>Masculino</option>
                                     <option value="female" {% if profile and profile.gender == 'female' %}selected{% endif %}>Feminino</option>
                                 </select>
@@ -60,14 +60,14 @@
                             <div class="col-6">
                                 <label for="height" class="form-label fw-semibold">Altura (cm)</label>
                                 <div class="input-group">
-                                    <input type="number" step="0.5" min="100" max="250" class="form-control text-center fw-bold" id="height" name="height" value="{{ profile.height if profile else 170.0 }}" oninput="calculateIMCAndProjections()" required>
+                                    <input type="number" step="0.5" min="100" max="250" class="form-control text-center fw-bold" id="height" name="height" value="{{ profile.height if profile else 170.0 }}" oninput="calculateLiveProfile()" required>
                                     <span class="input-group-text bg-light text-muted">cm</span>
                                 </div>
                             </div>
                             <div class="col-6">
                                 <label for="current_weight" class="form-label fw-semibold">Peso Atual (kg)</label>
                                 <div class="input-group">
-                                    <input type="number" step="0.1" min="30" max="300" class="form-control text-center fw-bold text-teal" id="current_weight" name="current_weight" value="{{ profile.current_weight if profile else 70.0 }}" oninput="calculateIMCAndProjections()" required>
+                                    <input type="number" step="0.1" min="30" max="300" class="form-control text-center fw-bold text-teal" id="current_weight" name="current_weight" value="{{ profile.current_weight if profile else 70.0 }}" oninput="calculateLiveProfile()" required>
                                     <span class="input-group-text bg-light text-muted">kg</span>
                                 </div>
                             </div>
@@ -100,97 +100,89 @@
                                     <strong class="text-teal fs-7" id="imc_suggested_ideal">63.6 kg</strong>
                                 </div>
                             </div>
-                            <button type="button" class="btn btn-outline-teal btn-sm w-100 mt-2 py-1" onclick="applySuggestedMeta()">
-                                <i class="bi bi-magic me-1"></i> Preencher Meta Sugerida pela OMS
+                            <div class="fs-7 text-muted my-2 p-2 bg-white rounded border" id="imc_risk_box">
+                                <i class="bi bi-info-circle text-teal me-1"></i> <span id="imc_risk_text">Faixa saudável com menor risco de doenças crônicas.</span>
+                            </div>
+                            <button type="button" class="btn btn-outline-teal btn-sm w-100 mt-1 py-1" onclick="applySuggestedMeta()">
+                                <i class="bi bi-magic me-1"></i> Aplicar Peso Meta Sugerido pela OMS
                             </button>
                         </div>
                     </div>
                 </div>
 
-                <!-- Seção 2: Objetivos & Menu Dropdown de Ritmo Semanal -->
+                <!-- Seção 2: Entrada Direta de Peso Meta, Ritmo Semanal e Tempo Preditivo -->
                 <div class="col-12 col-md-6">
                     <div class="card card-custom p-4 h-100 shadow-sm border-0">
                         <h5 class="fw-bold text-dark mb-3 d-flex align-items-center">
-                            <i class="bi bi-bullseye me-2 text-teal"></i> Objetivo & Ritmo Semanal
+                            <i class="bi bi-bullseye me-2 text-teal"></i> Definição Prática de Metas
                         </h5>
 
-                        <label class="form-label fw-semibold mb-2">Objetivo Principal de Saúde</label>
-                        <div class="row g-2 mb-3">
-                            <div class="col-12">
-                                <div class="form-check card-custom p-3 border border-2 border-light hover-shadow cursor-pointer">
-                                    <input class="form-check-input ms-1 me-2" type="radio" name="goal_type" id="goal_loss" value="weight_loss" {% if not profile or profile.goal_type == 'weight_loss' %}checked{% endif %} onchange="updateGoalUI()">
-                                    <label class="form-check-label fw-bold text-dark cursor-pointer" for="goal_loss">
-                                        🎯 Emagrecimento / Perda de Gordura
-                                        <small class="d-block text-muted font-normal fs-7">Foco em déficit calórico e preservação de massa magra</small>
-                                    </label>
-                                </div>
+                        <!-- Entrada Direta do Peso Meta Desejado -->
+                        <div class="mb-3">
+                            <label for="target_weight" class="form-label fw-semibold text-dark d-flex justify-content-between align-items-center">
+                                <span>Qual o seu Peso Meta Desejado?</span>
+                                <span class="badge bg-teal-light text-teal fs-7" id="goal_type_badge">Emagrecimento</span>
+                            </label>
+                            <div class="input-group input-group-lg">
+                                <input type="number" step="0.5" min="30" max="300" class="form-control text-center fw-extrabold text-teal" id="target_weight" name="target_weight" value="{{ profile.target_weight if profile else (profile.bmi_info.suggested_ideal if profile else 65.0) }}" oninput="calculateLiveProfile()" required>
+                                <span class="input-group-text bg-light text-muted fw-bold">kg</span>
                             </div>
-                            <div class="col-12">
-                                <div class="form-check card-custom p-3 border border-2 border-light hover-shadow cursor-pointer">
-                                    <input class="form-check-input ms-1 me-2" type="radio" name="goal_type" id="goal_gain" value="weight_gain" {% if profile and profile.goal_type == 'weight_gain' %}checked{% endif %} onchange="updateGoalUI()">
-                                    <label class="form-check-label fw-bold text-dark cursor-pointer" for="goal_gain">
-                                        💪 Ganho de Peso / Massa Muscular (Hipertrofia)
-                                        <small class="d-block text-muted font-normal fs-7">Foco em superávit calórico limpo e hipertrofia</small>
-                                    </label>
-                                </div>
+                            <div class="d-flex justify-content-between align-items-center mt-1">
+                                <small class="text-muted fs-7">Peso Atual: <strong id="current_w_label">70.0 kg</strong></small>
+                                <small class="fw-bold text-teal fs-7" id="diff_label">Diferença: 5.0 kg a perder</small>
                             </div>
-                            <div class="col-12">
-                                <div class="form-check card-custom p-3 border border-2 border-light hover-shadow cursor-pointer">
-                                    <input class="form-check-input ms-1 me-2" type="radio" name="goal_type" id="goal_maint" value="maintenance" {% if profile and profile.goal_type == 'maintenance' %}checked{% endif %} onchange="updateGoalUI()">
-                                    <label class="form-check-label fw-bold text-dark cursor-pointer" for="goal_maint">
-                                        ⚖️ Manutenção do Peso Atual
-                                        <small class="d-block text-muted font-normal fs-7">Foco em estabilidade calórica e saúde geral</small>
-                                    </label>
+                        </div>
+
+                        <!-- Ritmo Semanal Desejado (kg/semana) -->
+                        <div class="mb-3">
+                            <label for="weekly_rate_kg" class="form-label fw-semibold text-dark mb-1">Ritmo Desejado por Semana</label>
+                            <div class="row g-2">
+                                <div class="col-7">
+                                    <select class="form-select fw-semibold" id="weekly_pace_select" onchange="onPaceSelectChanged()">
+                                        <option value="0.25">🔵 Conservador (0.25 kg/sem)</option>
+                                        <option value="0.50" selected>🟢 Recomendado (0.50 kg/sem)</option>
+                                        <option value="0.75">🟡 Moderado (0.75 kg/sem)</option>
+                                        <option value="1.00">🔴 Agressivo (1.00 kg/sem)</option>
+                                        <option value="custom">⚡ Personalizado...</option>
+                                    </select>
+                                </div>
+                                <div class="col-5">
+                                    <div class="input-group">
+                                        <input type="number" step="0.05" min="0.1" max="2.0" class="form-control text-center fw-bold" id="weekly_rate_kg" name="weekly_rate_kg" value="{{ profile.weekly_rate_kg if profile else 0.50 }}" oninput="onCustomRateInput()">
+                                        <span class="input-group-text bg-white text-muted px-2 fs-7">kg/sem</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Menu Dropdown de Ritmo Semanal Desejado -->
-                        <div id="pace_selector_box" class="mb-3">
-                            <label for="weekly_pace" class="form-label fw-semibold text-dark mb-1">Ritmo Semanal Desejado</label>
-                            <select class="form-select fw-semibold py-2" id="weekly_pace" name="weekly_pace" onchange="onPaceDropdownChanged()">
-                                <option value="conservative" {% if profile and profile.weekly_pace == 'conservative' %}selected{% endif %}>🔵 Conservador / Suave (~0.25 kg/semana)</option>
-                                <option value="recommended" {% if not profile or profile.weekly_pace == 'recommended' %}selected{% endif %}>🟢 Recomendado - Padrão OMS (~0.50 kg/semana)</option>
-                                <option value="moderate" {% if profile and profile.weekly_pace == 'moderate' %}selected{% endif %}>🟡 Moderado / Desafiador (~0.75 kg/semana)</option>
-                                <option value="aggressive" {% if profile and profile.weekly_pace == 'aggressive' %}selected{% endif %}>🔴 Agressivo (~1.00 kg/semana)</option>
-                                <option value="custom" {% if profile and profile.weekly_pace == 'custom' %}selected{% endif %}>⚡ Personalizado (definido por semanas)</option>
-                            </select>
-                        </div>
+                        <!-- Painel Preditivo: Tempo Necessário Calculado -->
+                        <div class="p-3 bg-light rounded-3 border mb-3">
+                            <div class="d-flex align-items-center justify-content-between mb-2">
+                                <span class="fs-7 text-muted fw-semibold">TEMPO NECESSÁRIO ESTIMADO:</span>
+                                <span class="badge bg-success" id="rate_classification_badge">
+                                    <i class="bi bi-check-circle-fill me-1"></i> Recomendado (Saudável)
+                                </span>
+                            </div>
 
-                        <!-- Definição da Meta Quantitativa e Prazo -->
-                        <div id="target_fields_box" class="p-3 bg-light rounded-3 border mb-3">
-                            <div class="row g-3 mb-2">
+                            <div class="row g-2 text-center my-2 bg-white p-3 rounded-3 border shadow-sm">
                                 <div class="col-6">
-                                    <label for="target_weight_change_kg" class="form-label fs-7 fw-semibold text-dark" id="target_weight_label">Meta de Peso (kg)</label>
-                                    <div class="input-group input-group-sm">
-                                        <input type="number" step="0.5" min="0" max="100" class="form-control text-center fw-bold" id="target_weight_change_kg" name="target_weight_change_kg" value="{{ profile.target_weight_change_kg if profile else 5.0 }}" oninput="onWeightOrTimeframeChanged()">
-                                        <span class="input-group-text bg-white text-muted">kg</span>
-                                    </div>
+                                    <small class="text-muted d-block fs-7">Prazo em Semanas</small>
+                                    <strong class="text-teal fs-4 fw-extrabold" id="calc_weeks_label">10 Semanas</strong>
                                 </div>
-                                <div class="col-6">
-                                    <label for="target_timeframe_weeks" class="form-label fs-7 fw-semibold text-dark">Prazo Calculado (Semanas)</label>
-                                    <div class="input-group input-group-sm">
-                                        <input type="number" step="1" min="1" max="104" class="form-control text-center fw-bold" id="target_timeframe_weeks" name="target_timeframe_weeks" value="{{ profile.target_timeframe_weeks if profile else 8 }}" oninput="onWeightOrTimeframeChanged()">
-                                        <span class="input-group-text bg-white text-muted">sem</span>
-                                    </div>
+                                <div class="col-6 border-start">
+                                    <small class="text-muted d-block fs-7">Prazo em Meses</small>
+                                    <strong class="text-dark fs-4 fw-extrabold" id="calc_months_label">~2,3 Meses</strong>
                                 </div>
                             </div>
 
-                            <!-- Banner de Ritmo Semanal & Categoria (Recomendado, Moderado, Agressivo) -->
-                            <div class="p-3 bg-white rounded border text-center mt-3">
-                                <div class="d-flex align-items-center justify-content-between mb-1">
-                                    <span class="fs-7 text-muted fw-semibold">RITMO SELECIONADO:</span>
-                                    <span class="badge bg-success" id="rate_category_badge">
-                                        <i class="bi bi-check-circle-fill me-1"></i> Recomendado (Saudável)
-                                    </span>
-                                </div>
-                                <div class="fs-5 fw-extrabold text-teal my-1" id="weekly_rate_value">
-                                    -0.50 kg / semana
-                                </div>
-                                <small class="text-muted d-block fs-7" id="rate_category_desc">
-                                    Ritmo ideal segundo a OMS para queimar gordura preservando massa muscular.
-                                </small>
+                            <div class="mt-2 text-center">
+                                <small class="text-muted d-block fs-7">Data Prevista para Atingir a Meta:</small>
+                                <strong class="text-teal fs-6" id="target_date_label">Outubro de 2026</strong>
                             </div>
+
+                            <p class="text-muted fs-7 mb-0 mt-2 text-center border-top pt-2" id="rate_desc_label">
+                                Ritmo ideal segundo a OMS para queimar gordura preservando massa muscular.
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -198,171 +190,222 @@
                 <!-- Botão de Ação -->
                 <div class="col-12 text-end">
                     <button type="submit" class="btn btn-teal btn-lg px-5 shadow-sm">
-                        <i class="bi bi-floppy-fill me-2"></i> Salvar Perfil & Atualizar Calculadora
+                        <i class="bi bi-floppy-fill me-2"></i> Salvar Perfil & Atualizar Calculadoras
                     </button>
                 </div>
             </div>
         </form>
     </div>
+
+    <!-- Seção Educativa: Classificação do IMC e Riscos à Saúde (OMS) -->
+    <div class="col-12 col-lg-10 mt-4">
+        <div class="card card-custom p-4 bg-white border-0 shadow-sm">
+            <div class="d-flex align-items-center mb-3">
+                <div class="brand-icon me-3 d-flex align-items-center justify-content-center bg-teal bg-opacity-10 text-teal rounded-circle" style="width: 42px; height: 42px;">
+                    <i class="bi bi-shield-heart fs-4 text-teal"></i>
+                </div>
+                <div>
+                    <h5 class="fw-bold text-dark mb-0">Índices de IMC & Riscos à Saúde (Padrão OMS)</h5>
+                    <small class="text-muted fs-7">Entenda como a Organização Mundial da Saúde classifica o peso e os impactos na saúde de longo prazo</small>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-bordered align-middle mb-0 text-center">
+                    <thead class="bg-light">
+                        <tr>
+                            <th>Faixa de IMC (kg/m²)</th>
+                            <th>Classificação OMS</th>
+                            <th>Nível de Risco</th>
+                            <th class="text-start">Principais Riscos e Impactos à Saúde</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="fw-bold">&lt; 18.5</td>
+                            <td><span class="badge bg-warning text-dark">Abaixo do Peso</span></td>
+                            <td><span class="badge bg-warning text-dark">Aumentado</span></td>
+                            <td class="text-start text-secondary fs-7">Desnutrição, osteopenia, imunidade reduzida, fadiga crônica, queda de cabelo e perda inadvertida de massa magra.</td>
+                        </tr>
+                        <tr class="table-success bg-opacity-25">
+                            <td class="fw-bold text-success">18.5 &ndash; 24.9</td>
+                            <td><span class="badge bg-success">Peso Normal (Ideal)</span></td>
+                            <td><span class="badge bg-success">Baixo (Saudável)</span></td>
+                            <td class="text-start text-dark fs-7"><strong>Faixa ótima de saúde!</strong> Menor incidência de doenças cardiovasculares, diabetes e complicações metabólicas.</td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold">25.0 &ndash; 29.9</td>
+                            <td><span class="badge bg-warning text-dark">Sobrepeso</span></td>
+                            <td><span class="badge bg-warning text-dark">Leve / Moderado</span></td>
+                            <td class="text-start text-secondary fs-7">Alerta inicial para hipertensão arterial, resistência à insulina, elevação de triglicérides e sobrecarga nas articulações.</td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold">30.0 &ndash; 34.9</td>
+                            <td><span class="badge bg-danger bg-opacity-75 text-white">Obesidade Grau I</span></td>
+                            <td><span class="badge bg-danger bg-opacity-75 text-white">Elevado</span></td>
+                            <td class="text-start text-secondary fs-7">Aumento expressivo no risco de Diabetes Tipo 2, síndrome metabólica, hipertensão sistêmica e esteatose hepática.</td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold">35.0 &ndash; 39.9</td>
+                            <td><span class="badge bg-danger text-white">Obesidade Grau II</span></td>
+                            <td><span class="badge bg-danger text-white">Muito Elevado</span></td>
+                            <td class="text-start text-secondary fs-7">Alto risco de doenças vasculares, apneia obstrutiva do sono, aterosclerose e séria limitação de mobilidade articular.</td>
+                        </tr>
+                        <tr class="table-danger bg-opacity-10">
+                            <td class="fw-bold text-danger">&ge; 40.0</td>
+                            <td><span class="badge bg-danger text-white">Obesidade Grau III</span></td>
+                            <td><span class="badge bg-danger text-white">Muitíssimo Elevado</span></td>
+                            <td class="text-start text-danger fs-7 fw-semibold">Risco gravíssimo de eventos cardiovasculares (infarto, AVC) e insuficiência respiratória. Exige acompanhamento médico contínuo.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script>
-let globalSuggestedChange = 0;
-let globalSuggestedWeeks = 8;
-let globalSuggestedGoal = 'weight_loss';
+let globalSuggestedIdeal = 63.6;
 
-const PACE_RATES = {
-    'conservative': 0.25,
-    'recommended': 0.50,
-    'moderate': 0.75,
-    'aggressive': 1.00
-};
+function onPaceSelectChanged() {
+    const paceVal = document.getElementById('weekly_pace_select').value;
+    if (paceVal !== 'custom') {
+        document.getElementById('weekly_rate_kg').value = parseFloat(paceVal).toFixed(2);
+    }
+    calculateLiveProfile();
+}
 
-function onPaceDropdownChanged() {
-    const paceSelect = document.getElementById('weekly_pace');
-    if (!paceSelect) return;
+function onCustomRateInput() {
+    const rateVal = parseFloat(document.getElementById('weekly_rate_kg').value) || 0.5;
+    const paceSelect = document.getElementById('weekly_pace_select');
     
-    const paceKey = paceSelect.value;
-    const changeKg = parseFloat(document.getElementById('target_weight_change_kg').value) || 0;
-    const rate = PACE_RATES[paceKey];
+    if (Math.abs(rateVal - 0.25) <= 0.02) paceSelect.value = '0.25';
+    else if (Math.abs(rateVal - 0.50) <= 0.02) paceSelect.value = '0.50';
+    else if (Math.abs(rateVal - 0.75) <= 0.02) paceSelect.value = '0.75';
+    else if (Math.abs(rateVal - 1.00) <= 0.02) paceSelect.value = '1.00';
+    else paceSelect.value = 'custom';
 
-    if (rate && changeKg > 0) {
-        const calculatedWeeks = Math.max(1, Math.round(changeKg / rate));
-        document.getElementById('target_timeframe_weeks').value = calculatedWeeks;
-    }
-    updateRateClassification();
+    calculateLiveProfile();
 }
 
-function onWeightOrTimeframeChanged() {
-    const changeKg = parseFloat(document.getElementById('target_weight_change_kg').value) || 0;
-    const weeks = parseInt(document.getElementById('target_timeframe_weeks').value) || 1;
-    const paceSelect = document.getElementById('weekly_pace');
-
-    if (changeKg > 0 && weeks > 0 && paceSelect) {
-        const rate = (changeKg / weeks).toFixed(2);
-        if (Math.abs(rate - 0.25) <= 0.05) paceSelect.value = 'conservative';
-        else if (Math.abs(rate - 0.50) <= 0.05) paceSelect.value = 'recommended';
-        else if (Math.abs(rate - 0.75) <= 0.05) paceSelect.value = 'moderate';
-        else if (Math.abs(rate - 1.00) <= 0.05) paceSelect.value = 'aggressive';
-        else paceSelect.value = 'custom';
-    }
-    updateRateClassification();
-}
-
-function calculateIMCAndProjections() {
+function calculateLiveProfile() {
     const hCm = parseFloat(document.getElementById('height').value) || 170;
-    const wKg = parseFloat(document.getElementById('current_weight').value) || 70;
+    const curW = parseFloat(document.getElementById('current_weight').value) || 70;
+    const tarW = parseFloat(document.getElementById('target_weight').value) || 65;
+    const rateKg = parseFloat(document.getElementById('weekly_rate_kg').value) || 0.5;
     const hM = hCm / 100.0;
 
-    if (hM <= 0 || wKg <= 0) return;
+    if (hM <= 0 || curW <= 0) return;
 
-    // IMC
-    const bmi = (wKg / (hM * hM)).toFixed(1);
+    // 1. IMC Calculation
+    const bmi = (curW / (hM * hM)).toFixed(1);
     let category = 'Peso Normal';
     let colorClass = 'bg-success text-white';
+    let riskText = 'Faixa saudável com menor risco de doenças crônicas.';
 
     if (bmi < 18.5) {
         category = 'Abaixo do peso';
         colorClass = 'bg-warning text-dark';
+        riskText = 'Riscos: desnutrição, imunidade reduzida e perda muscular.';
     } else if (bmi < 25.0) {
         category = 'Peso Normal (Ideal)';
         colorClass = 'bg-success text-white';
+        riskText = 'Faixa saudável com menor risco de doenças crônicas.';
     } else if (bmi < 30.0) {
         category = 'Sobrepeso';
         colorClass = 'bg-warning text-dark';
+        riskText = 'Riscos: alteração de pressão, glicemia e colesterol.';
     } else if (bmi < 35.0) {
         category = 'Obesidade Grau I';
         colorClass = 'bg-danger text-white';
+        riskText = 'Riscos: elevado risco de Diabetes Tipo 2 e Hipertensão.';
     } else if (bmi < 40.0) {
         category = 'Obesidade Grau II';
         colorClass = 'bg-danger text-white';
+        riskText = 'Riscos: alto risco cardiovascular e apneia do sono.';
     } else {
         category = 'Obesidade Grau III';
         colorClass = 'bg-danger text-white';
+        riskText = 'Riscos: altíssimo risco de infarto e AVC. Requer médicos.';
     }
 
     const minIdeal = (18.5 * hM * hM).toFixed(1);
     const maxIdeal = (24.9 * hM * hM).toFixed(1);
-    const suggestedIdeal = (22.0 * hM * hM).toFixed(1);
+    globalSuggestedIdeal = (22.0 * hM * hM).toFixed(1);
 
     document.getElementById('imc_badge').textContent = `${bmi} - ${category}`;
     document.getElementById('imc_badge').className = `badge ${colorClass}`;
     document.getElementById('imc_ideal_range').textContent = `${minIdeal} kg - ${maxIdeal} kg`;
-    document.getElementById('imc_suggested_ideal').textContent = `${suggestedIdeal} kg`;
+    document.getElementById('imc_suggested_ideal').textContent = `${globalSuggestedIdeal} kg`;
+    document.getElementById('imc_risk_text').textContent = riskText;
+    document.getElementById('current_w_label').textContent = `${curW.toFixed(1)} kg`;
 
-    if (wKg > maxIdeal) {
-        globalSuggestedChange = (wKg - suggestedIdeal).toFixed(1);
-        globalSuggestedGoal = 'weight_loss';
-    } else if (wKg < minIdeal) {
-        globalSuggestedChange = (suggestedIdeal - wKg).toFixed(1);
-        globalSuggestedGoal = 'weight_gain';
+    // 2. Goal Difference Calculation
+    const diffKg = Math.abs(curW - tarW).toFixed(1);
+    const goalBadge = document.getElementById('goal_type_badge');
+    const diffLabel = document.getElementById('diff_label');
+
+    let goalType = 'maintenance';
+    if (tarW < curW) {
+        goalType = 'weight_loss';
+        goalBadge.textContent = 'Emagrecimento';
+        goalBadge.className = 'badge bg-teal-light text-teal fs-7';
+        diffLabel.textContent = `Diferença: ${diffKg} kg a perder`;
+        diffLabel.className = 'fw-bold text-teal fs-7';
+    } else if (tarW > curW) {
+        goalType = 'weight_gain';
+        goalBadge.textContent = 'Ganho de Massa';
+        goalBadge.className = 'badge bg-primary bg-opacity-10 text-primary fs-7';
+        diffLabel.textContent = `Diferença: ${diffKg} kg a ganhar`;
+        diffLabel.className = 'fw-bold text-primary fs-7';
     } else {
-        globalSuggestedChange = 0;
-        globalSuggestedGoal = 'maintenance';
+        goalType = 'maintenance';
+        goalBadge.textContent = 'Manutenção';
+        goalBadge.className = 'badge bg-secondary bg-opacity-10 text-secondary fs-7';
+        diffLabel.textContent = `Manter peso atual`;
+        diffLabel.className = 'fw-bold text-dark fs-7';
     }
-    globalSuggestedWeeks = Math.max(4, Math.round(globalSuggestedChange / 0.5));
 
-    updateGoalUI();
-}
+    // 3. Predictive Time Calculation
+    const weeksLabel = document.getElementById('calc_weeks_label');
+    const monthsLabel = document.getElementById('calc_months_label');
+    const targetDateLabel = document.getElementById('target_date_label');
+    const badgeEl = document.getElementById('rate_classification_badge');
+    const descEl = document.getElementById('rate_desc_label');
 
-function updateGoalUI() {
-    const isMaint = document.getElementById('goal_maint').checked;
-    const isGain = document.getElementById('goal_gain').checked;
-    const label = document.getElementById('target_weight_label');
-    const paceBox = document.getElementById('pace_selector_box');
-
-    if (isMaint) {
-        if (label) label.textContent = 'Alteração Desejada (kg)';
-        document.getElementById('target_weight_change_kg').value = 0;
-        if (paceBox) paceBox.style.display = 'none';
-    } else {
-        if (paceBox) paceBox.style.display = 'block';
-        if (isGain) {
-            if (label) label.textContent = 'Meta de Ganho de Peso (kg)';
-        } else {
-            if (label) label.textContent = 'Meta de Perda de Peso (kg)';
-        }
-    }
-    updateRateClassification();
-}
-
-function updateRateClassification() {
-    const changeKg = parseFloat(document.getElementById('target_weight_change_kg').value) || 0;
-    const weeks = parseInt(document.getElementById('target_timeframe_weeks').value) || 1;
-    const isGain = document.getElementById('goal_gain').checked;
-    const isMaint = document.getElementById('goal_maint').checked;
-
-    const rateValEl = document.getElementById('weekly_rate_value');
-    const badgeEl = document.getElementById('rate_category_badge');
-    const descEl = document.getElementById('rate_category_desc');
-
-    if (!rateValEl || !badgeEl || !descEl) return;
-
-    if (isMaint || changeKg === 0) {
-        rateValEl.textContent = '0 kg / semana';
-        rateValEl.className = 'fs-5 fw-extrabold text-dark my-1';
+    if (diffKg <= 0 || rateKg <= 0) {
+        weeksLabel.textContent = '0 Semanas';
+        monthsLabel.textContent = '0 Meses';
+        targetDateLabel.textContent = 'Peso Atual Mantido';
         badgeEl.textContent = 'Manutenção de Peso';
         badgeEl.className = 'badge bg-teal text-white';
         descEl.textContent = 'Manter o peso estável sem alteração calórica brusca.';
         return;
     }
 
-    const rate = (changeKg / Math.max(weeks, 1)).toFixed(2);
+    const calculatedWeeks = Math.max(1, Math.round(diffKg / rateKg));
+    const calculatedMonths = (calculatedWeeks / 4.33).toFixed(1);
 
-    if (!isGain) {
-        // EMAGRECIMENTO
-        rateValEl.textContent = `-${rate} kg / semana`;
-        rateValEl.className = 'fs-5 fw-extrabold text-teal my-1';
+    weeksLabel.textContent = `${calculatedWeeks} Semanas`;
+    monthsLabel.textContent = `~${calculatedMonths.replace('.', ',')} Meses`;
 
-        if (rate <= 0.25) {
+    // Target Date Estimate
+    const today = new Date();
+    today.setDate(today.getDate() + (calculatedWeeks * 7));
+    const monthNames = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+    targetDateLabel.textContent = `${monthNames[today.getMonth()]} de ${today.getFullYear()}`;
+
+    // Rate Classification Badge
+    if (goalType === 'weight_loss') {
+        if (rateKg <= 0.25) {
             badgeEl.innerHTML = '<i class="bi bi-info-circle-fill me-1"></i> Conservador / Suave';
             badgeEl.className = 'badge bg-info text-white';
             descEl.textContent = 'Ritmo suave e fácil de manter a longo prazo.';
-        } else if (rate <= 0.75) {
+        } else if (rateKg <= 0.75) {
             badgeEl.innerHTML = '<i class="bi bi-check-circle-fill me-1"></i> Recomendado (Saudável)';
             badgeEl.className = 'badge bg-success text-white';
             descEl.textContent = 'Ritmo ideal segundo a OMS para queimar gordura preservando massa muscular.';
-        } else if (rate <= 1.0) {
+        } else if (rateKg <= 1.0) {
             badgeEl.innerHTML = '<i class="bi bi-exclamation-triangle-fill me-1"></i> Moderado / Desafiador';
             badgeEl.className = 'badge bg-warning text-dark';
             descEl.textContent = 'Exige bom controle de ingestão proteica e déficit disciplinado.';
@@ -372,15 +415,11 @@ function updateRateClassification() {
             descEl.textContent = 'Ritmo intenso! Risco de fadiga e perda de massa muscular. Requer atenção.';
         }
     } else {
-        // GANHO DE PESO
-        rateValEl.textContent = `+${rate} kg / semana`;
-        rateValEl.className = 'fs-5 fw-extrabold text-primary my-1';
-
-        if (rate <= 0.25) {
+        if (rateKg <= 0.25) {
             badgeEl.innerHTML = '<i class="bi bi-info-circle-fill me-1"></i> Suave / Limpo';
             badgeEl.className = 'badge bg-info text-white';
             descEl.textContent = 'Ganho gradual focado em minimizar acúmulo de gordura.';
-        } else if (rate <= 0.5) {
+        } else if (rateKg <= 0.5) {
             badgeEl.innerHTML = '<i class="bi bi-check-circle-fill me-1"></i> Recomendado (Hipertrofia)';
             badgeEl.className = 'badge bg-success text-white';
             descEl.textContent = 'Ritmo recomendado para síntese proteica e hipertrofia muscular.';
@@ -393,24 +432,14 @@ function updateRateClassification() {
 }
 
 function applySuggestedMeta() {
-    if (globalSuggestedGoal === 'weight_loss') {
-        document.getElementById('goal_loss').checked = true;
-    } else if (globalSuggestedGoal === 'weight_gain') {
-        document.getElementById('goal_gain').checked = true;
-    } else {
-        document.getElementById('goal_maint').checked = true;
-    }
-
-    document.getElementById('target_weight_change_kg').value = globalSuggestedChange;
-    const paceSelect = document.getElementById('weekly_pace');
-    if (paceSelect) paceSelect.value = 'recommended';
-    onPaceDropdownChanged();
-
-    updateGoalUI();
+    document.getElementById('target_weight').value = globalSuggestedIdeal;
+    document.getElementById('weekly_pace_select').value = '0.50';
+    document.getElementById('weekly_rate_kg').value = '0.50';
+    calculateLiveProfile();
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    calculateIMCAndProjections();
+    calculateLiveProfile();
 });
 </script>
 {% endblock %}
