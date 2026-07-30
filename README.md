@@ -1,5 +1,6 @@
 # 🥗 MacroNutrition - Sistema de Controle Alimentar, Metabólico e Evolução Corporal
 
+[![Demonstração Online](https://img.shields.io/badge/Demo%20Online-owvan.pythonanywhere.com-0d9488?style=for-the-badge&logo=pythonanywhere)](https://owvan.pythonanywhere.com)
 [![Python](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://www.python.org/)
 [![Flask](https://img.shields.io/badge/Flask-3.0%2B-green.svg)](https://flask.palletsprojects.com/)
 [![SQLite](https://img.shields.io/badge/SQLite-3-blue)](https://www.sqlite.org/)
@@ -9,6 +10,13 @@
 O **MacroNutrition** é uma aplicação web completa desenvolvida em **Python** e **Flask** para o controle nutricional, cálculo de metabolismo basal (TMB e TDEE), gestão de macronutrientes e acompanhamento preditivo da evolução do peso corporal.
 
 Projetado com foco em **design moderno, alta performance e suporte a dispositivos mobile (padrão iPhone 15+)**, o sistema integra tabelas nutricionais oficiais da **UNICAMP (TACO)**, **USP (TBCA)** e consulta de **Código de Barras (EAN)** via **Open Food Facts**.
+
+---
+
+## 🌐 Demonstração Online
+
+Você pode testar a aplicação em produção no link:
+👉 **[https://owvan.pythonanywhere.com](https://owvan.pythonanywhere.com)**
 
 ---
 
@@ -97,6 +105,17 @@ Acesse a aplicação no navegador em: **`http://127.0.0.1:5000`**
 
 ---
 
+## ☁️ Implantação e Atualização no PythonAnywhere
+
+Para atualizar a versão em produção hospedada no PythonAnywhere:
+```bash
+cd ~/MacroNutrition
+git pull origin main
+```
+Após o `git pull`, acesse a aba **Web** no PythonAnywhere e clique em **Reload**.
+
+---
+
 ## 📁 Estrutura do Projeto
 
 ```text
@@ -152,5 +171,6 @@ Este projeto está sob a licença **MIT**. Veja o arquivo [LICENSE](LICENSE) par
 ---
 
 <p align="center">
-  Desenvolvido com 💚 para promover saúde, nutrição consciente e boa forma.
+  Desenvolvido com 💚 para promover saúde, nutrição consciente e boa forma.<br>
+  <strong>Acesse a versão online:</strong> <a href="https://owvan.pythonanywhere.com">https://owvan.pythonanywhere.com</a>
 </p>
