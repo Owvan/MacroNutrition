@@ -15,7 +15,7 @@
                     <h1 class="fw-extrabold text-dark mb-1">Planejador de Dieta Diário</h1>
                     <p class="text-muted mb-0">Registre seus alimentos por refeição e acompanhe seu saldo de calorias e macronutrientes.</p>
                 </div>
-                <div class="mt-3 mt-md-0 d-flex align-items-center gap-2">
+                <div class="mt-3 mt-md-0 d-flex flex-wrap align-items-center gap-2">
                     <form method="GET" action="{{ url_for('main.diet') }}" class="d-flex align-items-center me-2">
                         <input type="date" name="date" class="form-control form-control-sm fw-semibold border-teal px-3" value="{{ current_date }}" onchange="this.form.submit();">
                     </form>
@@ -27,8 +27,8 @@
         </div>
     </div>
 
-    <!-- 4 Cards de Balanço Diário e Barras de Progresso -->
-    <div class="col-12">
+    <!-- 4 Cards de Balanço Diário (Versão Desktop >= 768px) -->
+    <div class="col-12 d-none d-md-block">
         <div class="row g-3">
             <!-- Calorias Totais -->
             <div class="col-6 col-lg-3">
@@ -93,6 +93,62 @@
                     <div class="progress" style="height: 6px;">
                         <div class="progress-bar bg-warning" role="progressbar" style="width: {{ [diet.fat_pct, 100]|min }}%;" aria-valuenow="{{ diet.fat_pct }}" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Painel Compacto de Barras de Progresso no Mobile (< 768px / iPhone 15) -->
+    <div class="col-12 d-block d-md-none">
+        <div class="card card-custom p-3 shadow-sm border-0">
+            <h6 class="fw-bold text-dark mb-3 d-flex align-items-center">
+                <i class="bi bi-activity text-teal me-2"></i> Balanço Calórico & Macronutrientes
+            </h6>
+
+            <!-- 1. Calorias Totais -->
+            <div class="mb-3">
+                <div class="d-flex justify-content-between align-items-center fs-7 mb-1">
+                    <span class="fw-semibold text-dark"><i class="bi bi-fire text-teal me-1"></i> Calorias Ingeridas</span>
+                    <span class="fw-bold text-teal">{{ diet.consumed_cal|int }} / {{ diet.target_cal|int }} kcal</span>
+                </div>
+                <div class="progress" style="height: 8px;">
+                    <div class="progress-bar bg-teal" style="width: {{ [diet.cal_pct, 100]|min }}%;"></div>
+                </div>
+                <small class="text-muted fs-7 mt-1 d-block">
+                    Saldo: {{ (diet.target_cal - diet.consumed_cal)|int }} kcal restantes ({{ diet.cal_pct }}%)
+                </small>
+            </div>
+
+            <!-- 2. Carboidratos -->
+            <div class="mb-3">
+                <div class="d-flex justify-content-between align-items-center fs-7 mb-1">
+                    <span class="fw-semibold text-dark"><i class="bi bi-circle-fill text-teal me-1"></i> Carboidratos (g)</span>
+                    <span class="fw-bold text-teal">{{ diet.consumed_carbs_g|int }} / {{ diet.target_carb_g|int }}g</span>
+                </div>
+                <div class="progress" style="height: 8px;">
+                    <div class="progress-bar bg-teal" style="width: {{ [diet.carb_pct, 100]|min }}%;"></div>
+                </div>
+            </div>
+
+            <!-- 3. Proteínas -->
+            <div class="mb-3">
+                <div class="d-flex justify-content-between align-items-center fs-7 mb-1">
+                    <span class="fw-semibold text-dark"><i class="bi bi-egg-fill text-primary me-1"></i> Proteínas (g)</span>
+                    <span class="fw-bold text-primary">{{ diet.consumed_protein_g|int }} / {{ diet.target_protein_g|int }}g</span>
+                </div>
+                <div class="progress" style="height: 8px;">
+                    <div class="progress-bar bg-primary" style="width: {{ [diet.protein_pct, 100]|min }}%;"></div>
+                </div>
+            </div>
+
+            <!-- 4. Gorduras -->
+            <div>
+                <div class="d-flex justify-content-between align-items-center fs-7 mb-1">
+                    <span class="fw-semibold text-dark"><i class="bi bi-pie-chart-fill text-warning me-1"></i> Gorduras (g)</span>
+                    <span class="fw-bold text-warning">{{ diet.consumed_fat_g|int }} / {{ diet.target_fat_g|int }}g</span>
+                </div>
+                <div class="progress" style="height: 8px;">
+                    <div class="progress-bar bg-warning" style="width: {{ [diet.fat_pct, 100]|min }}%;"></div>
                 </div>
             </div>
         </div>
