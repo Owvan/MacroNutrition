@@ -29,6 +29,27 @@ h1, h2, h3, h4, h5, h6, .brand-text {
     letter-spacing: -0.02em;
 }
 
+/* Floating Action Button (FAB) */
+.fab-btn {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 56px;
+    height: 56px;
+    z-index: 1040;
+    box-shadow: 0 10px 25px rgba(13, 148, 136, 0.4) !important;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.fab-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 14px 30px rgba(13, 148, 136, 0.5) !important;
+}
+
+.fab-btn:active {
+    transform: scale(0.92);
+}
+
 /* Navbar Premium */
 .navbar-custom {
     background-color: #ffffff !important;
@@ -313,11 +334,6 @@ footer {
         font-size: 1.15rem !important;
     }
 
-    /* Dashboard Summary Cards 2x2 Grid Layout */
-    .card-custom p-3 {
-        padding: 0.85rem !important;
-    }
-
     /* Full-width Modal Action Buttons */
     .modal-footer .btn {
         width: 100%;
@@ -352,8 +368,10 @@ footer {
         font-size: 1.25rem !important;
     }
 
-    /* Stack inputs on small screens */
-    .row.g-3 > [class*="col-"] {
-        margin-bottom: 0.25rem;
+    .fab-btn {
+        bottom: 20px;
+        right: 20px;
+        width: 52px;
+        height: 52px;
     }
 }
