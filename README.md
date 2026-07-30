@@ -105,17 +105,6 @@ Acesse a aplicação no navegador em: **`http://127.0.0.1:5000`**
 
 ---
 
-## ☁️ Implantação e Atualização no PythonAnywhere
-
-Para atualizar a versão em produção hospedada no PythonAnywhere:
-```bash
-cd ~/MacroNutrition
-git pull origin main
-```
-Após o `git pull`, acesse a aba **Web** no PythonAnywhere e clique em **Reload**.
-
----
-
 ## 📁 Estrutura do Projeto
 
 ```text
