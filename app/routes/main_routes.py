@@ -30,6 +30,12 @@ def dashboard():
     user_id = session.get('user_id')
     date_str = request.args.get('date', get_today_date_str())
     data = get_dashboard_data(user_id, date_str)
+
+    # If profile is missing or incomplete, enforce redirection to /perfil on first access
+    if not data or not data.get('profile') or not data['profile'].get('full_name'):
+        flash('Por favor, preencha seu Perfil e Metas corporais para ativar a sua Dashboard de evolução.', 'info')
+        return redirect(url_for('main.profile'))
+
     return render_template('dashboard.html', data=data, current_date=date_str)
 
 
@@ -214,7 +220,7 @@ def save_profile():
             user_id, full_name, gender, age, height, current_weight, target_weight,
             weekly_rate_kg, activity_level, weekly_pace, goal_type
         )
-        flash('Perfil e metas salvas com sucesso! Dados sincronizados com a calculadora e a dashboard.', 'success')
+        flash('Perfil e metas salvas com sucesso! Sua Dashboard e calculadoras corporais estão prontas.', 'success')
         return redirect(url_for('main.dashboard'))
     except Exception as e:
         flash(f'Erro ao salvar perfil: {str(e)}', 'danger')
