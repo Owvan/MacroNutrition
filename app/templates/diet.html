@@ -103,8 +103,8 @@
         {% if diet.meals %}
             {% for meal in diet.meals %}
                 <div class="card card-custom mb-4 shadow-sm" style="border-radius: 14px; overflow: hidden;">
-                    <div class="card-header bg-white py-3 px-4 d-flex align-items-center justify-content-between border-bottom">
-                        <div class="d-flex align-items-center">
+                    <div class="card-header bg-white py-3 px-3 px-md-4 d-flex align-items-center justify-content-between border-bottom">
+                        <div class="d-flex align-items-center me-2">
                             <div class="brand-icon me-2 d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; font-size: 1rem;">
                                 <i class="bi bi-brightness-high"></i>
                             </div>
@@ -112,16 +112,16 @@
                                 <h5 class="fw-bold text-dark mb-0">{{ meal.meal_name }}</h5>
                                 <small class="text-muted fs-7">
                                     Subtotal: <strong class="text-teal">{{ meal.total_calories|int }} kcal</strong> &bull; 
-                                    Carb: {{ meal.total_carbs|int }}g &bull; 
-                                    Prot: {{ meal.total_protein|int }}g &bull; 
-                                    Gord: {{ meal.total_fat|int }}g
+                                    C: {{ meal.total_carbs|int }}g &bull; 
+                                    P: {{ meal.total_protein|int }}g &bull; 
+                                    G: {{ meal.total_fat|int }}g
                                 </small>
                             </div>
                         </div>
 
                         <div class="d-flex align-items-center gap-2">
-                            <button type="button" class="btn btn-teal btn-sm px-3" onclick="openAddFoodModal({{ meal.id }}, '{{ meal.meal_name }}')">
-                                <i class="bi bi-plus-circle me-1"></i> Adicionar Alimento
+                            <button type="button" class="btn btn-teal btn-sm px-2 px-md-3" onclick="openAddFoodModal({{ meal.id }}, '{{ meal.meal_name }}')">
+                                <i class="bi bi-plus-circle me-1"></i> <span class="d-none d-sm-inline">Adicionar </span>Alimento
                             </button>
                             <form method="POST" action="{{ url_for('main.remove_meal', meal_id=meal.id) }}" class="d-inline" onsubmit="return confirm('Deseja excluir a refeição {{ meal.meal_name }}?');">
                                 <input type="hidden" name="meal_date" value="{{ current_date }}">
@@ -134,7 +134,8 @@
 
                     <div class="card-body p-0">
                         {% if meal.food_items %}
-                            <div class="table-responsive">
+                            <!-- Tabela Versão Desktop (>= 768px) -->
+                            <div class="table-responsive d-none d-md-block">
                                 <table class="table table-custom mb-0">
                                     <thead>
                                         <tr>
@@ -169,6 +170,43 @@
                                     </tbody>
                                 </table>
                             </div>
+
+                            <!-- Lista de Cards Otimizada para Mobile (< 768px / iPhone 15) -->
+                            <div class="d-block d-md-none p-3 bg-light">
+                                {% for item in meal.food_items %}
+                                    <div class="mobile-food-card shadow-sm">
+                                        <div class="d-flex justify-content-between align-items-start mb-2">
+                                            <div>
+                                                <strong class="text-dark d-block mb-1 fs-6">{{ item.food_name }}</strong>
+                                                <span class="badge bg-light text-dark border">{{ item.display_amount }}</span>
+                                            </div>
+                                            <div class="d-flex align-items-center">
+                                                <span class="badge bg-teal text-white fs-7 me-2">{{ item.calories|int }} kcal</span>
+                                                <form method="POST" action="{{ url_for('main.remove_food_item', item_id=item.id) }}" class="d-inline">
+                                                    <input type="hidden" name="meal_date" value="{{ current_date }}">
+                                                    <button type="submit" class="btn btn-outline-danger btn-sm p-1 border-0" title="Remover">
+                                                        <i class="bi bi-x-lg"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex gap-2 text-center fs-7 border-top pt-2 mt-2">
+                                            <div class="col-4">
+                                                <span class="text-muted d-block">Carb</span>
+                                                <strong class="text-teal">{{ item.carbs_g }}g</strong>
+                                            </div>
+                                            <div class="col-4 border-start">
+                                                <span class="text-muted d-block">Prot</span>
+                                                <strong class="text-primary">{{ item.protein_g }}g</strong>
+                                            </div>
+                                            <div class="col-4 border-start">
+                                                <span class="text-muted d-block">Gord</span>
+                                                <strong class="text-warning">{{ item.fat_g }}g</strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
                         {% else %}
                             <div class="p-4 text-center text-muted">
                                 <i class="bi bi-basket fs-3 text-muted opacity-50 d-block mb-1"></i>
@@ -198,7 +236,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content border-0 shadow" style="border-radius: 14px; overflow: hidden;">
             <div class="modal-header bg-teal text-white">
-                <h5 class="modal-title fw-bold m-0 d-flex align-items-center" id="addFoodModalLabel">
+                <h5 class="modal-title fw-bold m-0 d-flex align-items-center fs-6" id="addFoodModalLabel">
                     <i class="bi bi-plus-circle me-2"></i> Adicionar Alimento a <span id="modal_meal_title" class="ms-1 underline">Refeição</span>
                 </h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fechar"></button>
@@ -210,22 +248,22 @@
                 <input type="hidden" name="food_source" id="food_source" value="taco">
                 <input type="hidden" name="taco_food_id" id="taco_food_id" value="">
 
-                <div class="modal-body p-4">
+                <div class="modal-body p-3 p-md-4">
                     <!-- Alternador de Abas (3 Opções) -->
                     <ul class="nav nav-pills nav-justified mb-4 p-1 bg-light rounded-3 border" id="foodTypeTabs" role="tablist">
                         <li class="nav-item" role="presentation">
                             <button class="nav-link active fw-semibold py-2 fs-7" id="taco-tab" data-bs-toggle="pill" data-bs-target="#taco-pane" type="button" role="tab" onclick="switchFoodSource('taco')">
-                                <i class="bi bi-search me-1"></i> TACO & TBCA (USP)
+                                <i class="bi bi-search me-1"></i> TACO & TBCA
                             </button>
                         </li>
                         <li class="nav-item" role="presentation">
                             <button class="nav-link fw-semibold py-2 fs-7" id="barcode-tab" data-bs-toggle="pill" data-bs-target="#barcode-pane" type="button" role="tab" onclick="switchFoodSource('barcode')">
-                                <i class="bi bi-barcode-scan me-1"></i> Código de Barras
+                                <i class="bi bi-barcode-scan me-1"></i> EAN / Barras
                             </button>
                         </li>
                         <li class="nav-item" role="presentation">
                             <button class="nav-link fw-semibold py-2 fs-7" id="custom-tab" data-bs-toggle="pill" data-bs-target="#custom-pane" type="button" role="tab" onclick="switchFoodSource('custom')">
-                                <i class="bi bi-pencil-square me-1"></i> Personalizado
+                                <i class="bi bi-pencil-square me-1"></i> Criar Item
                             </button>
                         </li>
                     </ul>
@@ -234,10 +272,10 @@
                         <!-- Aba 1: Tabela TACO & TBCA (USP) -->
                         <div class="tab-pane fade show active" id="taco-pane" role="tabpanel">
                             <div class="mb-3 position-relative">
-                                <label for="taco_search_input" class="form-label fw-semibold">Buscar na Tabela TACO (UNICAMP) & TBCA (USP)</label>
+                                <label for="taco_search_input" class="form-label fw-semibold fs-7">Buscar na Tabela TACO (UNICAMP) & TBCA (USP)</label>
                                 <div class="input-group">
                                     <span class="input-group-text bg-light text-muted"><i class="bi bi-search"></i></span>
-                                    <input type="text" class="form-control px-3" id="taco_search_input" placeholder="Digite o nome do alimento (ex: Arroz, Pizza, Strogonoff, Pão de queijo...)" autocomplete="off">
+                                    <input type="text" class="form-control px-3" id="taco_search_input" placeholder="Digite o nome do alimento (ex: Arroz, Pizza, Strogonoff...)" autocomplete="off">
                                 </div>
                                 <div id="taco_search_results" class="list-group position-absolute w-100 shadow-sm border-0 mt-1 d-none" style="z-index: 1050; max-height: 220px; overflow-y: auto;"></div>
                             </div>
@@ -257,12 +295,12 @@
                         <!-- Aba 2: Código de Barras (EAN / Open Food Facts) -->
                         <div class="tab-pane fade" id="barcode-pane" role="tabpanel">
                             <div class="mb-3">
-                                <label for="barcode_input" class="form-label fw-semibold">Digitar ou Escanear Código de Barras (EAN)</label>
+                                <label for="barcode_input" class="form-label fw-semibold fs-7">Digitar ou Escanear Código de Barras (EAN)</label>
                                 <div class="input-group">
                                     <span class="input-group-text bg-light text-muted"><i class="bi bi-barcode"></i></span>
                                     <input type="text" class="form-control px-3" id="barcode_input" placeholder="Ex: 7891000053508" autocomplete="off">
                                     <button class="btn btn-teal px-3" type="button" id="btn_search_barcode">
-                                        <i class="bi bi-search me-1"></i> Consultar EAN
+                                        <i class="bi bi-search me-1"></i> EAN
                                     </button>
                                 </div>
                             </div>
@@ -296,12 +334,12 @@
                         <!-- Aba 3: Alimento Personalizado -->
                         <div class="tab-pane fade" id="custom-pane" role="tabpanel">
                             <div class="mb-3">
-                                <label for="custom_name" class="form-label fw-semibold">Nome do Alimento / Item</label>
-                                <input type="text" class="form-control px-3" id="custom_name" name="custom_name" placeholder="Ex: Fatia de Pizza de Calabrês, Coxinha, Açaí...">
+                                <label for="custom_name" class="form-label fw-semibold fs-7">Nome do Alimento / Item</label>
+                                <input type="text" class="form-control px-3" id="custom_name" name="custom_name" placeholder="Ex: Fatia de Pizza de Calabrês, Coxinha...">
                             </div>
 
                             <div class="p-3 rounded-3 bg-light border mb-3">
-                                <label class="form-label fw-semibold text-dark mb-2">Informação Nutricional (por 100g de alimento)</label>
+                                <label class="form-label fw-semibold text-dark fs-7 mb-2">Informação Nutricional (por 100g de alimento)</label>
                                 <div class="row g-2">
                                     <div class="col-6 col-sm-3">
                                         <label for="custom_kcal" class="form-label fs-7 fw-semibold text-teal">Calorias (kcal)</label>
@@ -326,7 +364,7 @@
 
                     <!-- Seção de Quantidade e Unidades de Medida Caseira -->
                     <div class="card card-custom p-3 bg-light border mb-4">
-                        <label class="form-label fw-semibold text-dark mb-2">Quantidade e Unidade de Medida</label>
+                        <label class="form-label fw-semibold text-dark fs-7 mb-2">Quantidade e Unidade de Medida</label>
                         <div class="row g-3 align-items-center">
                             <!-- Seletor de Medida Caseira -->
                             <div class="col-12 col-md-5">
@@ -362,19 +400,19 @@
                     <!-- Prévia dos Valores Nutricionais Gerados -->
                     <div class="row g-2 p-3 bg-light rounded-3 border">
                         <div class="col-3 text-center">
-                            <small class="text-muted d-block fs-7 fw-semibold">Calorias Totais</small>
+                            <small class="text-muted d-block fs-7 fw-semibold">Calorias</small>
                             <strong class="text-teal fs-6" id="preview_kcal">0 kcal</strong>
                         </div>
                         <div class="col-3 text-center border-start">
-                            <small class="text-muted d-block fs-7 fw-semibold">Carboidratos</small>
+                            <small class="text-muted d-block fs-7 fw-semibold">Carbs</small>
                             <strong class="text-dark fs-6" id="preview_carbs">0g</strong>
                         </div>
                         <div class="col-3 text-center border-start">
-                            <small class="text-muted d-block fs-7 fw-semibold">Proteínas</small>
+                            <small class="text-muted d-block fs-7 fw-semibold">Prot</small>
                             <strong class="text-primary fs-6" id="preview_protein">0g</strong>
                         </div>
                         <div class="col-3 text-center border-start">
-                            <small class="text-muted d-block fs-7 fw-semibold">Gorduras</small>
+                            <small class="text-muted d-block fs-7 fw-semibold">Gord</small>
                             <strong class="text-warning fs-6" id="preview_fat">0g</strong>
                         </div>
                     </div>

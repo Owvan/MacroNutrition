@@ -19,6 +19,7 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    -webkit-tap-highlight-color: transparent;
 }
 
 h1, h2, h3, h4, h5, h6, .brand-text {
@@ -223,12 +224,12 @@ input[type=number] {
     text-transform: uppercase;
     font-size: 0.75rem;
     letter-spacing: 0.05em;
-    padding: 1rem 1.35rem !important; /* Generous internal padding */
+    padding: 1rem 1.35rem !important;
     border-bottom: 1px solid #e2e8f0;
 }
 
 .table-custom td {
-    padding: 1.1rem 1.35rem !important; /* Generous internal cell padding */
+    padding: 1.1rem 1.35rem !important;
     border-bottom: 1px solid #f1f5f9;
     vertical-align: middle;
 }
@@ -253,4 +254,106 @@ footer {
     margin-top: auto;
     background-color: #ffffff;
     border-top: 1px solid var(--border-color);
+}
+
+/* ==========================================================================
+   MOBILE & iPHONE 15 OPTIMIZATIONS (Screen widths <= 991px and <= 480px)
+   ========================================================================== */
+
+@media (max-width: 991.98px) {
+    /* Mobile Navbar Ergonomics */
+    .navbar-collapse {
+        background-color: #ffffff;
+        padding: 1rem;
+        border-radius: 12px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        margin-top: 0.5rem;
+    }
+
+    .navbar-nav .nav-link {
+        padding: 0.75rem 1rem !important;
+        font-size: 1rem;
+    }
+
+    .navbar-nav .dropdown-menu {
+        border: None;
+        box-shadow: none;
+        background-color: #f8fafc;
+        border-radius: 10px;
+        padding: 0.5rem;
+    }
+}
+
+@media (max-width: 767.98px) {
+    /* Touch Target Optimization: Apple Human Interface Standard (>= 48px) */
+    .btn, .form-control, .form-select, .input-group-text {
+        min-height: 48px;
+        font-size: 1rem;
+    }
+
+    .btn-sm, .form-control-sm, .form-select-sm {
+        min-height: 40px;
+        font-size: 0.9rem;
+    }
+
+    /* Container Spacing for iPhones (393px - 430px) */
+    .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    /* Typography Adjustments on Mobile */
+    h1 {
+        font-size: 1.65rem !important;
+    }
+    h2 {
+        font-size: 1.45rem !important;
+    }
+    h5 {
+        font-size: 1.15rem !important;
+    }
+
+    /* Dashboard Summary Cards 2x2 Grid Layout */
+    .card-custom p-3 {
+        padding: 0.85rem !important;
+    }
+
+    /* Full-width Modal Action Buttons */
+    .modal-footer .btn {
+        width: 100%;
+        margin: 0.25rem 0;
+    }
+
+    /* Mobile Food Items Card List styling for Diet page */
+    .mobile-food-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 10px;
+        padding: 0.85rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .mobile-food-card:last-child {
+        margin-bottom: 0;
+    }
+}
+
+/* Specific iPhone 15 (393px width) fine-tuning */
+@media (max-width: 430px) {
+    .brand-text {
+        font-size: 1.2rem;
+    }
+
+    .fs-3 {
+        font-size: 1.5rem !important;
+    }
+
+    .fs-4 {
+        font-size: 1.25rem !important;
+    }
+
+    /* Stack inputs on small screens */
+    .row.g-3 > [class*="col-"] {
+        margin-bottom: 0.25rem;
+    }
 }
