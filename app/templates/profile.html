@@ -103,7 +103,7 @@
                             <div class="fs-7 text-muted my-2 p-2 bg-white rounded border" id="imc_risk_box">
                                 <i class="bi bi-info-circle text-teal me-1"></i> <span id="imc_risk_text">Faixa saudável com menor risco de doenças crônicas.</span>
                             </div>
-                            <button type="button" class="btn btn-outline-teal btn-sm w-100 mt-1 py-1" onclick="applySuggestedMeta()">
+                            <button type="button" class="btn btn-outline-teal btn-sm w-100 mt-1 py-2 fw-semibold" onclick="applySuggestedMeta()">
                                 <i class="bi bi-magic me-1"></i> Aplicar Peso Meta Sugerido pela OMS
                             </button>
                         </div>
@@ -189,7 +189,7 @@
 
                 <!-- Botão de Ação -->
                 <div class="col-12 text-end">
-                    <button type="submit" class="btn btn-teal btn-lg px-5 shadow-sm">
+                    <button type="submit" class="btn btn-teal btn-lg w-100 w-md-auto px-5 shadow-sm py-3">
                         <i class="bi bi-floppy-fill me-2"></i> Salvar Perfil & Atualizar Calculadoras
                     </button>
                 </div>
@@ -199,18 +199,19 @@
 
     <!-- Seção Educativa: Classificação do IMC e Riscos à Saúde (OMS) -->
     <div class="col-12 col-lg-10 mt-4">
-        <div class="card card-custom p-4 bg-white border-0 shadow-sm">
+        <div class="card card-custom p-3 p-md-4 bg-white border-0 shadow-sm">
             <div class="d-flex align-items-center mb-3">
-                <div class="brand-icon me-3 d-flex align-items-center justify-content-center bg-teal bg-opacity-10 text-teal rounded-circle" style="width: 42px; height: 42px;">
+                <div class="bg-teal bg-opacity-10 text-teal rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 me-3" style="width: 44px; height: 44px;">
                     <i class="bi bi-shield-heart fs-4 text-teal"></i>
                 </div>
                 <div>
                     <h5 class="fw-bold text-dark mb-0">Índices de IMC & Riscos à Saúde (Padrão OMS)</h5>
-                    <small class="text-muted fs-7">Entenda como a Organização Mundial da Saúde classifica o peso e os impactos na saúde de longo prazo</small>
+                    <small class="text-muted fs-7">Classificação oficial da Organização Mundial da Saúde e impactos de longo prazo</small>
                 </div>
             </div>
 
-            <div class="table-responsive">
+            <!-- Tabela Versão Desktop (>= 768px) -->
+            <div class="table-responsive d-none d-md-block">
                 <table class="table table-bordered align-middle mb-0 text-center">
                     <thead class="bg-light">
                         <tr>
@@ -259,6 +260,69 @@
                         </tr>
                     </tbody>
                 </table>
+            </div>
+
+            <!-- Cards Responsivos Versão Mobile (< 768px / iPhone 15) -->
+            <div class="d-block d-md-none bg-light p-2 rounded-3 border">
+                <!-- Card 1: Abaixo do Peso -->
+                <div class="card card-custom mb-2 p-3 border-0 shadow-sm">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                        <strong class="text-dark fs-7">IMC &lt; 18.5</strong>
+                        <span class="badge bg-warning text-dark">Abaixo do Peso</span>
+                    </div>
+                    <small class="text-muted d-block mb-1">Risco: <strong class="text-warning-emphasis">Aumentado</strong></small>
+                    <p class="text-secondary fs-7 mb-0">Desnutrição, osteopenia, imunidade reduzida, fadiga crônica e perda de massa magra.</p>
+                </div>
+
+                <!-- Card 2: Peso Normal -->
+                <div class="card card-custom mb-2 p-3 border-start border-4 border-success shadow-sm">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                        <strong class="text-success fs-7">IMC 18.5 &ndash; 24.9</strong>
+                        <span class="badge bg-success">Peso Normal (Ideal)</span>
+                    </div>
+                    <small class="text-muted d-block mb-1">Risco: <strong class="text-success">Baixo (Saudável)</strong></small>
+                    <p class="text-dark fs-7 mb-0"><strong>Faixa ótima!</strong> Menor incidência de doenças cardiovasculares e diabetes.</p>
+                </div>
+
+                <!-- Card 3: Sobrepeso -->
+                <div class="card card-custom mb-2 p-3 border-0 shadow-sm">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                        <strong class="text-dark fs-7">IMC 25.0 &ndash; 29.9</strong>
+                        <span class="badge bg-warning text-dark">Sobrepeso</span>
+                    </div>
+                    <small class="text-muted d-block mb-1">Risco: <strong class="text-warning-emphasis">Leve / Moderado</strong></small>
+                    <p class="text-secondary fs-7 mb-0">Alerta inicial para hipertensão, resistência à insulina e sobrecarga nas articulações.</p>
+                </div>
+
+                <!-- Card 4: Obesidade Grau I -->
+                <div class="card card-custom mb-2 p-3 border-0 shadow-sm">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                        <strong class="text-dark fs-7">IMC 30.0 &ndash; 34.9</strong>
+                        <span class="badge bg-danger bg-opacity-75 text-white">Obesidade Grau I</span>
+                    </div>
+                    <small class="text-muted d-block mb-1">Risco: <strong class="text-danger">Elevado</strong></small>
+                    <p class="text-secondary fs-7 mb-0">Risco aumentado de Diabetes Tipo 2, síndrome metabólica e hipertensão.</p>
+                </div>
+
+                <!-- Card 5: Obesidade Grau II -->
+                <div class="card card-custom mb-2 p-3 border-0 shadow-sm">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                        <strong class="text-dark fs-7">IMC 35.0 &ndash; 39.9</strong>
+                        <span class="badge bg-danger text-white">Obesidade Grau II</span>
+                    </div>
+                    <small class="text-muted d-block mb-1">Risco: <strong class="text-danger">Muito Elevado</strong></small>
+                    <p class="text-secondary fs-7 mb-0">Alto risco de doenças vasculares, apneia do sono e limitação articular.</p>
+                </div>
+
+                <!-- Card 6: Obesidade Grau III -->
+                <div class="card card-custom mb-0 p-3 border-start border-4 border-danger shadow-sm">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                        <strong class="text-danger fs-7">IMC &ge; 40.0</strong>
+                        <span class="badge bg-danger text-white">Obesidade Grau III</span>
+                    </div>
+                    <small class="text-muted d-block mb-1">Risco: <strong class="text-danger">Muitíssimo Elevado</strong></small>
+                    <p class="text-danger fs-7 mb-0">Risco gravíssimo de infarto, AVC e insuficiência respiratória. Exige acompanhamento médico.</p>
+                </div>
             </div>
         </div>
     </div>
