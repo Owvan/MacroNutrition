@@ -107,11 +107,3 @@ def get_taco_food_by_id(food_id):
     ''', (food_id,))
     row = cursor.fetchone()
     return dict(row) if row else None
-
-def get_all_taco_categories():
-    """Retorna todas as categorias disponíveis nas tabelas TACO e TBCA."""
-    db = get_db()
-    cursor = db.cursor()
-    cursor.execute('SELECT DISTINCT category FROM taco_foods ORDER BY category ASC')
-    rows = cursor.fetchall()
-    return [row['category'] for row in rows]

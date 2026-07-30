@@ -6,6 +6,16 @@ from werkzeug.security import generate_password_hash
 
 DB_NAME = "macronutrition.db"
 
+def parse_float(val, default=0.0):
+    """Auxiliar para converter strings em float com suporte a vírgula como separador decimal."""
+    if val is None:
+        return default
+    try:
+        val_str = str(val).strip().replace(',', '.')
+        return float(val_str)
+    except (ValueError, TypeError):
+        return default
+
 def get_db_path():
     base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     return os.path.join(base_dir, DB_NAME)
@@ -13,6 +23,7 @@ def get_db_path():
 def get_db():
     if 'db' not in g:
         g.db = sqlite3.connect(get_db_path())
+        g.db.execute("PRAGMA foreign_keys = ON;")
         g.db.row_factory = sqlite3.Row
     return g.db
 
@@ -24,6 +35,7 @@ def close_db(e=None):
 def init_db():
     db_path = get_db_path()
     conn = sqlite3.connect(db_path)
+    conn.execute("PRAGMA foreign_keys = ON;")
     cursor = conn.cursor()
 
     # User table
@@ -106,6 +118,7 @@ def init_db():
             FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
         );
     ''')
+    cursor.execute("CREATE INDEX IF NOT EXISTS idx_bmr_records_user ON bmr_records(user_id);")
 
     # Macro Records table
     cursor.execute('''
@@ -123,6 +136,7 @@ def init_db():
             FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
         );
     ''')
+    cursor.execute("CREATE INDEX IF NOT EXISTS idx_macro_records_user ON macro_records(user_id);")
 
     # TACO & TBCA Foods table
     cursor.execute('''
@@ -157,6 +171,7 @@ def init_db():
             FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
         );
     ''')
+    cursor.execute("CREATE INDEX IF NOT EXISTS idx_user_meals_user_date ON user_meals(user_id, meal_date);")
 
     # User Meal Items table
     cursor.execute('''
@@ -176,6 +191,7 @@ def init_db():
             FOREIGN KEY (meal_id) REFERENCES user_meals (id) ON DELETE CASCADE
         );
     ''')
+    cursor.execute("CREATE INDEX IF NOT EXISTS idx_user_meal_items_meal ON user_meal_items(meal_id);")
 
     cursor.execute("PRAGMA table_info(user_meal_items)")
     meal_item_cols = [row[1] for row in cursor.fetchall()]

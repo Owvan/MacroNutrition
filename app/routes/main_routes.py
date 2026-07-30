@@ -48,7 +48,7 @@ def log_weight():
     notes = request.form.get('notes', '')
 
     try:
-        if weight and float(weight) > 0:
+        if weight and float(str(weight).replace(',', '.')) > 0:
             add_weight_entry(user_id, weight, recorded_date, notes)
             flash(f'Peso de {weight} kg registrado com sucesso para {recorded_date}!', 'success')
         else:
@@ -68,7 +68,7 @@ def edit_weight(entry_id):
     notes = request.form.get('notes', '')
 
     try:
-        if weight and float(weight) > 0:
+        if weight and float(str(weight).replace(',', '.')) > 0:
             update_weight_entry(user_id, entry_id, weight, recorded_date, notes)
             flash('Registro de peso atualizado com sucesso!', 'success')
         else:
@@ -102,10 +102,10 @@ def calculator():
 
     if request.method == 'POST':
         gender = request.form.get('gender', 'male')
-        weight = float(request.form.get('weight', 70))
-        height = float(request.form.get('height', 170))
+        weight = float(str(request.form.get('weight', 70)).replace(',', '.'))
+        height = float(str(request.form.get('height', 170)).replace(',', '.'))
         age = int(request.form.get('age', 25))
-        activity_level = float(request.form.get('activity_level', 1.2))
+        activity_level = float(str(request.form.get('activity_level', 1.2)).replace(',', '.'))
         
         bmr, tdee = calculate_bmr_and_tdee(gender, weight, height, age, activity_level)
         
@@ -180,10 +180,10 @@ def calculator():
 def api_save_bmr():
     data = request.get_json() or {}
     gender = data.get('gender', 'male')
-    weight = float(data.get('weight', 70))
-    height = float(data.get('height', 170))
+    weight = float(str(data.get('weight', 70)).replace(',', '.'))
+    height = float(str(data.get('height', 170)).replace(',', '.'))
     age = int(data.get('age', 25))
-    activity_level = float(data.get('activity_level', 1.2))
+    activity_level = float(str(data.get('activity_level', 1.2)).replace(',', '.'))
 
     user_id = session.get('user_id')
     bmr, tdee = calculate_bmr_and_tdee(gender, weight, height, age, activity_level)
@@ -241,7 +241,7 @@ def macronutrients():
     custom_target = request.args.get('target_calories')
     if custom_target:
         try:
-            current_target_cal = float(custom_target)
+            current_target_cal = float(str(custom_target).replace(',', '.'))
         except ValueError:
             current_target_cal = latest_macro['target_calories'] if latest_macro else base_calories
     else:
@@ -272,7 +272,7 @@ def save_macros():
     fat_pct = request.form.get('fat_pct', 30)
 
     try:
-        total_pct = float(carb_pct) + float(protein_pct) + float(fat_pct)
+        total_pct = float(str(carb_pct).replace(',', '.')) + float(str(protein_pct).replace(',', '.')) + float(str(fat_pct).replace(',', '.'))
         if abs(total_pct - 100.0) > 0.5:
             flash('A soma das porcentagens dos macronutrientes deve ser igual a 100%.', 'danger')
             return redirect(url_for('main.macronutrients'))
@@ -331,6 +331,7 @@ def remove_meal(meal_id):
 @main.route('/dieta/adicionar-alimento', methods=['POST'])
 @login_required
 def add_food():
+    user_id = session.get('user_id')
     meal_id = request.form.get('meal_id')
     meal_date = request.form.get('meal_date', get_today_date_str())
     food_source = request.form.get('food_source', 'taco')
@@ -353,6 +354,7 @@ def add_food():
                 return redirect(url_for('main.diet', date=meal_date))
                 
             success, result = add_food_to_meal(
+                user_id,
                 meal_id,
                 taco_food_id=None,
                 amount_g=amount_g,
@@ -371,6 +373,7 @@ def add_food():
                 return redirect(url_for('main.diet', date=meal_date))
                 
             success, result = add_food_to_meal(
+                user_id,
                 meal_id,
                 taco_id,
                 amount_g,

@@ -1,4 +1,4 @@
-from app.database import get_db
+from app.database import get_db, parse_float
 
 ACTIVITY_LABELS = {
     1.2: "Sedentário (pouco ou nenhum exercício)",
@@ -9,12 +9,12 @@ ACTIVITY_LABELS = {
 }
 
 def calculate_bmr_and_tdee(gender, weight, height, age, activity_level):
-    weight = float(weight)
-    height = float(height)
-    age = int(age)
-    activity_level = float(activity_level)
+    weight = parse_float(weight, 70.0)
+    height = parse_float(height, 170.0)
+    age = int(parse_float(age, 25))
+    activity_level = parse_float(activity_level, 1.2)
     
-    if gender.lower() == 'female' or gender.lower() == 'feminino':
+    if gender.lower() in ['female', 'feminino']:
         bmr = (10 * weight) + (6.25 * height) - (5 * age) - 161
     else:
         bmr = (10 * weight) + (6.25 * height) - (5 * age) + 5
@@ -51,22 +51,3 @@ def get_latest_user_bmr(user_id):
     ''', (user_id,))
     record = cursor.fetchone()
     return dict(record) if record else None
-
-def get_user_bmr_records(user_id):
-    db = get_db()
-    cursor = db.cursor()
-    cursor.execute('''
-        SELECT id, gender, weight, height, age, activity_level, activity_label, bmr, tdee, created_at
-        FROM bmr_records
-        WHERE user_id = ?
-        ORDER BY created_at DESC
-    ''', (user_id,))
-    records = cursor.fetchall()
-    return [dict(row) for row in records]
-
-def delete_bmr_record(user_id, record_id):
-    db = get_db()
-    cursor = db.cursor()
-    cursor.execute('DELETE FROM bmr_records WHERE id = ? AND user_id = ?', (record_id, user_id))
-    db.commit()
-    return cursor.rowcount > 0

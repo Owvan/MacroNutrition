@@ -1,5 +1,5 @@
 import datetime
-from app.database import get_db
+from app.database import get_db, parse_float
 from app.services.taco_services import get_taco_food_by_id
 from app.services.macro_services import get_latest_user_macro
 
@@ -101,9 +101,10 @@ def delete_user_meal(user_id, meal_id):
     db.commit()
     return cursor.rowcount > 0
 
-def add_food_to_meal(meal_id, taco_food_id, amount_g, custom_name=None, custom_kcal=0, custom_p=0, custom_c=0, custom_f=0, unit_name='g', unit_qty=0):
-    amount_g = float(amount_g)
-    unit_qty = float(unit_qty or 0)
+def add_food_to_meal(user_id, meal_id, taco_food_id, amount_g, custom_name=None, custom_kcal=0, custom_p=0, custom_c=0, custom_f=0, unit_name='g', unit_qty=0):
+    """Adiciona alimento a uma refeição validando a propriedade (ownership) do user_id."""
+    amount_g = parse_float(amount_g, 100.0)
+    unit_qty = parse_float(unit_qty, 0.0)
     unit_name = str(unit_name or 'g').strip()
 
     if amount_g <= 0:
@@ -111,6 +112,11 @@ def add_food_to_meal(meal_id, taco_food_id, amount_g, custom_name=None, custom_k
 
     db = get_db()
     cursor = db.cursor()
+
+    # Verify meal ownership (Security IDOR Prevention)
+    cursor.execute('SELECT id FROM user_meals WHERE id = ? AND user_id = ?', (meal_id, user_id))
+    if not cursor.fetchone():
+        return False, "Refeição não encontrada ou permissão negada."
 
     if taco_food_id:
         food = get_taco_food_by_id(taco_food_id)
@@ -124,12 +130,12 @@ def add_food_to_meal(meal_id, taco_food_id, amount_g, custom_name=None, custom_k
         carbs_g = round(food['carbs_g'] * factor, 1)
         fat_g = round(food['fat_g'] * factor, 1)
     else:
-        food_name = custom_name or "Alimento Personalizado"
+        food_name = (custom_name or "Alimento Personalizado").strip()
         factor = amount_g / 100.0
-        calories = round(float(custom_kcal) * factor, 1)
-        protein_g = round(float(custom_p) * factor, 1)
-        carbs_g = round(float(custom_c) * factor, 1)
-        fat_g = round(float(custom_f) * factor, 1)
+        calories = round(parse_float(custom_kcal) * factor, 1)
+        protein_g = round(parse_float(custom_p) * factor, 1)
+        carbs_g = round(parse_float(custom_c) * factor, 1)
+        fat_g = round(parse_float(custom_f) * factor, 1)
 
     cursor.execute('''
         INSERT INTO user_meal_items
