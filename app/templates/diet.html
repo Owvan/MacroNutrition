@@ -180,21 +180,22 @@
         {% if diet.meals %}
             <div class="d-flex flex-column gap-4">
                 {% for meal in diet.meals %}
-                    <div class="card card-custom shadow-sm border-0">
-                        <div class="card-header bg-light border-0 p-3 d-flex flex-wrap align-items-center justify-content-between gap-2">
+                    <div class="card card-custom shadow border-0" style="border: 1px solid #e2e8f0 !important; border-radius: 14px; overflow: hidden;">
+                        <!-- Cabeçalho Nítido e Destacado para a Refeição -->
+                        <div class="card-header p-3 px-4 d-flex flex-wrap align-items-center justify-content-between gap-2" style="background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%); border-bottom: 1.5px solid #e2e8f0 !important;">
                             <div class="d-flex align-items-center">
-                                <span class="badge bg-teal-light text-teal me-2 p-2 rounded-circle">
-                                    <i class="bi bi-clock-history fs-6"></i>
+                                <span class="badge bg-teal text-white me-3 p-2.5 rounded-circle shadow-xs">
+                                    <i class="bi bi-clock-history fs-5"></i>
                                 </span>
                                 <div>
-                                    <h5 class="fw-bold text-dark mb-0">{{ meal.meal_name }}</h5>
-                                    <small class="text-muted">
-                                        {{ meal.food_items|length }} alimento(s) &bull; {{ meal.total_calories|int }} kcal
+                                    <h5 class="fw-extrabold text-dark mb-0 fs-5">{{ meal.meal_name }}</h5>
+                                    <small class="text-muted fw-semibold">
+                                        {{ meal.food_items|length }} alimento(s) &bull; <span class="text-teal fw-bold">{{ meal.total_calories|int }} kcal</span>
                                     </small>
                                 </div>
                             </div>
                             <div class="d-flex align-items-center gap-2">
-                                <button type="button" class="btn btn-teal btn-sm px-3 shadow-sm btn-open-add-food" data-meal-id="{{ meal.id }}" data-meal-name="{{ meal.meal_name }}">
+                                <button type="button" class="btn btn-teal btn-sm px-3 shadow-sm fw-semibold btn-open-add-food" data-meal-id="{{ meal.id }}" data-meal-name="{{ meal.meal_name }}">
                                     <i class="bi bi-plus-lg me-1"></i> Adicionar Alimento
                                 </button>
                                 {% if meal.meal_name not in ["Café da Manhã", "Almoço", "Lanche da Tarde", "Jantar"] %}
@@ -209,18 +210,18 @@
 
                         <div class="card-body p-0">
                             {% if meal.food_items %}
-                                <!-- Tabela para Desktop (>= 768px) -->
+                                <!-- Tabela Destacada para Desktop (>= 768px) -->
                                 <div class="table-responsive d-none d-md-block">
                                     <table class="table table-custom align-middle mb-0">
-                                        <thead>
+                                        <thead style="background-color: rgba(13, 148, 136, 0.05); color: #0f766e; border-bottom: 1.5px solid #cbd5e1;">
                                             <tr>
-                                                <th class="ps-4">Alimento</th>
-                                                <th>Quantidade</th>
-                                                <th>Calorias</th>
-                                                <th>Carbs</th>
-                                                <th>Proteínas</th>
-                                                <th>Gorduras</th>
-                                                <th class="text-end pe-4">Ação</th>
+                                                <th class="ps-4 py-3 fw-bold">Alimento</th>
+                                                <th class="py-3 fw-bold">Quantidade</th>
+                                                <th class="py-3 fw-bold">Calorias</th>
+                                                <th class="py-3 fw-bold">Carbs</th>
+                                                <th class="py-3 fw-bold">Proteínas</th>
+                                                <th class="py-3 fw-bold">Gorduras</th>
+                                                <th class="text-end pe-4 py-3 fw-bold">Ação</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -228,7 +229,7 @@
                                                 <tr>
                                                     <td class="ps-4 fw-bold text-dark">{{ item.food_name }}</td>
                                                     <td><span class="badge bg-light text-dark border px-2.5 py-1.5 fs-7">{{ item.display_amount }}</span></td>
-                                                    <td><strong class="text-teal">{{ item.calories|int }} kcal</strong></td>
+                                                    <td><strong class="text-teal fs-6">{{ item.calories|int }} kcal</strong></td>
                                                     <td>{{ item.carbs_g|int }}g</td>
                                                     <td>{{ item.protein_g|int }}g</td>
                                                     <td>{{ item.fat_g|int }}g</td>
@@ -331,7 +332,7 @@
     </div>
 </div>
 
-<!-- Modal 2: Adicionar Alimento à Refeição (TACO/TBCA ou Código de Barras / Customizado) -->
+<!-- Modal 2: Adicionar Alimento à Refeição (TACO/TBCA, EAN ou Personalizado) -->
 <div class="modal fade" id="addFoodModal" tabindex="-1" aria-labelledby="addFoodModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content border-0 shadow" style="border-radius: 14px; overflow: hidden;">
@@ -341,13 +342,14 @@
                 </h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fechar"></button>
             </div>
-            <form method="POST" action="{{ url_for('main.add_food') }}">
+            <form method="POST" action="{{ url_for('main.add_food') }}" id="add-food-form">
                 <input type="hidden" name="meal_id" id="modal_food_meal_id" value="">
                 <input type="hidden" name="taco_food_id" id="modal_taco_food_id" value="">
+                <input type="hidden" name="food_source" id="modal_food_source" value="taco">
                 <input type="hidden" name="meal_date" value="{{ current_date }}">
 
                 <div class="modal-body p-4">
-                    <!-- Nav Tabs: Busca Tabela vs Código de Barras / Customizado -->
+                    <!-- Nav Tabs: 1. Busca TACO/TBCA | 2. Código de Barras EAN | 3. Alimento Personalizado -->
                     <ul class="nav nav-pills nav-justified mb-4" id="foodTabs" role="tablist">
                         <li class="nav-item" role="presentation">
                             <button class="nav-link active fw-bold py-2" id="taco-tab" data-bs-toggle="pill" data-bs-target="#taco-panel" type="button" role="tab">
@@ -356,7 +358,12 @@
                         </li>
                         <li class="nav-item" role="presentation">
                             <button class="nav-link fw-bold py-2" id="barcode-tab" data-bs-toggle="pill" data-bs-target="#barcode-panel" type="button" role="tab">
-                                <i class="bi bi-upc-scan me-1"></i> Código de Barras / Manual
+                                <i class="bi bi-upc-scan me-1"></i> Código de Barras EAN
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link fw-bold py-2" id="custom-tab" data-bs-toggle="pill" data-bs-target="#custom-panel" type="button" role="tab">
+                                <i class="bi bi-plus-square me-1"></i> Alimento Personalizado
                             </button>
                         </li>
                     </ul>
@@ -364,19 +371,19 @@
                     <div class="tab-content" id="foodTabsContent">
                         <!-- Tab 1: Busca na Tabela TACO/TBCA -->
                         <div class="tab-pane fade show active" id="taco-panel" role="tabpanel">
-                            <div class="mb-3">
+                            <div class="mb-3 position-relative">
                                 <label for="taco_search" class="form-label fw-semibold">Pesquisar Alimento (TACO/TBCA)</label>
                                 <input type="text" class="form-control px-3" id="taco_search" placeholder="Digite arroz, frango, ovo, banana..." autocomplete="off">
                                 <div id="taco_results" class="list-group position-absolute w-100 shadow-sm mt-1 overflow-auto" style="max-height: 220px; z-index: 1050; display: none;"></div>
                             </div>
 
-                            <div id="selected_taco_food_card" class="p-3 bg-light rounded-3 border mb-3" style="display: none;">
+                            <div id="selected_taco_food_card" class="p-3 bg-teal bg-opacity-10 rounded-3 border border-teal mb-3" style="display: none;">
                                 <div class="fw-bold text-teal mb-1" id="selected_taco_name">--</div>
-                                <small class="text-muted d-block" id="selected_taco_macros">--</small>
+                                <small class="text-teal-dark d-block" id="selected_taco_macros">--</small>
                             </div>
                         </div>
 
-                        <!-- Tab 2: Código de Barras EAN & Alimento Customizado -->
+                        <!-- Tab 2: Código de Barras EAN -->
                         <div class="tab-pane fade" id="barcode-panel" role="tabpanel">
                             <div class="mb-3">
                                 <label for="barcode_input" class="form-label fw-semibold">Código de Barras (EAN-13)</label>
@@ -386,12 +393,20 @@
                                         <i class="bi bi-search me-1"></i> Consultar EAN
                                     </button>
                                 </div>
-                                <small class="text-muted fs-7">Consulta em tempo real no banco de dados Open Food Facts.</small>
+                                <small class="text-muted fs-7 d-block mt-1">Consulta em tempo real no banco de dados Open Food Facts.</small>
                             </div>
 
+                            <div id="barcode_product_card" class="p-3 bg-light rounded-3 border mb-3" style="display: none;">
+                                <div class="fw-bold text-dark mb-1" id="barcode_product_name">--</div>
+                                <small class="text-muted d-block" id="barcode_product_macros">--</small>
+                            </div>
+                        </div>
+
+                        <!-- Tab 3: Alimento Personalizado -->
+                        <div class="tab-pane fade" id="custom-panel" role="tabpanel">
                             <div class="mb-3">
-                                <label for="custom_name" class="form-label fw-semibold">Nome do Alimento</label>
-                                <input type="text" class="form-control px-3" id="custom_name" name="custom_name" placeholder="Ex: Iogurte Grego Morango 100g">
+                                <label for="custom_name" class="form-label fw-semibold">Nome do Alimento / Receita</label>
+                                <input type="text" class="form-control px-3" id="custom_name" name="custom_name" placeholder="Ex: Panqueca de Aveia com Banana">
                             </div>
 
                             <div class="row g-2 mb-3">
@@ -441,7 +456,7 @@
 
                 <div class="modal-footer bg-light border-0">
                     <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-teal">
+                    <button type="submit" class="btn btn-teal px-4 font-semibold shadow-sm">
                         <i class="bi bi-plus-lg me-1"></i> Adicionar Alimento
                     </button>
                 </div>
@@ -456,6 +471,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     const btnAddFoods = document.querySelectorAll('.btn-open-add-food');
     const foodModal = new bootstrap.Modal(document.getElementById('addFoodModal'));
+    const modalFoodSource = document.getElementById('modal_food_source');
 
     btnAddFoods.forEach(btn => {
         btn.addEventListener('click', function() {
@@ -467,6 +483,15 @@ document.addEventListener('DOMContentLoaded', function() {
             foodModal.show();
         });
     });
+
+    // Alternar o tipo de fonte de alimento ao clicar nas abas
+    const tacoTab = document.getElementById('taco-tab');
+    const barcodeTab = document.getElementById('barcode-tab');
+    const customTab = document.getElementById('custom-tab');
+
+    if (tacoTab) tacoTab.addEventListener('click', () => { modalFoodSource.value = 'taco'; });
+    if (barcodeTab) barcodeTab.addEventListener('click', () => { modalFoodSource.value = 'barcode'; });
+    if (customTab) customTab.addEventListener('click', () => { modalFoodSource.value = 'custom'; });
 
     // Busca Dinâmica na Tabela TACO/TBCA
     const tacoSearchInput = document.getElementById('taco_search');
@@ -489,14 +514,15 @@ document.addEventListener('DOMContentLoaded', function() {
                     .then(res => res.json())
                     .then(data => {
                         tacoResultsDiv.innerHTML = '';
-                        if (data.length === 0) {
-                            tacoResultsDiv.innerHTML = '<div class="list-group-item text-muted">Nenhum alimento encontrado.</div>';
+                        const foodsList = data.foods || data;
+                        if (!foodsList || foodsList.length === 0) {
+                            tacoResultsDiv.innerHTML = '<div class="list-group-item text-muted">Nenhum alimento encontrado na tabela.</div>';
                         } else {
-                            data.forEach(food => {
+                            foodsList.forEach(food => {
                                 const item = document.createElement('button');
                                 item.type = 'button';
                                 item.className = 'list-group-item list-group-item-action py-2';
-                                item.innerHTML = `<strong>${food.name}</strong> <small class="text-muted d-block">${food.energy_kcal} kcal &bull; C: ${food.carbohydrate_g}g &bull; P: ${food.protein_g}g &bull; G: ${food.lipid_g}g por 100g</small>`;
+                                item.innerHTML = `<strong>${food.name}</strong> <small class="text-muted d-block">${food.energy_kcal} kcal &bull; C: ${food.carbohydrate_g}g &bull; P: ${food.protein_g}g &bull; G: ${food.lipid_g}g (por 100g)</small>`;
                                 item.addEventListener('click', function() {
                                     document.getElementById('modal_taco_food_id').value = food.id;
                                     document.getElementById('selected_taco_name').innerText = food.name;
@@ -504,6 +530,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                     selectedTacoCard.style.display = 'block';
                                     tacoResultsDiv.style.display = 'none';
                                     tacoSearchInput.value = food.name;
+                                    modalFoodSource.value = 'taco';
                                 });
                                 tacoResultsDiv.appendChild(item);
                             });
@@ -516,13 +543,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Consulta Código de Barras EAN
     const btnSearchBarcode = document.getElementById('btn_search_barcode');
+    const barcodeProductCard = document.getElementById('barcode_product_card');
+
     if (btnSearchBarcode) {
         btnSearchBarcode.addEventListener('click', function() {
             const ean = document.getElementById('barcode_input').value.trim();
             if (!ean) return;
 
             btnSearchBarcode.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span> Buscando...';
-            fetch(`/api/openfoodfacts/barcode/${ean}`)
+            fetch(`/api/barcode/search?code=${ean}`)
                 .then(res => res.json())
                 .then(data => {
                     btnSearchBarcode.innerHTML = '<i class="bi bi-search me-1"></i> Consultar EAN';
@@ -534,6 +563,11 @@ document.addEventListener('DOMContentLoaded', function() {
                         document.getElementById('custom_p').value = f.protein_g;
                         document.getElementById('custom_f').value = f.lipid_g;
                         document.getElementById('modal_taco_food_id').value = '';
+                        modalFoodSource.value = 'barcode';
+
+                        document.getElementById('barcode_product_name').innerText = f.name;
+                        document.getElementById('barcode_product_macros').innerText = `${f.energy_kcal} kcal | Carbs: ${f.carbohydrate_g}g | Prot: ${f.protein_g}g | Gord: ${f.lipid_g}g (por 100g)`;
+                        barcodeProductCard.style.display = 'block';
                     } else {
                         alert('Produto não localizado pelo Código de Barras EAN.');
                     }
