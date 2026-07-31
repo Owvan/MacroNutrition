@@ -15,13 +15,31 @@
                     <h1 class="fw-extrabold text-dark mb-1">Registro Nutricional Diário</h1>
                     <p class="text-muted mb-0">Adicione e controle seus alimentos consumidos no dia.</p>
                 </div>
-                <div class="mt-3 mt-md-0 d-flex flex-wrap align-items-center gap-2">
-                    <form method="GET" action="{{ url_for('main.diet') }}" class="d-flex align-items-center me-2">
-                        <input type="date" name="date" class="form-control form-control-sm fw-semibold border-teal px-3" value="{{ meal_date }}" onchange="this.form.submit();">
-                    </form>
-                    <button type="button" class="btn btn-teal btn-sm px-3 shadow-sm" data-bs-toggle="modal" data-bs-target="#addMealModal">
-                        <i class="bi bi-plus-lg me-1"></i> Nova Refeição
-                    </button>
+
+                <!-- Seletor e Navegador de Data (Dia Anterior, Data Específica, Dia Seguinte) -->
+                <div class="mt-3 mt-md-0 d-flex align-items-center gap-2 flex-wrap">
+                    <div class="d-flex align-items-center bg-light p-1.5 rounded-3 border shadow-sm">
+                        <!-- Botão Dia Anterior -->
+                        <a href="{{ url_for('main.diet', date=prev_date) }}" class="btn btn-sm btn-white text-dark shadow-xs border-0 px-2.5 py-1.5 rounded-2" title="Dia Anterior ({{ prev_date }})">
+                            <i class="bi bi-chevron-left"></i>
+                        </a>
+
+                        <!-- Form com Input Date -->
+                        <form method="GET" action="{{ url_for('main.diet') }}" class="d-flex align-items-center mx-1">
+                            <input type="date" name="date" class="form-control form-control-sm fw-bold text-dark border-0 bg-transparent px-2" value="{{ current_date }}" onchange="this.form.submit();" style="width: 140px; cursor: pointer;">
+                        </form>
+
+                        <!-- Botão Dia Seguinte -->
+                        <a href="{{ url_for('main.diet', date=next_date) }}" class="btn btn-sm btn-white text-dark shadow-xs border-0 px-2.5 py-1.5 rounded-2" title="Dia Seguinte ({{ next_date }})">
+                            <i class="bi bi-chevron-right"></i>
+                        </a>
+                    </div>
+
+                    {% if not is_today %}
+                        <a href="{{ url_for('main.diet') }}" class="btn btn-outline-teal btn-sm fw-semibold px-3 py-2" title="Voltar para Hoje">
+                            <i class="bi bi-calendar-event me-1"></i> Hoje
+                        </a>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -265,6 +283,23 @@
             </div>
         {% endif %}
     </div>
+
+    <!-- Seção no Final da Página: Botão para Criar Nova Refeição -->
+    <div class="col-12 text-center mt-2 mb-4">
+        <div class="card card-custom p-4 bg-white border shadow-sm">
+            <div class="d-flex flex-column flex-sm-row align-items-center justify-content-between gap-3">
+                <div class="text-start">
+                    <h6 class="fw-bold text-dark mb-1 d-flex align-items-center">
+                        <i class="bi bi-plus-circle-fill text-teal me-2 fs-5"></i> Deseja adicionar outra refeição personalizada?
+                    </h6>
+                    <p class="text-muted fs-7 mb-0">Além do Café da Manhã, Almoço, Lanche e Jantar, você pode criar refeições adicionais como Pré-Treino, Ceia, etc.</p>
+                </div>
+                <button type="button" class="btn btn-teal btn-lg px-4 py-2.5 fw-bold shadow-sm flex-shrink-0" data-bs-toggle="modal" data-bs-target="#addMealModal">
+                    <i class="bi bi-plus-lg me-1.5"></i> Criar Nova Refeição
+                </button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Modal 1: Adicionar Nova Refeição Personalizada -->
@@ -278,7 +313,7 @@
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fechar"></button>
             </div>
             <form method="POST" action="{{ url_for('main.add_meal') }}">
-                <input type="hidden" name="meal_date" value="{{ meal_date }}">
+                <input type="hidden" name="meal_date" value="{{ current_date }}">
                 <div class="modal-body p-4">
                     <div class="mb-3">
                         <label for="meal_name" class="form-label fw-semibold">Nome da Refeição</label>
@@ -309,7 +344,7 @@
             <form method="POST" action="{{ url_for('main.add_food') }}">
                 <input type="hidden" name="meal_id" id="modal_food_meal_id" value="">
                 <input type="hidden" name="taco_food_id" id="modal_taco_food_id" value="">
-                <input type="hidden" name="meal_date" value="{{ meal_date }}">
+                <input type="hidden" name="meal_date" value="{{ current_date }}">
 
                 <div class="modal-body p-4">
                     <!-- Nav Tabs: Busca Tabela vs Código de Barras / Customizado -->

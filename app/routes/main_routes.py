@@ -1,4 +1,6 @@
+import datetime
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session, jsonify
+
 from app.routes.auth_routes import login_required
 from app.services.bmr_services import calculate_bmr_and_tdee, save_bmr_record, get_latest_user_bmr
 from app.services.macro_services import (
@@ -292,10 +294,29 @@ def save_macros():
 @login_required
 def diet():
     user_id = session.get('user_id')
-    meal_date = request.args.get('date', get_today_date_str())
+    date_param = request.args.get('date', get_today_date_str())
     
-    diet_data = get_daily_diet_summary(user_id, meal_date)
-    return render_template('diet.html', diet=diet_data, current_date=meal_date)
+    try:
+        dt = datetime.datetime.strptime(date_param, "%Y-%m-%d").date()
+    except ValueError:
+        dt = datetime.date.today()
+        date_param = dt.strftime("%Y-%m-%d")
+
+    prev_date = (dt - datetime.timedelta(days=1)).strftime("%Y-%m-%d")
+    next_date = (dt + datetime.timedelta(days=1)).strftime("%Y-%m-%d")
+    today_str = get_today_date_str()
+    is_today = (date_param == today_str)
+
+    diet_data = get_daily_diet_summary(user_id, date_param)
+    return render_template(
+        'diet.html',
+        diet=diet_data,
+        current_date=date_param,
+        prev_date=prev_date,
+        next_date=next_date,
+        is_today=is_today
+    )
+
 
 
 @main.route('/dieta/adicionar-refeicao', methods=['POST'])
