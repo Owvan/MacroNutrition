@@ -30,6 +30,35 @@
         </div>
     </div>
 
+    <!-- Banner Gamificado do Sistema de Ofensiva (Streak com Foguinhos 🔥) -->
+    <div class="col-12">
+        <div class="card card-custom p-3 p-md-4 shadow-sm border-0" style="background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%); border: 1.5px solid #fed7aa !important;">
+            <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
+                <div class="d-flex align-items-center">
+                    <div class="me-3" style="font-size: 2.6rem; line-height: 1;">
+                        {{ data.streak_info.fire_icons }}
+                    </div>
+                    <div>
+                        <div class="d-flex align-items-center gap-2 flex-wrap">
+                            <h4 class="fw-extrabold text-dark mb-0">Ofensiva: <span class="text-warning-emphasis">{{ data.streak_info.streak_count }} Dias Seguidos</span></h4>
+                            <span class="badge bg-warning text-dark fw-semibold px-2 py-1 fs-7">{{ data.streak_info.level_title }}</span>
+                        </div>
+                        <p class="text-secondary mb-0 fs-7 mt-1">{{ data.streak_info.message }}</p>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4">
+                    <div class="d-flex justify-content-between align-items-center fs-7 mb-1 text-secondary">
+                        <span>Próximo Marco: <strong>{{ data.streak_info.next_milestone }} dias</strong></span>
+                        <strong class="text-warning-emphasis">{{ data.streak_info.streak_count }}/{{ data.streak_info.next_milestone }}</strong>
+                    </div>
+                    <div class="progress bg-white" style="height: 10px; border: 1px solid #fdba74;">
+                        <div class="progress-bar bg-warning" role="progressbar" style="width: {{ data.streak_info.progress_pct }}%;" aria-valuenow="{{ data.streak_info.progress_pct }}" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- 4 Cards Resumo de Progresso (Versão Desktop >= 768px) -->
     <div class="col-12 d-none d-md-block">
         <div class="row g-3">
@@ -230,12 +259,114 @@
             </div>
         </div>
     </div>
+
+    <!-- Gráfico 3: Histórico de Consumo Calórico dos Dias Anteriores -->
+    <div class="col-12">
+        <div class="card card-custom p-3 p-md-4 shadow-sm border-0">
+            <div class="d-flex flex-column flex-sm-row align-items-sm-center justify-content-between mb-3 pb-2 border-bottom gap-2">
+                <div>
+                    <h5 class="fw-bold text-dark m-0 d-flex align-items-center">
+                        <i class="bi bi-bar-chart-line-fill text-teal me-2"></i> Histórico Calórico dos Dias Anteriores (kcal)
+                    </h5>
+                    <small class="text-muted fs-7">Compare seu consumo diário real com a meta calórica estipulada nos últimos 7 dias</small>
+                </div>
+                <span class="badge bg-teal-light text-teal px-3 py-2 rounded-pill fs-7 fw-semibold">
+                    Meta Atual: {{ data.diet.target_cal|int }} kcal/dia
+                </span>
+            </div>
+
+            <div class="my-auto py-2" style="position: relative; height: 260px;">
+                <canvas id="caloricHistoryChart"></canvas>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Floating Action Button (FAB) para registrar refeição rápida -->
 <a href="{{ url_for('main.diet', date=current_date) }}" class="btn btn-teal rounded-circle shadow-lg fab-btn d-flex align-items-center justify-content-center" title="Registrar Refeição">
     <i class="bi bi-plus-lg fs-4"></i>
 </a>
+
+<!-- Modal de Notas de Atualização (Release Notes v1.5.0) -->
+<div class="modal fade" id="releaseNotesModal" tabindex="-1" aria-labelledby="releaseNotesModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content border-0 shadow-lg" style="border-radius: 16px; overflow: hidden;">
+            <div class="modal-header bg-gradient text-white p-4" style="background: linear-gradient(135deg, #0d9488 0%, #06b6d4 100%);">
+                <div>
+                    <span class="badge bg-white text-teal px-3 py-1 rounded-pill fw-bold mb-2 fs-7">
+                        ✨ Nova Atualização v1.5.0
+                    </span>
+                    <h4 class="modal-title fw-extrabold m-0" id="releaseNotesModalLabel">
+                        🎉 O que há de novo no MacroNutrition!
+                    </h4>
+                </div>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" id="btn-close-release-notes" aria-label="Fechar"></button>
+            </div>
+
+            <div class="modal-body p-4">
+                <div class="row g-3">
+                    <!-- Novidade 1: Ofensiva -->
+                    <div class="col-12 col-md-6">
+                        <div class="p-3 bg-light rounded-3 border h-100">
+                            <div class="d-flex align-items-center mb-2">
+                                <span class="fs-2 me-2">🔥</span>
+                                <h6 class="fw-bold text-dark mb-0">Sistema de Ofensiva (Streak)</h6>
+                            </div>
+                            <p class="text-secondary fs-7 mb-0">
+                                Mantenha o foco diário e acumule dias seguidos dentro da meta. Ganhe foguinhos e conquiste o selo de <strong>Lenda da Nutrição</strong>!
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Novidade 2: Gráfico de Histórico Calórico -->
+                    <div class="col-12 col-md-6">
+                        <div class="p-3 bg-light rounded-3 border h-100">
+                            <div class="d-flex align-items-center mb-2">
+                                <span class="fs-2 me-2">📊</span>
+                                <h6 class="fw-bold text-dark mb-0">Gráfico de Histórico Calórico</h6>
+                            </div>
+                            <p class="text-secondary fs-7 mb-0">
+                                Compare visualmente seu consumo dos dias anteriores com a linha de meta recomendada em um novo gráfico de barras interativo.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Novidade 3: Design Mobile iPhone 15 -->
+                    <div class="col-12 col-md-6">
+                        <div class="p-3 bg-light rounded-3 border h-100">
+                            <div class="d-flex align-items-center mb-2">
+                                <span class="fs-2 me-2">📱</span>
+                                <h6 class="fw-bold text-dark mb-0">Design Mobile iPhone 15</h6>
+                            </div>
+                            <p class="text-secondary fs-7 mb-0">
+                                Interface 100% otimizada para celulares, com áreas de toque anatômicas, cartões compactos e botão flutuante para refeições.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Novidade 4: Segurança & Performance -->
+                    <div class="col-12 col-md-6">
+                        <div class="p-3 bg-light rounded-3 border h-100">
+                            <div class="d-flex align-items-center mb-2">
+                                <span class="fs-2 me-2">🛡️</span>
+                                <h6 class="fw-bold text-dark mb-0">Segurança & Performance</h6>
+                            </div>
+                            <p class="text-secondary fs-7 mb-0">
+                                Proteção aprimorada contra IDOR, índices SQLite de alta velocidade e sanitização inteligente de decimais com vírgula.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer bg-light border-0 p-3">
+                <button type="button" class="btn btn-teal px-4 py-2 fw-bold w-100 w-sm-auto ms-auto" data-bs-dismiss="modal" id="btn-confirm-release-notes">
+                    <i class="bi bi-check-circle-fill me-1"></i> Entendi! Explorar Novidades
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- Modal 1: Registrar Peso Atual -->
 <div class="modal fade" id="logWeightModal" tabindex="-1" aria-labelledby="logWeightModalLabel" aria-hidden="true">
@@ -388,6 +519,20 @@
 {% block scripts %}
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    // 0. Trigger Modal de Notas de Atualização no primeiro acesso da versão 1.5.0
+    const versionKey = 'mn_version_seen_1_5_0';
+    if (!localStorage.getItem(versionKey)) {
+        const releaseModal = new bootstrap.Modal(document.getElementById('releaseNotesModal'));
+        releaseModal.show();
+
+        const markSeen = function() {
+            localStorage.setItem(versionKey, 'true');
+        };
+
+        document.getElementById('btn-close-release-notes').addEventListener('click', markSeen);
+        document.getElementById('btn-confirm-release-notes').addEventListener('click', markSeen);
+    }
+
     // 1. Gráfico de Histórico de Peso (Line Chart)
     const weightCanvas = document.getElementById('weightHistoryChart');
     if (weightCanvas) {
@@ -476,6 +621,73 @@ document.addEventListener('DOMContentLoaded', function() {
                     legend: { position: 'bottom' }
                 },
                 cutout: '65%'
+            }
+        });
+    }
+
+    // 3. Gráfico de Histórico Calórico dos Dias Anteriores (Bar Chart + Target Line)
+    const caloricCanvas = document.getElementById('caloricHistoryChart');
+    if (caloricCanvas) {
+        const caloricData = {{ data.caloric_history|tojson }};
+        const labels = caloricData.map(item => item.display_date);
+        const consumedValues = caloricData.map(item => item.consumed_cal);
+        const targetValues = caloricData.map(item => item.target_cal);
+
+        const backgroundColors = caloricData.map(item => {
+            if (item.consumed_cal === 0) return 'rgba(203, 213, 225, 0.5)';
+            if (item.exceeded) return '#ef4444'; // Vermelho se exceder meta
+            return '#0d9488'; // Teal se dentro da meta
+        });
+
+        new Chart(caloricCanvas.getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Calorias Consumidas (kcal)',
+                        data: consumedValues,
+                        backgroundColor: backgroundColors,
+                        borderRadius: 6,
+                        borderWidth: 0,
+                        order: 2
+                    },
+                    {
+                        label: 'Meta Diária (kcal)',
+                        data: targetValues,
+                        type: 'line',
+                        borderColor: '#f59e0b',
+                        borderDash: [5, 5],
+                        pointRadius: 3,
+                        pointBackgroundColor: '#f59e0b',
+                        fill: false,
+                        borderWidth: 2,
+                        order: 1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'top' },
+                    tooltip: {
+                        callbacks: {
+                            label: function(ctx) {
+                                return ` ${ctx.dataset.label}: ${ctx.raw} kcal`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: 'rgba(0,0,0,0.05)' }
+                    },
+                    x: {
+                        grid: { display: false }
+                    }
+                }
             }
         });
     }

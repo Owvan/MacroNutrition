@@ -1,7 +1,12 @@
 import datetime
 from app.database import get_db
 from app.services.profile_services import get_user_profile
-from app.services.diet_services import get_daily_diet_summary, get_today_date_str
+from app.services.diet_services import (
+    get_daily_diet_summary,
+    get_today_date_str,
+    get_caloric_history,
+    get_caloric_streak
+)
 
 def add_weight_entry(user_id, weight, date_str=None, notes=None):
     """Registra uma medição de peso no histórico e atualiza o peso atual no perfil."""
@@ -110,6 +115,8 @@ def get_dashboard_data(user_id, date_str=None):
     profile = get_user_profile(user_id)
     diet_summary = get_daily_diet_summary(user_id, date_str)
     weight_history = get_weight_history(user_id, limit=30)
+    caloric_history = get_caloric_history(user_id, days=7)
+    streak_info = get_caloric_streak(user_id)
 
     # If no weight history exists yet, but profile exists, seed first weight history entry automatically
     if not weight_history and profile and profile.get('current_weight'):
@@ -165,5 +172,7 @@ def get_dashboard_data(user_id, date_str=None):
         'diet': diet_summary,
         'weight_history': weight_history,
         'weight_stats': weight_stats,
+        'caloric_history': caloric_history,
+        'streak_info': streak_info,
         'current_date': date_str
     }
