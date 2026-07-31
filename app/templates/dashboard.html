@@ -59,72 +59,73 @@
         </div>
     </div>
 
-    <!-- Painel de Resumo Unificado e Fluido (Versão Desktop >= 768px) -->
+    <!-- Painel de Resumo Unificado (Versão Desktop >= 768px - Destaque Calorias + 3 Macros) -->
     <div class="col-12 d-none d-md-block">
-        <div class="card card-custom p-3.5 shadow-sm border-0 bg-white">
-            <div class="row align-items-center g-3">
-                <!-- 1. Destaque Principal: Calorias do Dia -->
-                <div class="col-md-4 border-end">
+        <div class="card card-custom p-4 shadow-sm bg-white" style="border: 1px solid var(--border-color) !important;">
+            <div class="row align-items-center g-4">
+                <!-- 1. Destaque Principal: Calorias do Dia (50% da largura) -->
+                <div class="col-md-6 border-end pe-md-4">
                     <div class="d-flex align-items-center">
-                        <div class="rounded-3 me-3 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 46px; height: 46px; background-color: rgba(13, 148, 136, 0.12); color: #0d9488;">
-                            <i class="bi bi-fire fs-3"></i>
+                        <div class="rounded-3 me-3 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 54px; height: 54px; background-color: rgba(13, 148, 136, 0.12); color: #0d9488;">
+                            <i class="bi bi-fire fs-2"></i>
                         </div>
-                        <div class="w-100 me-2">
+                        <div class="w-100">
                             <div class="d-flex justify-content-between align-items-center mb-1">
-                                <span class="fw-bold text-dark fs-7">CALORIAS DO DIA</span>
+                                <span class="fw-bold text-dark fs-7">CALORIAS INGERIDAS HOJE</span>
                                 <span class="badge {% if data.diet.cal_pct > 105 %}bg-danger{% elif data.diet.cal_pct >= 90 %}bg-success{% else %}bg-teal-light text-teal{% endif %} fs-7">
                                     {{ data.diet.cal_pct }}%
                                 </span>
                             </div>
-                            <div class="fs-4 fw-extrabold text-teal mb-1">
+                            <div class="fs-3 fw-extrabold text-teal mb-1">
                                 {{ data.diet.consumed_cal|int }} <span class="fs-6 text-muted font-normal">/ {{ data.diet.target_cal|int }} kcal</span>
                             </div>
-                            <div class="progress" style="height: 6px;">
+                            <div class="progress mb-1" style="height: 8px;">
                                 <div class="progress-bar bg-teal" role="progressbar" style="width: {{ [data.diet.cal_pct, 100]|min }}%;"></div>
                             </div>
+                            <small class="text-muted fs-7">Saldo: <strong>{{ (data.diet.target_cal - data.diet.consumed_cal)|int }} kcal restantes</strong></small>
                         </div>
                     </div>
                 </div>
 
-                <!-- 2. Peso Corporal & Meta -->
-                <div class="col-md-4 border-end">
-                    <div class="d-flex align-items-center">
-                        <div class="rounded-3 me-3 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 46px; height: 46px; background-color: #f1f5f9; color: #475569;">
-                            <i class="bi bi-person-fill fs-3"></i>
-                        </div>
-                        <div class="w-100 me-2">
-                            <div class="d-flex justify-content-between align-items-center mb-1">
-                                <span class="fw-bold text-dark fs-7">PESO CORPORAL</span>
-                                <span class="badge bg-light text-dark border fs-7">{{ data.weight_stats.progress_pct }}% da meta</span>
-                            </div>
-                            <div class="fs-4 fw-extrabold text-dark mb-1">
-                                {{ data.weight_stats.current_weight }} <span class="fs-6 text-muted font-normal">kg</span>
-                                <span class="fs-7 text-muted font-normal ms-1">(Meta: {{ data.weight_stats.target_weight }} kg)</span>
+                <!-- 2. Os 3 Macronutrientes (50% da largura) -->
+                <div class="col-md-6 ps-md-4">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="fw-bold text-dark fs-7">BALANÇO DOS MACRONUTRIENTES</span>
+                        <small class="text-muted fs-7">Consumo / Meta Diária</small>
+                    </div>
+
+                    <div class="d-flex flex-column gap-2">
+                        <!-- Carboidratos -->
+                        <div>
+                            <div class="d-flex justify-content-between align-items-center fs-7 mb-1">
+                                <span class="text-dark fw-semibold"><i class="bi bi-circle-fill text-teal me-1 fs-7"></i> Carboidratos</span>
+                                <strong class="text-teal">{{ data.diet.consumed_carbs_g|int }}g <span class="text-muted font-normal">/ {{ data.diet.target_carb_g|int }}g</span></strong>
                             </div>
                             <div class="progress" style="height: 6px;">
-                                <div class="progress-bar bg-dark" role="progressbar" style="width: {{ data.weight_stats.progress_pct }}%;"></div>
+                                <div class="progress-bar bg-teal" role="progressbar" style="width: {{ [data.diet.carb_pct, 100]|min }}%;"></div>
                             </div>
                         </div>
-                    </div>
-                </div>
 
-                <!-- 3. Macronutrientes (Secundários / Menos Destaque) -->
-                <div class="col-md-4">
-                    <div class="px-1">
-                        <div class="d-flex justify-content-between align-items-center mb-1 fs-7">
-                            <span class="text-muted fw-semibold"><i class="bi bi-egg-fill text-primary me-1"></i> Proteínas:</span>
-                            <strong class="text-primary">{{ data.diet.consumed_protein_g|int }} / {{ data.diet.target_protein_g|int }}g</strong>
-                        </div>
-                        <div class="progress mb-2" style="height: 5px;">
-                            <div class="progress-bar bg-primary" role="progressbar" style="width: {{ [data.diet.protein_pct, 100]|min }}%;"></div>
+                        <!-- Proteínas -->
+                        <div>
+                            <div class="d-flex justify-content-between align-items-center fs-7 mb-1">
+                                <span class="text-dark fw-semibold"><i class="bi bi-egg-fill text-primary me-1 fs-7"></i> Proteínas</span>
+                                <strong class="text-primary">{{ data.diet.consumed_protein_g|int }}g <span class="text-muted font-normal">/ {{ data.diet.target_protein_g|int }}g</span></strong>
+                            </div>
+                            <div class="progress" style="height: 6px;">
+                                <div class="progress-bar bg-primary" role="progressbar" style="width: {{ [data.diet.protein_pct, 100]|min }}%;"></div>
+                            </div>
                         </div>
 
-                        <div class="d-flex justify-content-between align-items-center mb-1 fs-7">
-                            <span class="text-muted fw-semibold"><i class="bi bi-pie-chart-fill text-teal me-1"></i> Carbs & Gorduras:</span>
-                            <strong class="text-dark">C: {{ data.diet.consumed_carbs_g|int }}g &bull; G: {{ data.diet.consumed_fat_g|int }}g</strong>
-                        </div>
-                        <div class="progress" style="height: 5px;">
-                            <div class="progress-bar bg-warning" role="progressbar" style="width: {{ [data.diet.carb_pct, 100]|min }}%;"></div>
+                        <!-- Gorduras -->
+                        <div>
+                            <div class="d-flex justify-content-between align-items-center fs-7 mb-1">
+                                <span class="text-dark fw-semibold"><i class="bi bi-pie-chart-fill text-warning me-1 fs-7"></i> Gorduras</span>
+                                <strong class="text-warning-emphasis">{{ data.diet.consumed_fat_g|int }}g <span class="text-muted font-normal">/ {{ data.diet.target_fat_g|int }}g</span></strong>
+                            </div>
+                            <div class="progress" style="height: 6px;">
+                                <div class="progress-bar bg-warning" role="progressbar" style="width: {{ [data.diet.fat_pct, 100]|min }}%;"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -136,28 +137,10 @@
     <div class="col-12 d-block d-md-none">
         <div class="card card-custom p-3 shadow-sm border-0">
             <h6 class="fw-bold text-dark mb-3 d-flex align-items-center">
-                <i class="bi bi-activity text-teal me-2"></i> Resumo Diário & Metas
+                <i class="bi bi-activity text-teal me-2"></i> Calorias & Macronutrientes
             </h6>
 
-            <!-- 1. Peso Corporal -->
-            <div class="mb-3">
-                <div class="d-flex justify-content-between align-items-center fs-7 mb-1">
-                    <span class="fw-semibold text-dark"><i class="bi bi-person-fill text-teal me-1"></i> Peso Corporal</span>
-                    <span class="fw-bold text-teal">{{ data.weight_stats.current_weight }} / {{ data.weight_stats.target_weight }} kg</span>
-                </div>
-                <div class="progress" style="height: 8px;">
-                    <div class="progress-bar bg-teal" style="width: {{ data.weight_stats.progress_pct }}%;"></div>
-                </div>
-                <small class="text-muted fs-7 mt-1 d-block">
-                    {% if data.weight_stats.remaining_kg > 0 %}
-                        Falta {{ data.weight_stats.remaining_kg }} kg para atingir a meta
-                    {% else %}
-                        <span class="text-success fw-bold">Meta atingida!</span>
-                    {% endif %}
-                </small>
-            </div>
-
-            <!-- 2. Calorias Ingeridas -->
+            <!-- 1. Calorias Ingeridas -->
             <div class="mb-3">
                 <div class="d-flex justify-content-between align-items-center fs-7 mb-1">
                     <span class="fw-semibold text-dark"><i class="bi bi-fire text-danger me-1"></i> Calorias Diárias</span>
@@ -171,6 +154,17 @@
                 </small>
             </div>
 
+            <!-- 2. Carboidratos -->
+            <div class="mb-3">
+                <div class="d-flex justify-content-between align-items-center fs-7 mb-1">
+                    <span class="fw-semibold text-dark"><i class="bi bi-circle-fill text-teal me-1"></i> Carboidratos (g)</span>
+                    <span class="fw-bold text-teal">{{ data.diet.consumed_carbs_g|int }} / {{ data.diet.target_carb_g|int }}g</span>
+                </div>
+                <div class="progress" style="height: 8px;">
+                    <div class="progress-bar bg-teal" style="width: {{ [data.diet.carb_pct, 100]|min }}%;"></div>
+                </div>
+            </div>
+
             <!-- 3. Proteínas -->
             <div class="mb-3">
                 <div class="d-flex justify-content-between align-items-center fs-7 mb-1">
@@ -182,14 +176,14 @@
                 </div>
             </div>
 
-            <!-- 4. Carboidratos & Gorduras -->
+            <!-- 4. Gorduras -->
             <div>
                 <div class="d-flex justify-content-between align-items-center fs-7 mb-1">
-                    <span class="fw-semibold text-dark"><i class="bi bi-pie-chart-fill text-warning me-1"></i> Carbs & Gorduras</span>
-                    <span class="fw-bold text-warning">C: {{ data.diet.consumed_carbs_g|int }}g / G: {{ data.diet.consumed_fat_g|int }}g</span>
+                    <span class="fw-semibold text-dark"><i class="bi bi-pie-chart-fill text-warning me-1"></i> Gorduras (g)</span>
+                    <span class="fw-bold text-warning">{{ data.diet.consumed_fat_g|int }} / {{ data.diet.target_fat_g|int }}g</span>
                 </div>
                 <div class="progress" style="height: 8px;">
-                    <div class="progress-bar bg-warning" style="width: {{ [data.diet.carb_pct, 100]|min }}%;"></div>
+                    <div class="progress-bar bg-warning" style="width: {{ [data.diet.fat_pct, 100]|min }}%;"></div>
                 </div>
             </div>
         </div>
