@@ -1,25 +1,25 @@
 {% extends 'base.html' %}
 
-{% block title %}Minha Dieta - MacroNutrition{% endblock %}
+{% block title %}Diário Alimentar - MacroNutrition{% endblock %}
 
 {% block content %}
 <div class="row g-4">
-    <!-- Header Hero Banner & Date Selector -->
+    <!-- Header Hero Banner & Navegação por Data -->
     <div class="col-12">
         <div class="card card-custom p-4 bg-white border-0 shadow-sm">
             <div class="d-md-flex align-items-center justify-content-between">
                 <div>
                     <span class="badge bg-teal-light text-teal px-3 py-2 rounded-pill fw-semibold mb-2">
-                        <i class="bi bi-egg-fried me-1"></i> TACO (UNICAMP) &bull; TBCA (USP) &bull; Open Food Facts
+                        <i class="bi bi-journal-bookmark-fill me-1"></i> Diário de Refeições
                     </span>
-                    <h1 class="fw-extrabold text-dark mb-1">Planejador de Dieta Diário</h1>
-                    <p class="text-muted mb-0">Registre seus alimentos por refeição e acompanhe seu saldo de calorias e macronutrientes.</p>
+                    <h1 class="fw-extrabold text-dark mb-1">Registro Nutricional Diário</h1>
+                    <p class="text-muted mb-0">Adicione e controle seus alimentos consumidos no dia.</p>
                 </div>
                 <div class="mt-3 mt-md-0 d-flex flex-wrap align-items-center gap-2">
                     <form method="GET" action="{{ url_for('main.diet') }}" class="d-flex align-items-center me-2">
-                        <input type="date" name="date" class="form-control form-control-sm fw-semibold border-teal px-3" value="{{ current_date }}" onchange="this.form.submit();">
+                        <input type="date" name="date" class="form-control form-control-sm fw-semibold border-teal px-3" value="{{ meal_date }}" onchange="this.form.submit();">
                     </form>
-                    <button type="button" class="btn btn-teal btn-sm" data-bs-toggle="modal" data-bs-target="#addMealModal">
+                    <button type="button" class="btn btn-teal btn-sm px-3 shadow-sm" data-bs-toggle="modal" data-bs-target="#addMealModal">
                         <i class="bi bi-plus-lg me-1"></i> Nova Refeição
                     </button>
                 </div>
@@ -27,71 +27,74 @@
         </div>
     </div>
 
-    <!-- 4 Cards de Balanço Diário (Versão Desktop >= 768px) -->
+    <!-- Painel de Resumo Unificado (Versão Desktop >= 768px - Destaque Calorias + 3 Macros) -->
     <div class="col-12 d-none d-md-block">
-        <div class="row g-3">
-            <!-- Calorias Totais -->
-            <div class="col-6 col-lg-3">
-                <div class="card card-custom p-3 border-start border-4 border-teal h-100">
-                    <div class="d-flex justify-content-between align-items-center mb-1">
-                        <span class="fw-bold text-dark fs-7">CALORIAS</span>
-                        <span class="badge {% if diet.cal_pct > 105 %}bg-danger{% elif diet.cal_pct >= 90 %}bg-success{% else %}bg-teal-light text-teal{% endif %} fs-7">
-                            {{ diet.cal_pct }}%
-                        </span>
-                    </div>
-                    <div class="fs-4 fw-extrabold text-teal mb-1">
-                        {{ diet.consumed_cal|int }} <span class="fs-6 text-muted font-normal">/ {{ diet.target_cal|int }} kcal</span>
-                    </div>
-                    <div class="progress" style="height: 6px;">
-                        <div class="progress-bar bg-teal" role="progressbar" style="width: {{ [diet.cal_pct, 100]|min }}%;" aria-valuenow="{{ diet.cal_pct }}" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Carboidratos -->
-            <div class="col-6 col-lg-3">
-                <div class="card card-custom p-3 border-start border-4 border-teal h-100">
-                    <div class="d-flex justify-content-between align-items-center mb-1">
-                        <span class="fw-bold text-teal-dark fs-7">CARBOIDRATOS</span>
-                        <span class="badge bg-teal-light text-teal fs-7">{{ diet.carb_pct }}%</span>
-                    </div>
-                    <div class="fs-4 fw-extrabold text-teal-dark mb-1">
-                        {{ diet.consumed_carbs_g|int }}g <span class="fs-6 text-muted font-normal">/ {{ diet.target_carb_g|int }}g</span>
-                    </div>
-                    <div class="progress" style="height: 6px;">
-                        <div class="progress-bar bg-teal" role="progressbar" style="width: {{ [diet.carb_pct, 100]|min }}%;" aria-valuenow="{{ diet.carb_pct }}" aria-valuemin="0" aria-valuemax="100"></div>
+        <div class="card card-custom p-4 shadow-sm bg-white" style="border: 1px solid var(--border-color) !important;">
+            <div class="row align-items-center g-4">
+                <!-- 1. Destaque Principal: Calorias do Dia (50% da largura) -->
+                <div class="col-md-6 border-end pe-md-4">
+                    <div class="d-flex align-items-center">
+                        <div class="rounded-3 me-3 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 54px; height: 54px; background-color: rgba(13, 148, 136, 0.12); color: #0d9488;">
+                            <i class="bi bi-fire fs-2"></i>
+                        </div>
+                        <div class="w-100">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <span class="fw-bold text-dark fs-7">CALORIAS INGERIDAS HOJE</span>
+                                <span class="badge {% if diet.cal_pct > 105 %}bg-danger{% elif diet.cal_pct >= 90 %}bg-success{% else %}bg-teal-light text-teal{% endif %} fs-7">
+                                    {{ diet.cal_pct }}%
+                                </span>
+                            </div>
+                            <div class="fs-3 fw-extrabold text-teal mb-1">
+                                {{ diet.consumed_cal|int }} <span class="fs-6 text-muted font-normal">/ {{ diet.target_cal|int }} kcal</span>
+                            </div>
+                            <div class="progress mb-1" style="height: 8px;">
+                                <div class="progress-bar bg-teal" role="progressbar" style="width: {{ [diet.cal_pct, 100]|min }}%;"></div>
+                            </div>
+                            <small class="text-muted fs-7">Saldo: <strong>{{ (diet.target_cal - diet.consumed_cal)|int }} kcal restantes</strong></small>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Proteínas -->
-            <div class="col-6 col-lg-3">
-                <div class="card card-custom p-3 border-start border-4 border-primary h-100">
-                    <div class="d-flex justify-content-between align-items-center mb-1">
-                        <span class="fw-bold text-primary fs-7">PROTEÍNAS</span>
-                        <span class="badge bg-primary bg-opacity-10 text-primary fs-7">{{ diet.protein_pct }}%</span>
+                <!-- 2. Os 3 Macronutrientes (50% da largura) -->
+                <div class="col-md-6 ps-md-4">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="fw-bold text-dark fs-7">BALANÇO DOS MACRONUTRIENTES</span>
+                        <small class="text-muted fs-7">Consumo / Meta Diária</small>
                     </div>
-                    <div class="fs-4 fw-extrabold text-primary mb-1">
-                        {{ diet.consumed_protein_g|int }}g <span class="fs-6 text-muted font-normal">/ {{ diet.target_protein_g|int }}g</span>
-                    </div>
-                    <div class="progress" style="height: 6px;">
-                        <div class="progress-bar bg-primary" role="progressbar" style="width: {{ [diet.protein_pct, 100]|min }}%;" aria-valuenow="{{ diet.protein_pct }}" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                </div>
-            </div>
 
-            <!-- Gorduras -->
-            <div class="col-6 col-lg-3">
-                <div class="card card-custom p-3 border-start border-4 border-warning h-100">
-                    <div class="d-flex justify-content-between align-items-center mb-1">
-                        <span class="fw-bold text-warning fs-7">GORDURAS</span>
-                        <span class="badge bg-warning bg-opacity-10 text-warning fs-7">{{ diet.fat_pct }}%</span>
-                    </div>
-                    <div class="fs-4 fw-extrabold text-warning mb-1">
-                        {{ diet.consumed_fat_g|int }}g <span class="fs-6 text-muted font-normal">/ {{ diet.target_fat_g|int }}g</span>
-                    </div>
-                    <div class="progress" style="height: 6px;">
-                        <div class="progress-bar bg-warning" role="progressbar" style="width: {{ [diet.fat_pct, 100]|min }}%;" aria-valuenow="{{ diet.fat_pct }}" aria-valuemin="0" aria-valuemax="100"></div>
+                    <div class="d-flex flex-column gap-2">
+                        <!-- Carboidratos -->
+                        <div>
+                            <div class="d-flex justify-content-between align-items-center fs-7 mb-1">
+                                <span class="text-dark fw-semibold"><i class="bi bi-circle-fill text-teal me-1 fs-7"></i> Carboidratos</span>
+                                <strong class="text-teal">{{ diet.consumed_carbs_g|int }}g <span class="text-muted font-normal">/ {{ diet.target_carb_g|int }}g</span></strong>
+                            </div>
+                            <div class="progress" style="height: 6px;">
+                                <div class="progress-bar bg-teal" role="progressbar" style="width: {{ [diet.carb_pct, 100]|min }}%;"></div>
+                            </div>
+                        </div>
+
+                        <!-- Proteínas -->
+                        <div>
+                            <div class="d-flex justify-content-between align-items-center fs-7 mb-1">
+                                <span class="text-dark fw-semibold"><i class="bi bi-egg-fill text-primary me-1 fs-7"></i> Proteínas</span>
+                                <strong class="text-primary">{{ diet.consumed_protein_g|int }}g <span class="text-muted font-normal">/ {{ diet.target_protein_g|int }}g</span></strong>
+                            </div>
+                            <div class="progress" style="height: 6px;">
+                                <div class="progress-bar bg-primary" role="progressbar" style="width: {{ [diet.protein_pct, 100]|min }}%;"></div>
+                            </div>
+                        </div>
+
+                        <!-- Gorduras -->
+                        <div>
+                            <div class="d-flex justify-content-between align-items-center fs-7 mb-1">
+                                <span class="text-dark fw-semibold"><i class="bi bi-pie-chart-fill text-warning me-1 fs-7"></i> Gorduras</span>
+                                <strong class="text-warning-emphasis">{{ diet.consumed_fat_g|int }}g <span class="text-muted font-normal">/ {{ diet.target_fat_g|int }}g</span></strong>
+                            </div>
+                            <div class="progress" style="height: 6px;">
+                                <div class="progress-bar bg-warning" role="progressbar" style="width: {{ [diet.fat_pct, 100]|min }}%;"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -108,14 +111,14 @@
             <!-- 1. Calorias Totais -->
             <div class="mb-3">
                 <div class="d-flex justify-content-between align-items-center fs-7 mb-1">
-                    <span class="fw-semibold text-dark"><i class="bi bi-fire text-teal me-1"></i> Calorias Ingeridas</span>
-                    <span class="fw-bold text-teal">{{ diet.consumed_cal|int }} / {{ diet.target_cal|int }} kcal</span>
+                    <span class="fw-semibold text-dark"><i class="bi bi-fire text-danger me-1"></i> Calorias Diárias</span>
+                    <span class="fw-bold text-danger">{{ diet.consumed_cal|int }} / {{ diet.target_cal|int }} kcal</span>
                 </div>
                 <div class="progress" style="height: 8px;">
-                    <div class="progress-bar bg-teal" style="width: {{ [diet.cal_pct, 100]|min }}%;"></div>
+                    <div class="progress-bar bg-danger" style="width: {{ [diet.cal_pct, 100]|min }}%;"></div>
                 </div>
                 <small class="text-muted fs-7 mt-1 d-block">
-                    Saldo: {{ (diet.target_cal - diet.consumed_cal)|int }} kcal restantes ({{ diet.cal_pct }}%)
+                    Saldo: {{ (diet.target_cal - diet.consumed_cal)|int }} kcal restantes
                 </small>
             </div>
 
@@ -154,338 +157,117 @@
         </div>
     </div>
 
-    <!-- Lista de Refeições do Dia -->
+    <!-- Lista de Refeições Diárias -->
     <div class="col-12">
         {% if diet.meals %}
-            {% for meal in diet.meals %}
-                <div class="card card-custom mb-4 shadow-sm" style="border-radius: 14px; overflow: hidden;">
-                    <div class="card-header bg-white py-3 px-3 px-md-4 d-flex align-items-center justify-content-between border-bottom">
-                        <div class="d-flex align-items-center me-2">
-                            <div class="brand-icon me-2 d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; font-size: 1rem;">
-                                <i class="bi bi-brightness-high"></i>
+            <div class="d-flex flex-column gap-4">
+                {% for meal in diet.meals %}
+                    <div class="card card-custom shadow-sm border-0">
+                        <div class="card-header bg-light border-0 p-3 d-flex flex-wrap align-items-center justify-content-between gap-2">
+                            <div class="d-flex align-items-center">
+                                <span class="badge bg-teal-light text-teal me-2 p-2 rounded-circle">
+                                    <i class="bi bi-clock-history fs-6"></i>
+                                </span>
+                                <div>
+                                    <h5 class="fw-bold text-dark mb-0">{{ meal.meal_name }}</h5>
+                                    <small class="text-muted">
+                                        {{ meal.food_items|length }} alimento(s) &bull; {{ meal.total_calories|int }} kcal
+                                    </small>
+                                </div>
                             </div>
-                            <div>
-                                <h5 class="fw-bold text-dark mb-0">{{ meal.meal_name }}</h5>
-                                <small class="text-muted fs-7">
-                                    Subtotal: <strong class="text-teal">{{ meal.total_calories|int }} kcal</strong> &bull; 
-                                    C: {{ meal.total_carbs|int }}g &bull; 
-                                    P: {{ meal.total_protein|int }}g &bull; 
-                                    G: {{ meal.total_fat|int }}g
-                                </small>
-                            </div>
-                        </div>
-
-                        <div class="d-flex align-items-center gap-2">
-                            <button type="button" class="btn btn-teal btn-sm px-2 px-md-3" onclick="openAddFoodModal({{ meal.id }}, '{{ meal.meal_name }}')">
-                                <i class="bi bi-plus-circle me-1"></i> <span class="d-none d-sm-inline">Adicionar </span>Alimento
-                            </button>
-                            <form method="POST" action="{{ url_for('main.remove_meal', meal_id=meal.id) }}" class="d-inline" onsubmit="return confirm('Deseja excluir a refeição {{ meal.meal_name }}?');">
-                                <input type="hidden" name="meal_date" value="{{ current_date }}">
-                                <button type="submit" class="btn btn-outline-danger btn-sm border-0 py-1 px-2" title="Excluir Refeição">
-                                    <i class="bi bi-trash3"></i>
+                            <div class="d-flex align-items-center gap-2">
+                                <button type="button" class="btn btn-teal btn-sm px-3 shadow-sm btn-open-add-food" data-meal-id="{{ meal.id }}" data-meal-name="{{ meal.meal_name }}">
+                                    <i class="bi bi-plus-lg me-1"></i> Adicionar Alimento
                                 </button>
-                            </form>
-                        </div>
-                    </div>
-
-                    <div class="card-body p-0">
-                        {% if meal.food_items %}
-                            <!-- Tabela Versão Desktop (>= 768px) -->
-                            <div class="table-responsive d-none d-md-block">
-                                <table class="table table-custom mb-0">
-                                    <thead>
-                                        <tr>
-                                            <th class="ps-4">Alimento</th>
-                                            <th>Quantidade / Medida</th>
-                                            <th>Calorias</th>
-                                            <th>Carboidratos</th>
-                                            <th>Proteínas</th>
-                                            <th>Gorduras</th>
-                                            <th class="text-end pe-4">Ação</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {% for item in meal.food_items %}
-                                            <tr>
-                                                <td class="fw-semibold text-dark ps-4">{{ item.food_name }}</td>
-                                                <td><span class="badge bg-light text-dark border px-2 py-1">{{ item.display_amount }}</span></td>
-                                                <td class="fw-bold text-teal">{{ item.calories|int }} kcal</td>
-                                                <td class="text-muted">{{ item.carbs_g }} g</td>
-                                                <td class="text-muted">{{ item.protein_g }} g</td>
-                                                <td class="text-muted">{{ item.fat_g }} g</td>
-                                                <td class="text-end pe-4">
-                                                    <form method="POST" action="{{ url_for('main.remove_food_item', item_id=item.id) }}" class="d-inline">
-                                                        <input type="hidden" name="meal_date" value="{{ current_date }}">
-                                                        <button type="submit" class="btn btn-outline-danger btn-sm border-0 py-1 px-2" title="Remover Alimento">
-                                                            <i class="bi bi-x-lg"></i>
-                                                        </button>
-                                                    </form>
-                                                </td>
-                                            </tr>
-                                        {% endfor %}
-                                    </tbody>
-                                </table>
+                                {% if meal.meal_name not in ["Café da Manhã", "Almoço", "Lanche da Tarde", "Jantar"] %}
+                                    <form method="POST" action="{{ url_for('main.remove_meal', meal_id=meal.id) }}" class="d-inline" onsubmit="return confirm('Excluir a refeição {{ meal.meal_name }}?');">
+                                        <button type="submit" class="btn btn-outline-danger btn-sm px-2" title="Excluir Refeição">
+                                            <i class="bi bi-trash3"></i>
+                                        </button>
+                                    </form>
+                                {% endif %}
                             </div>
+                        </div>
 
-                            <!-- Lista de Cards Otimizada para Mobile (< 768px / iPhone 15) -->
-                            <div class="d-block d-md-none p-3 bg-light">
-                                {% for item in meal.food_items %}
-                                    <div class="mobile-food-card shadow-sm">
-                                        <div class="d-flex justify-content-between align-items-start mb-2">
-                                            <div>
-                                                <strong class="text-dark d-block mb-1 fs-6">{{ item.food_name }}</strong>
-                                                <span class="badge bg-light text-dark border">{{ item.display_amount }}</span>
-                                            </div>
-                                            <div class="d-flex align-items-center">
-                                                <span class="badge bg-teal text-white fs-7 me-2">{{ item.calories|int }} kcal</span>
-                                                <form method="POST" action="{{ url_for('main.remove_food_item', item_id=item.id) }}" class="d-inline">
-                                                    <input type="hidden" name="meal_date" value="{{ current_date }}">
-                                                    <button type="submit" class="btn btn-outline-danger btn-sm p-1 border-0" title="Remover">
-                                                        <i class="bi bi-x-lg"></i>
+                        <div class="card-body p-0">
+                            {% if meal.food_items %}
+                                <!-- Tabela para Desktop (>= 768px) -->
+                                <div class="table-responsive d-none d-md-block">
+                                    <table class="table table-custom align-middle mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th class="ps-4">Alimento</th>
+                                                <th>Quantidade</th>
+                                                <th>Calorias</th>
+                                                <th>Carbs</th>
+                                                <th>Proteínas</th>
+                                                <th>Gorduras</th>
+                                                <th class="text-end pe-4">Ação</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for item in meal.food_items %}
+                                                <tr>
+                                                    <td class="ps-4 fw-bold text-dark">{{ item.food_name }}</td>
+                                                    <td><span class="badge bg-light text-dark border px-2.5 py-1.5 fs-7">{{ item.display_amount }}</span></td>
+                                                    <td><strong class="text-teal">{{ item.calories|int }} kcal</strong></td>
+                                                    <td>{{ item.carbs_g|int }}g</td>
+                                                    <td>{{ item.protein_g|int }}g</td>
+                                                    <td>{{ item.fat_g|int }}g</td>
+                                                    <td class="text-end pe-4">
+                                                        <form method="POST" action="{{ url_for('main.remove_food_item', item_id=item.id) }}" class="d-inline">
+                                                            <button type="submit" class="btn btn-outline-danger btn-sm py-1 px-2" title="Remover item">
+                                                                <i class="bi bi-x-lg"></i>
+                                                            </button>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <!-- Mobile Item Cards (< 768px / iPhone 15) -->
+                                <div class="d-block d-md-none p-3">
+                                    <div class="d-flex flex-column gap-2">
+                                        {% for item in meal.food_items %}
+                                            <div class="p-3 bg-light rounded-3 border d-flex align-items-center justify-content-between">
+                                                <div>
+                                                    <div class="fw-bold text-dark mb-1">{{ item.food_name }}</div>
+                                                    <div class="d-flex flex-wrap gap-2 fs-7 text-muted align-items-center">
+                                                        <span class="badge bg-white text-dark border">{{ item.display_amount }}</span>
+                                                        <span class="fw-bold text-teal me-1">{{ item.calories|int }} kcal</span>
+                                                        <span>C: {{ item.carbs_g|int }}g &bull; P: {{ item.protein_g|int }}g &bull; G: {{ item.fat_g|int }}g</span>
+                                                    </div>
+                                                </div>
+                                                <form method="POST" action="{{ url_for('main.remove_food_item', item_id=item.id) }}" class="ms-2">
+                                                    <button type="submit" class="btn btn-outline-danger btn-sm p-2 rounded-circle" title="Remover item">
+                                                        <i class="bi bi-trash3 fs-6"></i>
                                                     </button>
                                                 </form>
                                             </div>
-                                        </div>
-                                        <div class="d-flex gap-2 text-center fs-7 border-top pt-2 mt-2">
-                                            <div class="col-4">
-                                                <span class="text-muted d-block">Carb</span>
-                                                <strong class="text-teal">{{ item.carbs_g }}g</strong>
-                                            </div>
-                                            <div class="col-4 border-start">
-                                                <span class="text-muted d-block">Prot</span>
-                                                <strong class="text-primary">{{ item.protein_g }}g</strong>
-                                            </div>
-                                            <div class="col-4 border-start">
-                                                <span class="text-muted d-block">Gord</span>
-                                                <strong class="text-warning">{{ item.fat_g }}g</strong>
-                                            </div>
-                                        </div>
+                                        {% endfor %}
                                     </div>
-                                {% endfor %}
-                            </div>
-                        {% else %}
-                            <div class="p-4 text-center text-muted">
-                                <i class="bi bi-basket fs-3 text-muted opacity-50 d-block mb-1"></i>
-                                <span class="small">Nenhum alimento adicionado ao {{ meal.meal_name }} ainda.</span>
-                                <button type="button" class="btn btn-link btn-sm text-teal text-decoration-none fw-semibold d-block mx-auto mt-1" onclick="openAddFoodModal({{ meal.id }}, '{{ meal.meal_name }}')">
-                                    + Clique para registrar alimento
-                                </button>
-                            </div>
-                        {% endif %}
+                                </div>
+                            {% else %}
+                                <div class="p-4 text-center text-muted">
+                                    <small><i class="bi bi-info-circle me-1"></i> Nenhum alimento adicionado a esta refeição ainda.</small>
+                                </div>
+                            {% endif %}
+                        </div>
                     </div>
-                </div>
-            {% endfor %}
+                {% endfor %}
+            </div>
         {% else %}
-            <div class="card card-custom p-5 text-center">
-                <h5 class="fw-bold text-dark">Nenhuma refeição criada para esta data.</h5>
-                <p class="text-muted small mb-3">Clique abaixo para criar suas refeições do dia.</p>
-                <button type="button" class="btn btn-teal mx-auto" data-bs-toggle="modal" data-bs-target="#addMealModal">
-                    <i class="bi bi-plus-lg me-1"></i> Adicionar Refeição
-                </button>
+            <div class="card card-custom p-5 text-center text-muted shadow-sm">
+                <i class="bi bi-journal-x fs-1 text-teal mb-2"></i>
+                <h5>Nenhuma refeição cadastrada para esta data.</h5>
             </div>
         {% endif %}
     </div>
 </div>
 
-<!-- Modal 1: Adicionar Alimento (3 Abas: TACO & TBCA, Código de Barras EAN, Alimento Personalizado) -->
-<div class="modal fade" id="addFoodModal" tabindex="-1" aria-labelledby="addFoodModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content border-0 shadow" style="border-radius: 14px; overflow: hidden;">
-            <div class="modal-header bg-teal text-white">
-                <h5 class="modal-title fw-bold m-0 d-flex align-items-center fs-6" id="addFoodModalLabel">
-                    <i class="bi bi-plus-circle me-2"></i> Adicionar Alimento a <span id="modal_meal_title" class="ms-1 underline">Refeição</span>
-                </h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fechar"></button>
-            </div>
-            
-            <form method="POST" action="{{ url_for('main.add_food') }}">
-                <input type="hidden" name="meal_id" id="modal_meal_id" value="">
-                <input type="hidden" name="meal_date" value="{{ current_date }}">
-                <input type="hidden" name="food_source" id="food_source" value="taco">
-                <input type="hidden" name="taco_food_id" id="taco_food_id" value="">
-
-                <div class="modal-body p-3 p-md-4">
-                    <!-- Alternador de Abas (3 Opções) -->
-                    <ul class="nav nav-pills nav-justified mb-4 p-1 bg-light rounded-3 border" id="foodTypeTabs" role="tablist">
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link active fw-semibold py-2 fs-7" id="taco-tab" data-bs-toggle="pill" data-bs-target="#taco-pane" type="button" role="tab" onclick="switchFoodSource('taco')">
-                                <i class="bi bi-search me-1"></i> TACO & TBCA
-                            </button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link fw-semibold py-2 fs-7" id="barcode-tab" data-bs-toggle="pill" data-bs-target="#barcode-pane" type="button" role="tab" onclick="switchFoodSource('barcode')">
-                                <i class="bi bi-barcode-scan me-1"></i> EAN / Barras
-                            </button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link fw-semibold py-2 fs-7" id="custom-tab" data-bs-toggle="pill" data-bs-target="#custom-pane" type="button" role="tab" onclick="switchFoodSource('custom')">
-                                <i class="bi bi-pencil-square me-1"></i> Criar Item
-                            </button>
-                        </li>
-                    </ul>
-
-                    <div class="tab-content" id="foodTypeTabContent">
-                        <!-- Aba 1: Tabela TACO & TBCA (USP) -->
-                        <div class="tab-pane fade show active" id="taco-pane" role="tabpanel">
-                            <div class="mb-3 position-relative">
-                                <label for="taco_search_input" class="form-label fw-semibold fs-7">Buscar na Tabela TACO (UNICAMP) & TBCA (USP)</label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-light text-muted"><i class="bi bi-search"></i></span>
-                                    <input type="text" class="form-control px-3" id="taco_search_input" placeholder="Digite o nome do alimento (ex: Arroz, Pizza, Strogonoff...)" autocomplete="off">
-                                </div>
-                                <div id="taco_search_results" class="list-group position-absolute w-100 shadow-sm border-0 mt-1 d-none" style="z-index: 1050; max-height: 220px; overflow-y: auto;"></div>
-                            </div>
-
-                            <div id="selected_food_box" class="p-3 rounded-3 bg-light border border-teal mb-3 d-none">
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <div>
-                                        <span class="badge bg-teal text-white me-1" id="selected_food_source">TACO</span>
-                                        <small class="text-muted me-1" id="selected_food_category">Categoria</small>
-                                        <h6 class="fw-bold text-dark mb-0 mt-1" id="selected_food_name">Alimento Selecionado</h6>
-                                    </div>
-                                    <span class="badge bg-success bg-opacity-10 text-success fs-7">Selecionado</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Aba 2: Código de Barras (EAN / Open Food Facts) -->
-                        <div class="tab-pane fade" id="barcode-pane" role="tabpanel">
-                            <div class="mb-3">
-                                <label for="barcode_input" class="form-label fw-semibold fs-7">Digitar ou Escanear Código de Barras (EAN)</label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-light text-muted"><i class="bi bi-barcode"></i></span>
-                                    <input type="text" class="form-control px-3" id="barcode_input" placeholder="Ex: 7891000053508" autocomplete="off">
-                                    <button class="btn btn-teal px-3" type="button" id="btn_search_barcode">
-                                        <i class="bi bi-search me-1"></i> EAN
-                                    </button>
-                                </div>
-                            </div>
-
-                            <!-- Box de Produto Encontrado via Código de Barras -->
-                            <div id="barcode_result_box" class="p-3 rounded-3 bg-light border border-primary mb-3 d-none">
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <div>
-                                        <span class="badge bg-primary text-white me-1">Open Food Facts</span>
-                                        <small class="text-muted" id="barcode_number_label">EAN</small>
-                                        <h6 class="fw-bold text-dark mb-0 mt-1" id="barcode_product_name">Nome do Produto</h6>
-                                    </div>
-                                    <span class="badge bg-success bg-opacity-10 text-success fs-7">Localizado</span>
-                                </div>
-                            </div>
-
-                            <!-- Box Fallback: Alerta de Código não Encontrado + Busca por Nome -->
-                            <div id="barcode_fallback_box" class="p-3 rounded-3 bg-warning bg-opacity-10 border border-warning mb-3 d-none">
-                                <div class="d-flex align-items-center text-warning-emphasis mb-2">
-                                    <i class="bi bi-exclamation-triangle-fill fs-5 me-2"></i>
-                                    <strong class="small" id="barcode_error_msg">Código de barras não localizado.</strong>
-                                </div>
-                                <label for="fallback_name_input" class="form-label fw-semibold text-dark fs-7 mb-1">Buscar Produto por Nome na API Open Food Facts:</label>
-                                <div class="input-group position-relative">
-                                    <input type="text" class="form-control form-control-sm px-3" id="fallback_name_input" placeholder="Ex: Nescau, Biscoito Nesfit, Iogurte Danone..." autocomplete="off">
-                                </div>
-                                <div id="fallback_search_results" class="list-group shadow-sm border-0 mt-1 d-none" style="max-height: 180px; overflow-y: auto;"></div>
-                            </div>
-                        </div>
-
-                        <!-- Aba 3: Alimento Personalizado -->
-                        <div class="tab-pane fade" id="custom-pane" role="tabpanel">
-                            <div class="mb-3">
-                                <label for="custom_name" class="form-label fw-semibold fs-7">Nome do Alimento / Item</label>
-                                <input type="text" class="form-control px-3" id="custom_name" name="custom_name" placeholder="Ex: Fatia de Pizza de Calabrês, Coxinha...">
-                            </div>
-
-                            <div class="p-3 rounded-3 bg-light border mb-3">
-                                <label class="form-label fw-semibold text-dark fs-7 mb-2">Informação Nutricional (por 100g de alimento)</label>
-                                <div class="row g-2">
-                                    <div class="col-6 col-sm-3">
-                                        <label for="custom_kcal" class="form-label fs-7 fw-semibold text-teal">Calorias (kcal)</label>
-                                        <input type="number" step="0.1" min="0" class="form-control form-control-sm px-2 text-center" id="custom_kcal" name="custom_kcal" value="250">
-                                    </div>
-                                    <div class="col-6 col-sm-3">
-                                        <label for="custom_c" class="form-label fs-7 fw-semibold text-dark">Carboidratos (g)</label>
-                                        <input type="number" step="0.1" min="0" class="form-control form-control-sm px-2 text-center" id="custom_c" name="custom_c" value="30">
-                                    </div>
-                                    <div class="col-6 col-sm-3">
-                                        <label for="custom_p" class="form-label fs-7 fw-semibold text-primary">Proteínas (g)</label>
-                                        <input type="number" step="0.1" min="0" class="form-control form-control-sm px-2 text-center" id="custom_p" name="custom_p" value="10">
-                                    </div>
-                                    <div class="col-6 col-sm-3">
-                                        <label for="custom_f" class="form-label fs-7 fw-semibold text-warning">Gorduras (g)</label>
-                                        <input type="number" step="0.1" min="0" class="form-control form-control-sm px-2 text-center" id="custom_f" name="custom_f" value="10">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Seção de Quantidade e Unidades de Medida Caseira -->
-                    <div class="card card-custom p-3 bg-light border mb-4">
-                        <label class="form-label fw-semibold text-dark fs-7 mb-2">Quantidade e Unidade de Medida</label>
-                        <div class="row g-3 align-items-center">
-                            <!-- Seletor de Medida Caseira -->
-                            <div class="col-12 col-md-5">
-                                <label for="unit_name" class="form-label fs-7 text-muted mb-1">Medida Selecionada</label>
-                                <select class="form-select fw-semibold" id="unit_name" name="unit_name">
-                                    <option value="g" selected>Gramas (g)</option>
-                                    <option value="unidade">Unidade(s) (~50g)</option>
-                                    <option value="colher_sopa">Colher(es) de Sopa (~15g)</option>
-                                    <option value="colher_cha">Colher(es) de Chá (~5g)</option>
-                                    <option value="concha">Concha(s) (~100g)</option>
-                                    <option value="xicara">Xícara(s) (~150g)</option>
-                                    <option value="fatia">Fatia(s) (~30g)</option>
-                                </select>
-                            </div>
-
-                            <!-- Quantidade da Medida Caseira (Ex: 2 colheres, 1 unidade) -->
-                            <div class="col-6 col-md-3" id="unit_qty_container" style="display: none;">
-                                <label for="unit_qty" class="form-label fs-7 text-muted mb-1">Qtd. Medida</label>
-                                <input type="number" step="any" min="0.1" max="500" class="form-control text-center fw-bold" id="unit_qty" name="unit_qty" value="1">
-                            </div>
-
-                            <!-- Equivalência Automática em Gramas -->
-                            <div class="col-6 col-md-4" id="amount_g_container">
-                                <label for="amount_g" class="form-label fs-7 text-teal fw-semibold mb-1">Peso Final (Gramas)</label>
-                                <div class="input-group">
-                                    <input type="number" step="1" min="1" max="5000" class="form-control fw-bold fs-5 text-teal text-center" id="amount_g" name="amount_g" value="100" required>
-                                    <span class="input-group-text bg-light text-muted">g</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Prévia dos Valores Nutricionais Gerados -->
-                    <div class="row g-2 p-3 bg-light rounded-3 border">
-                        <div class="col-3 text-center">
-                            <small class="text-muted d-block fs-7 fw-semibold">Calorias</small>
-                            <strong class="text-teal fs-6" id="preview_kcal">0 kcal</strong>
-                        </div>
-                        <div class="col-3 text-center border-start">
-                            <small class="text-muted d-block fs-7 fw-semibold">Carbs</small>
-                            <strong class="text-dark fs-6" id="preview_carbs">0g</strong>
-                        </div>
-                        <div class="col-3 text-center border-start">
-                            <small class="text-muted d-block fs-7 fw-semibold">Prot</small>
-                            <strong class="text-primary fs-6" id="preview_protein">0g</strong>
-                        </div>
-                        <div class="col-3 text-center border-start">
-                            <small class="text-muted d-block fs-7 fw-semibold">Gord</small>
-                            <strong class="text-warning fs-6" id="preview_fat">0g</strong>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="modal-footer bg-light border-0">
-                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-teal">
-                        <i class="bi bi-plus-circle-fill me-1"></i> Adicionar Alimento
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<!-- Modal 2: Adicionar Nova Refeição -->
+<!-- Modal 1: Adicionar Nova Refeição Personalizada -->
 <div class="modal fade" id="addMealModal" tabindex="-1" aria-labelledby="addMealModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content border-0 shadow" style="border-radius: 14px; overflow: hidden;">
@@ -496,19 +278,264 @@
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fechar"></button>
             </div>
             <form method="POST" action="{{ url_for('main.add_meal') }}">
-                <input type="hidden" name="meal_date" value="{{ current_date }}">
+                <input type="hidden" name="meal_date" value="{{ meal_date }}">
                 <div class="modal-body p-4">
                     <div class="mb-3">
                         <label for="meal_name" class="form-label fw-semibold">Nome da Refeição</label>
-                        <input type="text" class="form-control px-3" id="meal_name" name="meal_name" placeholder="Ex: Ceia, Pré-Treino, Lanche da Noite..." required>
+                        <input type="text" class="form-control px-3" id="meal_name" name="meal_name" placeholder="Ex: Lanche da Manhã, Ceia, Pré-Treino..." required>
                     </div>
                 </div>
                 <div class="modal-footer bg-light border-0">
                     <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-teal">Criar Refeição</button>
+                    <button type="submit" class="btn btn-teal">
+                        <i class="bi bi-floppy-fill me-1"></i> Criar Refeição
+                    </button>
                 </div>
             </form>
         </div>
     </div>
 </div>
+
+<!-- Modal 2: Adicionar Alimento à Refeição (TACO/TBCA ou Código de Barras / Customizado) -->
+<div class="modal fade" id="addFoodModal" tabindex="-1" aria-labelledby="addFoodModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content border-0 shadow" style="border-radius: 14px; overflow: hidden;">
+            <div class="modal-header bg-teal text-white">
+                <h5 class="modal-title fw-bold m-0 d-flex align-items-center" id="addFoodModalTitle">
+                    <i class="bi bi-egg-fried me-2"></i> Adicionar Alimento
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <form method="POST" action="{{ url_for('main.add_food') }}">
+                <input type="hidden" name="meal_id" id="modal_food_meal_id" value="">
+                <input type="hidden" name="taco_food_id" id="modal_taco_food_id" value="">
+                <input type="hidden" name="meal_date" value="{{ meal_date }}">
+
+                <div class="modal-body p-4">
+                    <!-- Nav Tabs: Busca Tabela vs Código de Barras / Customizado -->
+                    <ul class="nav nav-pills nav-justified mb-4" id="foodTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active fw-bold py-2" id="taco-tab" data-bs-toggle="pill" data-bs-target="#taco-panel" type="button" role="tab">
+                                <i class="bi bi-search me-1"></i> Busca TACO/TBCA
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link fw-bold py-2" id="barcode-tab" data-bs-toggle="pill" data-bs-target="#barcode-panel" type="button" role="tab">
+                                <i class="bi bi-upc-scan me-1"></i> Código de Barras / Manual
+                            </button>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content" id="foodTabsContent">
+                        <!-- Tab 1: Busca na Tabela TACO/TBCA -->
+                        <div class="tab-pane fade show active" id="taco-panel" role="tabpanel">
+                            <div class="mb-3">
+                                <label for="taco_search" class="form-label fw-semibold">Pesquisar Alimento (TACO/TBCA)</label>
+                                <input type="text" class="form-control px-3" id="taco_search" placeholder="Digite arroz, frango, ovo, banana..." autocomplete="off">
+                                <div id="taco_results" class="list-group position-absolute w-100 shadow-sm mt-1 overflow-auto" style="max-height: 220px; z-index: 1050; display: none;"></div>
+                            </div>
+
+                            <div id="selected_taco_food_card" class="p-3 bg-light rounded-3 border mb-3" style="display: none;">
+                                <div class="fw-bold text-teal mb-1" id="selected_taco_name">--</div>
+                                <small class="text-muted d-block" id="selected_taco_macros">--</small>
+                            </div>
+                        </div>
+
+                        <!-- Tab 2: Código de Barras EAN & Alimento Customizado -->
+                        <div class="tab-pane fade" id="barcode-panel" role="tabpanel">
+                            <div class="mb-3">
+                                <label for="barcode_input" class="form-label fw-semibold">Código de Barras (EAN-13)</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control px-3" id="barcode_input" placeholder="Ex: 7891000100103">
+                                    <button type="button" class="btn btn-outline-teal fw-bold" id="btn_search_barcode">
+                                        <i class="bi bi-search me-1"></i> Consultar EAN
+                                    </button>
+                                </div>
+                                <small class="text-muted fs-7">Consulta em tempo real no banco de dados Open Food Facts.</small>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="custom_name" class="form-label fw-semibold">Nome do Alimento</label>
+                                <input type="text" class="form-control px-3" id="custom_name" name="custom_name" placeholder="Ex: Iogurte Grego Morango 100g">
+                            </div>
+
+                            <div class="row g-2 mb-3">
+                                <div class="col-3">
+                                    <label for="custom_kcal" class="form-label fw-semibold fs-7">Kcal / 100g</label>
+                                    <input type="number" step="0.1" class="form-control text-center px-1" id="custom_kcal" name="custom_kcal" placeholder="0">
+                                </div>
+                                <div class="col-3">
+                                    <label for="custom_c" class="form-label fw-semibold fs-7">Carbs / 100g</label>
+                                    <input type="number" step="0.1" class="form-control text-center px-1" id="custom_c" name="custom_c" placeholder="0">
+                                </div>
+                                <div class="col-3">
+                                    <label for="custom_p" class="form-label fw-semibold fs-7">Prot / 100g</label>
+                                    <input type="number" step="0.1" class="form-control text-center px-1" id="custom_p" name="custom_p" placeholder="0">
+                                </div>
+                                <div class="col-3">
+                                    <label for="custom_f" class="form-label fw-semibold fs-7">Gord / 100g</label>
+                                    <input type="number" step="0.1" class="form-control text-center px-1" id="custom_f" name="custom_f" placeholder="0">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <!-- Quantidade e Medida Caseira -->
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="unit_name" class="form-label fw-semibold">Medida Caseira / Porção</label>
+                            <select class="form-select px-3" id="unit_name" name="unit_name">
+                                <option value="g" selected>Gramas (g)</option>
+                                <option value="colher_sopa">Colher de Sopa</option>
+                                <option value="colher_cha">Colher de Chá</option>
+                                <option value="unidade">Unidade / Porção</option>
+                                <option value="fatia">Fatia</option>
+                                <option value="concha">Concha</option>
+                                <option value="xicara">Xícara</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="unit_qty" class="form-label fw-semibold">Quantidade</label>
+                            <input type="number" step="0.1" min="0.1" value="100" class="form-control text-center fw-bold text-teal" id="unit_qty" name="unit_qty" required>
+                            <input type="hidden" name="amount_g" id="amount_g" value="100">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer bg-light border-0">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-teal">
+                        <i class="bi bi-plus-lg me-1"></i> Adicionar Alimento
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const btnAddFoods = document.querySelectorAll('.btn-open-add-food');
+    const foodModal = new bootstrap.Modal(document.getElementById('addFoodModal'));
+
+    btnAddFoods.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const mealId = this.getAttribute('data-meal-id');
+            const mealName = this.getAttribute('data-meal-name');
+
+            document.getElementById('modal_food_meal_id').value = mealId;
+            document.getElementById('addFoodModalTitle').innerHTML = `<i class="bi bi-egg-fried me-2"></i> Adicionar Alimento (${mealName})`;
+            foodModal.show();
+        });
+    });
+
+    // Busca Dinâmica na Tabela TACO/TBCA
+    const tacoSearchInput = document.getElementById('taco_search');
+    const tacoResultsDiv = document.getElementById('taco_results');
+    const selectedTacoCard = document.getElementById('selected_taco_food_card');
+    let searchTimeout = null;
+
+    if (tacoSearchInput) {
+        tacoSearchInput.addEventListener('input', function() {
+            clearTimeout(searchTimeout);
+            const query = this.value.trim();
+
+            if (query.length < 2) {
+                tacoResultsDiv.style.display = 'none';
+                return;
+            }
+
+            searchTimeout = setTimeout(() => {
+                fetch(`/api/taco/search?q=${encodeURIComponent(query)}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        tacoResultsDiv.innerHTML = '';
+                        if (data.length === 0) {
+                            tacoResultsDiv.innerHTML = '<div class="list-group-item text-muted">Nenhum alimento encontrado.</div>';
+                        } else {
+                            data.forEach(food => {
+                                const item = document.createElement('button');
+                                item.type = 'button';
+                                item.className = 'list-group-item list-group-item-action py-2';
+                                item.innerHTML = `<strong>${food.name}</strong> <small class="text-muted d-block">${food.energy_kcal} kcal &bull; C: ${food.carbohydrate_g}g &bull; P: ${food.protein_g}g &bull; G: ${food.lipid_g}g por 100g</small>`;
+                                item.addEventListener('click', function() {
+                                    document.getElementById('modal_taco_food_id').value = food.id;
+                                    document.getElementById('selected_taco_name').innerText = food.name;
+                                    document.getElementById('selected_taco_macros').innerText = `${food.energy_kcal} kcal | Carbs: ${food.carbohydrate_g}g | Prot: ${food.protein_g}g | Gord: ${food.lipid_g}g (por 100g)`;
+                                    selectedTacoCard.style.display = 'block';
+                                    tacoResultsDiv.style.display = 'none';
+                                    tacoSearchInput.value = food.name;
+                                });
+                                tacoResultsDiv.appendChild(item);
+                            });
+                        }
+                        tacoResultsDiv.style.display = 'block';
+                    });
+            }, 300);
+        });
+    }
+
+    // Consulta Código de Barras EAN
+    const btnSearchBarcode = document.getElementById('btn_search_barcode');
+    if (btnSearchBarcode) {
+        btnSearchBarcode.addEventListener('click', function() {
+            const ean = document.getElementById('barcode_input').value.trim();
+            if (!ean) return;
+
+            btnSearchBarcode.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span> Buscando...';
+            fetch(`/api/openfoodfacts/barcode/${ean}`)
+                .then(res => res.json())
+                .then(data => {
+                    btnSearchBarcode.innerHTML = '<i class="bi bi-search me-1"></i> Consultar EAN';
+                    if (data.success && data.food) {
+                        const f = data.food;
+                        document.getElementById('custom_name').value = f.name;
+                        document.getElementById('custom_kcal').value = f.energy_kcal;
+                        document.getElementById('custom_c').value = f.carbohydrate_g;
+                        document.getElementById('custom_p').value = f.protein_g;
+                        document.getElementById('custom_f').value = f.lipid_g;
+                        document.getElementById('modal_taco_food_id').value = '';
+                    } else {
+                        alert('Produto não localizado pelo Código de Barras EAN.');
+                    }
+                })
+                .catch(() => {
+                    btnSearchBarcode.innerHTML = '<i class="bi bi-search me-1"></i> Consultar EAN';
+                    alert('Erro ao conectar com a base Open Food Facts.');
+                });
+        });
+    }
+
+    // Cálculo da quantidade em gramas
+    const unitSelect = document.getElementById('unit_name');
+    const unitQtyInput = document.getElementById('unit_qty');
+    const amountGInput = document.getElementById('amount_g');
+
+    const unitGramFactors = {
+        'g': 1,
+        'colher_sopa': 15,
+        'colher_cha': 5,
+        'unidade': 100,
+        'fatia': 30,
+        'concha': 130,
+        'xicara': 150
+    };
+
+    function updateGramAmount() {
+        const u = unitSelect.value;
+        const q = parseFloat(unitQtyInput.value) || 0;
+        const factor = unitGramFactors[u] || 1;
+        amountGInput.value = Math.round(q * factor);
+    }
+
+    if (unitSelect && unitQtyInput) {
+        unitSelect.addEventListener('change', updateGramAmount);
+        unitQtyInput.addEventListener('input', updateGramAmount);
+    }
+});
+</script>
 {% endblock %}
