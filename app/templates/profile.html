@@ -1,198 +1,210 @@
 {% extends 'base.html' %}
 
-{% block title %}Meu Perfil & Metas - MacroNutrition{% endblock %}
+{% block title %}Meu Perfil e Metas - MacroNutrition{% endblock %}
 
 {% block content %}
-<div class="row g-4 justify-content-center">
-    <!-- Header Hero Banner -->
-    <div class="col-12 col-lg-10">
+<div class="row g-4">
+    <!-- Header Hero Banner (Alinhado com a largura total de 100% da página) -->
+    <div class="col-12">
         <div class="card card-custom p-4 bg-white border-0 shadow-sm">
             <div class="d-md-flex align-items-center justify-content-between">
                 <div>
                     <span class="badge bg-teal-light text-teal px-3 py-2 rounded-pill fw-semibold mb-2">
-                        <i class="bi bi-person-badge-fill me-1"></i> Perfil Corporal & Metas OMS
+                        <i class="bi bi-person-gear me-1"></i> Configuração de Perfil
                     </span>
-                    <h1 class="fw-extrabold text-dark mb-1">Seus Dados & Objetivos de Saúde</h1>
-                    <p class="text-muted mb-0">Informe o seu peso desejado e o ritmo semanal. O sistema calcula automaticamente o tempo necessário e a estimativa de semanas e meses.</p>
+                    <h1 class="fw-extrabold text-dark mb-1">Seu Perfil Corporal & Metas de Emagrecimento</h1>
+                    <p class="text-muted mb-0">Preencha seus dados biométricos no Passo 1 e defina sua meta no Passo 2 para personalizar as calculadoras e a Dashboard.</p>
                 </div>
                 {% if profile %}
-                    <div class="mt-3 mt-md-0 text-md-end">
-                        <span class="badge bg-success bg-opacity-10 text-success fs-7 px-3 py-2 border border-success border-opacity-25 rounded-pill">
-                            <i class="bi bi-check-circle-fill me-1"></i> Perfil Cadastrado
-                        </span>
-                    </div>
+                <div class="mt-3 mt-md-0 text-md-end">
+                    <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-3 py-2 fs-7 fw-bold">
+                        <i class="bi bi-check-circle-fill me-1"></i> Perfil Ativo
+                    </span>
+                </div>
                 {% endif %}
             </div>
         </div>
     </div>
 
-    <!-- Formulário Principal de Perfil -->
-    <div class="col-12 col-lg-10">
+    <!-- Formulário Único em Sequência Vertical (Passo 1 -> Passo 2) -->
+    <div class="col-12">
         <form method="POST" action="{{ url_for('main.save_profile') }}">
-            <div class="row g-4">
-                <!-- Seção 1: Dados Pessoais e Biométricos + Painel IMC -->
-                <div class="col-12 col-md-6">
-                    <div class="card card-custom p-4 h-100 shadow-sm bg-white" style="border: 1px solid var(--border-color) !important;">
-                        <h5 class="fw-bold text-dark mb-3 d-flex align-items-center">
-                            <i class="bi bi-person-lines-fill me-2 text-teal"></i> Dados Pessoais & Biometria
-                        </h5>
+            <div class="d-flex flex-column gap-4">
+                
+                <!-- PASSO 1: Dados Pessoais & Biometria -->
+                <div class="card card-custom p-4 shadow-sm bg-white" style="border: 1px solid var(--border-color) !important;">
+                    <div class="d-flex align-items-center justify-content-between mb-4 pb-2 border-bottom">
+                        <h4 class="fw-bold text-dark m-0 d-flex align-items-center">
+                            <i class="bi bi-person-vcard-fill me-2 text-teal"></i> Passo 1: Dados Pessoais & Biometria
+                        </h4>
+                        <span class="badge bg-teal-light text-teal px-3 py-1.5 rounded-pill fs-7 fw-bold">1 de 2</span>
+                    </div>
 
+                    <div class="mb-3">
+                        <label for="full_name" class="form-label fw-semibold">Nome Completo</label>
+                        <input type="text" class="form-control px-3" id="full_name" name="full_name" value="{{ profile.full_name if profile else '' }}" placeholder="Ex: Vinícius Silva" required>
+                    </div>
 
-                        <div class="mb-3">
-                            <label for="full_name" class="form-label fw-semibold">Nome Completo</label>
-                            <input type="text" class="form-control px-3" id="full_name" name="full_name" value="{{ profile.full_name if profile else '' }}" placeholder="Ex: Vinícius Silva" required>
-                        </div>
-
-                        <div class="row g-3 mb-3">
-                            <div class="col-6">
-                                <label for="gender" class="form-label fw-semibold">Gênero Biológico</label>
-                                <select class="form-select" id="gender" name="gender" onchange="calculateLiveProfile()">
-                                    <option value="male" {% if not profile or profile.gender == 'male' %}selected{% endif %}>Masculino</option>
-                                    <option value="female" {% if profile and profile.gender == 'female' %}selected{% endif %}>Feminino</option>
-                                </select>
-                            </div>
-                            <div class="col-6">
-                                <label for="age" class="form-label fw-semibold">Idade (anos)</label>
-                                <input type="number" min="12" max="120" class="form-control px-3 text-center fw-bold" id="age" name="age" value="{{ profile.age if profile else 25 }}" required>
-                            </div>
-                        </div>
-
-                        <div class="row g-3 mb-3">
-                            <div class="col-6">
-                                <label for="height" class="form-label fw-semibold">Altura (cm)</label>
-                                <div class="input-group">
-                                    <input type="number" step="0.5" min="100" max="250" class="form-control text-center fw-bold" id="height" name="height" value="{{ profile.height if profile else 170.0 }}" oninput="calculateLiveProfile()" required>
-                                    <span class="input-group-text bg-light text-muted">cm</span>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <label for="current_weight" class="form-label fw-semibold">Peso Atual (kg)</label>
-                                <div class="input-group">
-                                    <input type="number" step="0.1" min="30" max="300" class="form-control text-center fw-bold text-teal" id="current_weight" name="current_weight" value="{{ profile.current_weight if profile else 70.0 }}" oninput="calculateLiveProfile()" required>
-                                    <span class="input-group-text bg-light text-muted">kg</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="activity_level" class="form-label fw-semibold">Nível de Atividade Física Diária</label>
-                            <select class="form-select" id="activity_level" name="activity_level">
-                                <option value="1.2" {% if not profile or profile.activity_level == 1.2 %}selected{% endif %}>Sedentário (pouco ou nenhum exercício)</option>
-                                <option value="1.375" {% if profile and profile.activity_level == 1.375 %}selected{% endif %}>Levemente Ativo (exercício 1 a 3 dias/semana)</option>
-                                <option value="1.55" {% if profile and profile.activity_level == 1.55 %}selected{% endif %}>Moderadamente Ativo (exercício 3 a 5 dias/semana)</option>
-                                <option value="1.725" {% if profile and profile.activity_level == 1.725 %}selected{% endif %}>Muito Ativo (exercício pesado 6 a 7 dias/semana)</option>
-                                <option value="1.9" {% if profile and profile.activity_level == 1.9 %}selected{% endif %}>Extremamente Ativo (atleta ou trabalho físico pesado)</option>
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label for="gender" class="form-label fw-semibold">Gênero Biológico</label>
+                            <select class="form-select px-3" id="gender" name="gender" onchange="calculateLiveProfile()">
+                                <option value="male" {% if not profile or profile.gender == 'male' %}selected{% endif %}>Masculino</option>
+                                <option value="female" {% if profile and profile.gender == 'female' %}selected{% endif %}>Feminino</option>
                             </select>
                         </div>
-
-                        <!-- Card Informativo de IMC & Peso Ideal Sugerido -->
-                        <div class="p-3 bg-light rounded-3 border border-teal mt-auto">
-                            <div class="d-flex align-items-center justify-content-between mb-2">
-                                <span class="fw-bold text-dark fs-7"><i class="bi bi-heart-pulse-fill text-danger me-1"></i> SEU IMC ATUAL</span>
-                                <span class="badge bg-success" id="imc_badge">24.2 - Peso Normal</span>
-                            </div>
-                            <div class="row g-2 text-center my-2">
-                                <div class="col-6">
-                                    <small class="text-muted d-block fs-7">Faixa Ideal (OMS)</small>
-                                    <strong class="text-dark fs-7" id="imc_ideal_range">53.5 kg - 72.0 kg</strong>
-                                </div>
-                                <div class="col-6 border-start">
-                                    <small class="text-muted d-block fs-7">Peso Alvo Recomendado</small>
-                                    <strong class="text-teal fs-7" id="imc_suggested_ideal">63.6 kg</strong>
-                                </div>
-                            </div>
-                            <div class="fs-7 text-muted my-2 p-2 bg-white rounded border" id="imc_risk_box">
-                                <i class="bi bi-info-circle text-teal me-1"></i> <span id="imc_risk_text">Faixa saudável com menor risco de doenças crônicas.</span>
-                            </div>
-                            <button type="button" class="btn btn-outline-teal btn-sm w-100 mt-1 py-2 fw-semibold" onclick="applySuggestedMeta()">
-                                <i class="bi bi-magic me-1"></i> Aplicar Peso Meta Sugerido pela OMS
-                            </button>
+                        <div class="col-md-6">
+                            <label for="age" class="form-label fw-semibold">Idade (anos)</label>
+                            <input type="number" min="12" max="120" class="form-control px-3 text-center fw-bold text-teal" id="age" name="age" value="{{ profile.age if profile else 25 }}" required>
                         </div>
+                    </div>
+
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label for="height" class="form-label fw-semibold">Altura (cm)</label>
+                            <div class="input-group">
+                                <input type="number" step="0.5" min="100" max="250" class="form-control text-center fw-bold text-teal px-3" id="height" name="height" value="{{ profile.height if profile else 170.0 }}" oninput="calculateLiveProfile()" required>
+                                <span class="input-group-text bg-light text-muted">cm</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="current_weight" class="form-label fw-semibold">Peso Atual (kg)</label>
+                            <div class="input-group">
+                                <input type="number" step="0.1" min="30" max="300" class="form-control text-center fw-bold text-teal px-3" id="current_weight" name="current_weight" value="{{ profile.current_weight if profile else 70.0 }}" oninput="calculateLiveProfile()" required>
+                                <span class="input-group-text bg-light text-muted">kg</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="activity_level" class="form-label fw-semibold">Nível de Atividade Física Diária</label>
+                        <select class="form-select px-3" id="activity_level" name="activity_level">
+                            <option value="1.2" {% if not profile or profile.activity_level == 1.2 %}selected{% endif %}>Sedentário (pouco ou nenhum exercício)</option>
+                            <option value="1.375" {% if profile and profile.activity_level == 1.375 %}selected{% endif %}>Levemente Ativo (exercício 1 a 3 dias/semana)</option>
+                            <option value="1.55" {% if profile and profile.activity_level == 1.55 %}selected{% endif %}>Moderadamente Ativo (exercício 3 a 5 dias/semana)</option>
+                            <option value="1.725" {% if profile and profile.activity_level == 1.725 %}selected{% endif %}>Muito Ativo (exercício pesado 6 a 7 dias/semana)</option>
+                            <option value="1.9" {% if profile and profile.activity_level == 1.9 %}selected{% endif %}>Extremamente Ativo (atleta ou trabalho físico pesado)</option>
+                        </select>
+                    </div>
+
+                    <!-- Card Diagnóstico de IMC & Recomendação OMS com Margens Espaçosas -->
+                    <div class="p-4 bg-light rounded-3 border border-teal-subtle">
+                        <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3 pb-2 border-bottom">
+                            <span class="fw-bold text-dark fs-7"><i class="bi bi-heart-pulse-fill text-danger me-1.5"></i> DIAGNÓSTICO DE IMC ATUAL (OMS)</span>
+                            <span class="badge bg-success px-3 py-1.5 fs-7" id="imc_badge">24.2 - Peso Normal</span>
+                        </div>
+
+                        <div class="row g-3 text-center mb-3">
+                            <div class="col-6">
+                                <div class="p-3 bg-white rounded-3 border shadow-xs">
+                                    <small class="text-muted d-block fs-7 mb-1">Faixa Ideal (OMS)</small>
+                                    <strong class="text-dark fs-6" id="imc_ideal_range">53.5 kg - 72.0 kg</strong>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="p-3 bg-white rounded-3 border shadow-xs">
+                                    <small class="text-muted d-block fs-7 mb-1">Peso Alvo Sugerido</small>
+                                    <strong class="text-teal fs-6" id="imc_suggested_ideal">63.6 kg</strong>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="p-3 bg-white rounded-3 border text-muted fs-7 mb-3" id="imc_risk_box">
+                            <i class="bi bi-info-circle text-teal me-1"></i> <span id="imc_risk_text">Faixa saudável com menor risco de doenças crônicas.</span>
+                        </div>
+
+                        <button type="button" class="btn btn-outline-teal w-100 py-2.5 fw-bold shadow-xs" onclick="applySuggestedMeta()">
+                            <i class="bi bi-magic me-1.5"></i> Usar Peso Meta Sugerido pela OMS no Passo 2
+                        </button>
                     </div>
                 </div>
 
-                <!-- Seção 2: Entrada Direta de Peso Meta, Ritmo Semanal e Tempo Preditivo -->
-                <div class="col-12 col-md-6">
-                    <div class="card card-custom p-4 h-100 shadow-sm bg-white" style="border: 1px solid var(--border-color) !important;">
-                        <h5 class="fw-bold text-dark mb-3 d-flex align-items-center">
+                <!-- PASSO 2: Definição de Metas & Ritmo Semanal -->
+                <div class="card card-custom p-4 shadow-sm bg-white" style="border: 1px solid var(--border-color) !important;">
+                    <div class="d-flex align-items-center justify-content-between mb-4 pb-2 border-bottom">
+                        <h4 class="fw-bold text-dark m-0 d-flex align-items-center">
+                            <i class="bi bi-bullseye me-2 text-teal"></i> Passo 2: Definição de Metas & Ritmo Semanal
+                        </h4>
+                        <span class="badge bg-teal-light text-teal px-3 py-1.5 rounded-pill fs-7 fw-bold">2 de 2</span>
+                    </div>
 
-                            <i class="bi bi-bullseye me-2 text-teal"></i> Definição Prática de Metas
-                        </h5>
+                    <!-- Entrada Direta do Peso Meta Desejado -->
+                    <div class="mb-4">
+                        <label for="target_weight" class="form-label fw-semibold text-dark d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2">
+                            <span>Qual o seu Peso Meta Desejado?</span>
+                            <span class="badge bg-teal-light text-teal fs-7" id="goal_type_badge">Emagrecimento</span>
+                        </label>
+                        <div class="input-group input-group-lg">
+                            <input type="number" step="0.5" min="30" max="300" class="form-control text-center fw-extrabold text-teal" id="target_weight" name="target_weight" value="{{ profile.target_weight if profile else (profile.bmi_info.suggested_ideal if profile else 65.0) }}" oninput="calculateLiveProfile()" required>
+                            <span class="input-group-text bg-light text-muted fw-bold px-3">kg</span>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mt-2 px-1">
+                            <small class="text-muted fs-7">Peso Atual: <strong id="current_w_label">70.0 kg</strong></small>
+                            <small class="fw-bold text-teal fs-7" id="diff_label">Diferença: 5.0 kg a perder</small>
+                        </div>
+                    </div>
 
-                        <!-- Entrada Direta do Peso Meta Desejado -->
-                        <div class="mb-3">
-                            <label for="target_weight" class="form-label fw-semibold text-dark d-flex justify-content-between align-items-center">
-                                <span>Qual o seu Peso Meta Desejado?</span>
-                                <span class="badge bg-teal-light text-teal fs-7" id="goal_type_badge">Emagrecimento</span>
-                            </label>
-                            <div class="input-group input-group-lg">
-                                <input type="number" step="0.5" min="30" max="300" class="form-control text-center fw-extrabold text-teal" id="target_weight" name="target_weight" value="{{ profile.target_weight if profile else (profile.bmi_info.suggested_ideal if profile else 65.0) }}" oninput="calculateLiveProfile()" required>
-                                <span class="input-group-text bg-light text-muted fw-bold">kg</span>
+                    <!-- Ritmo Semanal Desejado (kg/semana) -->
+                    <div class="mb-4">
+                        <label for="weekly_rate_kg" class="form-label fw-semibold text-dark mb-2">Ritmo Desejado por Semana</label>
+                        <div class="row g-3">
+                            <div class="col-md-7">
+                                <select class="form-select form-select-lg fw-semibold px-3" id="weekly_pace_select" name="weekly_pace" onchange="onPaceSelectChanged()">
+                                    <option value="0.25" {% if profile and (profile.weekly_rate_kg == 0.25 or profile.weekly_pace == '0.25' or profile.weekly_pace == 'conservative') %}selected{% endif %}>🔵 Conservador (0.25 kg/sem)</option>
+                                    <option value="0.50" {% if not profile or (profile.weekly_rate_kg == 0.50 or profile.weekly_pace == '0.50' or profile.weekly_pace == 'recommended') %}selected{% endif %}>🟢 Recomendado (0.50 kg/sem)</option>
+                                    <option value="0.75" {% if profile and (profile.weekly_rate_kg == 0.75 or profile.weekly_pace == '0.75' or profile.weekly_pace == 'moderate') %}selected{% endif %}>🟡 Moderado (0.75 kg/sem)</option>
+                                    <option value="1.00" {% if profile and (profile.weekly_rate_kg == 1.00 or profile.weekly_pace == '1.00' or profile.weekly_pace == 'aggressive') %}selected{% endif %}>🔴 Agressivo (1.00 kg/sem)</option>
+                                    <option value="custom" {% if profile and profile.weekly_rate_kg not in [0.25, 0.50, 0.75, 1.00] %}selected{% endif %}>⚡ Personalizado...</option>
+                                </select>
                             </div>
-                            <div class="d-flex justify-content-between align-items-center mt-1">
-                                <small class="text-muted fs-7">Peso Atual: <strong id="current_w_label">70.0 kg</strong></small>
-                                <small class="fw-bold text-teal fs-7" id="diff_label">Diferença: 5.0 kg a perder</small>
+                            <div class="col-md-5">
+                                <div class="input-group input-group-lg">
+                                    <input type="number" step="0.05" min="0.1" max="2.0" class="form-control text-center fw-bold text-teal" id="weekly_rate_kg" name="weekly_rate_kg" value="{{ profile.weekly_rate_kg if profile else 0.50 }}" oninput="onCustomRateInput()">
+                                    <span class="input-group-text bg-white text-muted px-3 fs-7">kg/sem</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Painel Preditivo: Tempo Necessário Calculado com Bordas Limpas -->
+                    <div class="p-4 bg-light rounded-3 border">
+                        <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3 pb-2 border-bottom">
+                            <span class="fs-7 text-dark fw-bold"><i class="bi bi-clock-history me-1 text-teal"></i> TEMPO NECESSÁRIO ESTIMADO</span>
+                            <span class="badge bg-success px-3 py-1.5 fs-7" id="rate_classification_badge">
+                                <i class="bi bi-check-circle-fill me-1"></i> Recomendado (Saudável)
+                            </span>
+                        </div>
+
+                        <!-- Quadros de Prazos em Semanas e Meses com Bordas Internas Explícitas -->
+                        <div class="row g-3 mb-3">
+                            <div class="col-6">
+                                <div class="p-3 bg-white rounded-3 border text-center shadow-xs">
+                                    <small class="text-muted d-block fs-7 mb-1">Prazo em Semanas</small>
+                                    <div class="text-teal fs-4 fw-extrabold" id="calc_weeks_label">10 Semanas</div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="p-3 bg-white rounded-3 border text-center shadow-xs">
+                                    <small class="text-muted d-block fs-7 mb-1">Prazo em Meses</small>
+                                    <div class="text-dark fs-4 fw-extrabold" id="calc_months_label">~2,3 Meses</div>
+                                </div>
                             </div>
                         </div>
 
-                        <!-- Ritmo Semanal Desejado (kg/semana) -->
-                        <div class="mb-3">
-                            <label for="weekly_rate_kg" class="form-label fw-semibold text-dark mb-1">Ritmo Desejado por Semana</label>
-                            <div class="row g-2">
-                                <div class="col-7">
-                                    <select class="form-select fw-semibold" id="weekly_pace_select" name="weekly_pace" onchange="onPaceSelectChanged()">
-                                        <option value="0.25" {% if profile and (profile.weekly_rate_kg == 0.25 or profile.weekly_pace == '0.25' or profile.weekly_pace == 'conservative') %}selected{% endif %}>🔵 Conservador (0.25 kg/sem)</option>
-                                        <option value="0.50" {% if not profile or (profile.weekly_rate_kg == 0.50 or profile.weekly_pace == '0.50' or profile.weekly_pace == 'recommended') %}selected{% endif %}>🟢 Recomendado (0.50 kg/sem)</option>
-                                        <option value="0.75" {% if profile and (profile.weekly_rate_kg == 0.75 or profile.weekly_pace == '0.75' or profile.weekly_pace == 'moderate') %}selected{% endif %}>🟡 Moderado (0.75 kg/sem)</option>
-                                        <option value="1.00" {% if profile and (profile.weekly_rate_kg == 1.00 or profile.weekly_pace == '1.00' or profile.weekly_pace == 'aggressive') %}selected{% endif %}>🔴 Agressivo (1.00 kg/sem)</option>
-                                        <option value="custom" {% if profile and profile.weekly_rate_kg not in [0.25, 0.50, 0.75, 1.00] %}selected{% endif %}>⚡ Personalizado...</option>
-                                    </select>
-                                </div>
-                                <div class="col-5">
-                                    <div class="input-group">
-                                        <input type="number" step="0.05" min="0.1" max="2.0" class="form-control text-center fw-bold text-teal" id="weekly_rate_kg" name="weekly_rate_kg" value="{{ profile.weekly_rate_kg if profile else 0.50 }}" oninput="onCustomRateInput()">
-                                        <span class="input-group-text bg-white text-muted px-2 fs-7">kg/sem</span>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="p-3 bg-white rounded-3 border text-center mb-3">
+                            <small class="text-muted d-block fs-7 mb-1">Data Prevista para Atingir a Meta:</small>
+                            <strong class="text-teal fs-6" id="target_date_label">Outubro de 2026</strong>
                         </div>
 
-
-                        <!-- Painel Preditivo: Tempo Necessário Calculado -->
-                        <div class="p-3 bg-light rounded-3 border mb-3">
-                            <div class="d-flex align-items-center justify-content-between mb-2">
-                                <span class="fs-7 text-muted fw-semibold">TEMPO NECESSÁRIO ESTIMADO:</span>
-                                <span class="badge bg-success" id="rate_classification_badge">
-                                    <i class="bi bi-check-circle-fill me-1"></i> Recomendado (Saudável)
-                                </span>
-                            </div>
-
-                            <div class="row g-2 text-center my-2 bg-white p-3 rounded-3 border shadow-sm">
-                                <div class="col-6">
-                                    <small class="text-muted d-block fs-7">Prazo em Semanas</small>
-                                    <strong class="text-teal fs-4 fw-extrabold" id="calc_weeks_label">10 Semanas</strong>
-                                </div>
-                                <div class="col-6 border-start">
-                                    <small class="text-muted d-block fs-7">Prazo em Meses</small>
-                                    <strong class="text-dark fs-4 fw-extrabold" id="calc_months_label">~2,3 Meses</strong>
-                                </div>
-                            </div>
-
-                            <div class="mt-2 text-center">
-                                <small class="text-muted d-block fs-7">Data Prevista para Atingir a Meta:</small>
-                                <strong class="text-teal fs-6" id="target_date_label">Outubro de 2026</strong>
-                            </div>
-
-                            <p class="text-muted fs-7 mb-0 mt-2 text-center border-top pt-2" id="rate_desc_label">
-                                Ritmo ideal segundo a OMS para queimar gordura preservando massa muscular.
-                            </p>
-                        </div>
+                        <p class="text-muted fs-7 mb-0 text-center border-top pt-2" id="rate_desc_label">
+                            Ritmo ideal segundo a OMS para queimar gordura preservando massa muscular.
+                        </p>
                     </div>
                 </div>
 
-                <!-- Botão de Ação -->
-                <div class="col-12 text-end">
-                    <button type="submit" class="btn btn-teal btn-lg w-100 w-md-auto px-5 shadow-sm py-3">
+                <!-- Botão Único de Submissão -->
+                <div class="text-end">
+                    <button type="submit" class="btn btn-teal btn-lg w-100 py-3 shadow-sm fw-bold fs-5">
                         <i class="bi bi-floppy-fill me-2"></i> Salvar Perfil & Atualizar Calculadoras
                     </button>
                 </div>
@@ -201,10 +213,9 @@
     </div>
 
     <!-- Seção Educativa: Classificação do IMC e Riscos à Saúde (OMS) -->
-    <div class="col-12 col-lg-10 mt-4">
+    <div class="col-12 mt-2">
         <div class="card card-custom p-3 p-md-4 bg-white shadow-sm" style="border: 1px solid var(--border-color) !important;">
             <div class="d-flex align-items-center mb-3">
-
                 <div class="d-flex align-items-center justify-content-center flex-shrink-0 me-3" style="width: 44px; height: 44px; min-width: 44px; min-height: 44px; background-color: rgba(13, 148, 136, 0.12); color: #0d9488; border-radius: 12px;">
                     <i class="bi bi-shield-heart fs-4"></i>
                 </div>
@@ -241,91 +252,87 @@
                         <tr>
                             <td class="fw-bold">25.0 &ndash; 29.9</td>
                             <td><span class="badge bg-warning text-dark">Sobrepeso</span></td>
-                            <td><span class="badge bg-warning text-dark">Leve / Moderado</span></td>
-                            <td class="text-start text-secondary fs-7">Alerta inicial para hipertensão arterial, resistência à insulina, elevação de triglicérides e sobrecarga nas articulações.</td>
+                            <td><span class="badge bg-warning text-dark">Aumentado</span></td>
+                            <td class="text-start text-secondary fs-7">Pressão arterial limítrofe, pré-diabetes, esteatose hepática inicial e sobrecarga em joelhos e tornozelos.</td>
                         </tr>
                         <tr>
                             <td class="fw-bold">30.0 &ndash; 34.9</td>
-                            <td><span class="badge bg-danger bg-opacity-75 text-white">Obesidade Grau I</span></td>
-                            <td><span class="badge bg-danger bg-opacity-75 text-white">Elevado</span></td>
-                            <td class="text-start text-secondary fs-7">Aumento expressivo no risco de Diabetes Tipo 2, síndrome metabólica, hipertensão sistêmica e esteatose hepática.</td>
+                            <td><span class="badge bg-danger">Obesidade Grau I</span></td>
+                            <td><span class="badge bg-danger">Moderado</span></td>
+                            <td class="text-start text-secondary fs-7">Risco elevado de Diabetes Tipo 2, hipertensão arterial sistêmica, dislipidemia e apneia obstrutiva do sono.</td>
                         </tr>
                         <tr>
                             <td class="fw-bold">35.0 &ndash; 39.9</td>
-                            <td><span class="badge bg-danger text-white">Obesidade Grau II</span></td>
-                            <td><span class="badge bg-danger text-white">Muito Elevado</span></td>
-                            <td class="text-start text-secondary fs-7">Alto risco de doenças vasculares, apneia obstrutiva do sono, aterosclerose e séria limitação de mobilidade articular.</td>
+                            <td><span class="badge bg-danger">Obesidade Grau II</span></td>
+                            <td><span class="badge bg-danger">Grave</span></td>
+                            <td class="text-start text-secondary fs-7">Alto risco cardiovascular, osteoartrite grave, refluxo gastroesofágico e limitação significativa de mobilidade.</td>
                         </tr>
-                        <tr class="table-danger bg-opacity-10">
+                        <tr class="table-danger bg-opacity-25">
                             <td class="fw-bold text-danger">&ge; 40.0</td>
                             <td><span class="badge bg-danger text-white">Obesidade Grau III</span></td>
                             <td><span class="badge bg-danger text-white">Muitíssimo Elevado</span></td>
-                            <td class="text-start text-danger fs-7 fw-semibold">Risco gravíssimo de eventos cardiovasculares (infarto, AVC) e insuficiência respiratória. Exige acompanhamento médico contínuo.</td>
+                            <td class="text-start text-danger fs-7"><strong>Risco emergencial de saúde:</strong> Infarto agudo do miocárdio, AVC, insuficiência respiratória e redução expressiva da expectativa de vida.</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
 
-            <!-- Cards Responsivos Versão Mobile (< 768px / iPhone 15) -->
-            <div class="d-block d-md-none bg-light p-2 rounded-3 border">
-                <!-- Card 1: Abaixo do Peso -->
-                <div class="card card-custom mb-2 p-3 border-0 shadow-sm">
-                    <div class="d-flex justify-content-between align-items-center mb-1">
-                        <strong class="text-dark fs-7">IMC &lt; 18.5</strong>
-                        <span class="badge bg-warning text-dark">Abaixo do Peso</span>
+            <!-- Cards Versão Mobile (< 768px / iPhone 15) -->
+            <div class="d-block d-md-none">
+                <div class="d-flex flex-column gap-2">
+                    <div class="p-3 bg-light rounded-3 border">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <strong class="text-dark">&lt; 18.5 kg/m²</strong>
+                            <span class="badge bg-warning text-dark">Abaixo do Peso</span>
+                        </div>
+                        <small class="text-muted d-block mb-1">Risco: <strong>Aumentado</strong></small>
+                        <p class="text-secondary fs-7 mb-0">Desnutrição, perda imunológica, fadiga e perda de massa muscular.</p>
                     </div>
-                    <small class="text-muted d-block mb-1">Risco: <strong class="text-warning-emphasis">Aumentado</strong></small>
-                    <p class="text-secondary fs-7 mb-0">Desnutrição, osteopenia, imunidade reduzida, fadiga crônica e perda de massa magra.</p>
-                </div>
 
-                <!-- Card 2: Peso Normal -->
-                <div class="card card-custom mb-2 p-3 border-start border-4 border-success shadow-sm">
-                    <div class="d-flex justify-content-between align-items-center mb-1">
-                        <strong class="text-success fs-7">IMC 18.5 &ndash; 24.9</strong>
-                        <span class="badge bg-success">Peso Normal (Ideal)</span>
+                    <div class="p-3 bg-success bg-opacity-10 rounded-3 border border-success">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <strong class="text-success">18.5 &ndash; 24.9 kg/m²</strong>
+                            <span class="badge bg-success">Peso Normal (Ideal)</span>
+                        </div>
+                        <small class="text-success d-block mb-1">Risco: <strong>Baixo (Saudável)</strong></small>
+                        <p class="text-dark fs-7 mb-0">Faixa ideal com menor risco cardiovascular e metabolicamente estável.</p>
                     </div>
-                    <small class="text-muted d-block mb-1">Risco: <strong class="text-success">Baixo (Saudável)</strong></small>
-                    <p class="text-dark fs-7 mb-0"><strong>Faixa ótima!</strong> Menor incidência de doenças cardiovasculares e diabetes.</p>
-                </div>
 
-                <!-- Card 3: Sobrepeso -->
-                <div class="card card-custom mb-2 p-3 border-0 shadow-sm">
-                    <div class="d-flex justify-content-between align-items-center mb-1">
-                        <strong class="text-dark fs-7">IMC 25.0 &ndash; 29.9</strong>
-                        <span class="badge bg-warning text-dark">Sobrepeso</span>
+                    <div class="p-3 bg-light rounded-3 border">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <strong class="text-dark">25.0 &ndash; 29.9 kg/m²</strong>
+                            <span class="badge bg-warning text-dark">Sobrepeso</span>
+                        </div>
+                        <small class="text-muted d-block mb-1">Risco: <strong>Aumentado</strong></small>
+                        <p class="text-secondary fs-7 mb-0">Pressão limítrofe, alteração na glicemia e sobrecarga articular.</p>
                     </div>
-                    <small class="text-muted d-block mb-1">Risco: <strong class="text-warning-emphasis">Leve / Moderado</strong></small>
-                    <p class="text-secondary fs-7 mb-0">Alerta inicial para hipertensão, resistência à insulina e sobrecarga nas articulações.</p>
-                </div>
 
-                <!-- Card 4: Obesidade Grau I -->
-                <div class="card card-custom mb-2 p-3 border-0 shadow-sm">
-                    <div class="d-flex justify-content-between align-items-center mb-1">
-                        <strong class="text-dark fs-7">IMC 30.0 &ndash; 34.9</strong>
-                        <span class="badge bg-danger bg-opacity-75 text-white">Obesidade Grau I</span>
+                    <div class="p-3 bg-light rounded-3 border">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <strong class="text-dark">30.0 &ndash; 34.9 kg/m²</strong>
+                            <span class="badge bg-danger">Obesidade Grau I</span>
+                        </div>
+                        <small class="text-muted d-block mb-1">Risco: <strong>Moderado</strong></small>
+                        <p class="text-secondary fs-7 mb-0">Risco elevado de Diabetes Tipo 2, hipertensão e esteatose hepática.</p>
                     </div>
-                    <small class="text-muted d-block mb-1">Risco: <strong class="text-danger">Elevado</strong></small>
-                    <p class="text-secondary fs-7 mb-0">Risco aumentado de Diabetes Tipo 2, síndrome metabólica e hipertensão.</p>
-                </div>
 
-                <!-- Card 5: Obesidade Grau II -->
-                <div class="card card-custom mb-2 p-3 border-0 shadow-sm">
-                    <div class="d-flex justify-content-between align-items-center mb-1">
-                        <strong class="text-dark fs-7">IMC 35.0 &ndash; 39.9</strong>
-                        <span class="badge bg-danger text-white">Obesidade Grau II</span>
+                    <div class="p-3 bg-light rounded-3 border">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <strong class="text-dark">35.0 &ndash; 39.9 kg/m²</strong>
+                            <span class="badge bg-danger">Obesidade Grau II</span>
+                        </div>
+                        <small class="text-muted d-block mb-1">Risco: <strong>Grave</strong></small>
+                        <p class="text-secondary fs-7 mb-0">Alto risco cardiovascular, osteoartrite e limitação de mobilidade.</p>
                     </div>
-                    <small class="text-muted d-block mb-1">Risco: <strong class="text-danger">Muito Elevado</strong></small>
-                    <p class="text-secondary fs-7 mb-0">Alto risco de doenças vasculares, apneia do sono e limitação articular.</p>
-                </div>
 
-                <!-- Card 6: Obesidade Grau III -->
-                <div class="card card-custom mb-0 p-3 border-start border-4 border-danger shadow-sm">
-                    <div class="d-flex justify-content-between align-items-center mb-1">
-                        <strong class="text-danger fs-7">IMC &ge; 40.0</strong>
-                        <span class="badge bg-danger text-white">Obesidade Grau III</span>
+                    <div class="p-3 bg-danger bg-opacity-10 rounded-3 border border-danger">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <strong class="text-danger">&ge; 40.0 kg/m²</strong>
+                            <span class="badge bg-danger text-white">Obesidade Grau III</span>
+                        </div>
+                        <small class="text-muted d-block mb-1">Risco: <strong class="text-danger">Muitíssimo Elevado</strong></small>
+                        <p class="text-danger fs-7 mb-0">Risco gravíssimo de infarto, AVC e insuficiência respiratória. Exige acompanhamento médico.</p>
                     </div>
-                    <small class="text-muted d-block mb-1">Risco: <strong class="text-danger">Muitíssimo Elevado</strong></small>
-                    <p class="text-danger fs-7 mb-0">Risco gravíssimo de infarto, AVC e insuficiência respiratória. Exige acompanhamento médico.</p>
                 </div>
             </div>
         </div>
@@ -402,7 +409,7 @@ function calculateLiveProfile() {
     globalSuggestedIdeal = (22.0 * hM * hM).toFixed(1);
 
     document.getElementById('imc_badge').textContent = `${bmi} - ${category}`;
-    document.getElementById('imc_badge').className = `badge ${colorClass}`;
+    document.getElementById('imc_badge').className = `badge ${colorClass} px-3 py-1.5 fs-7`;
     document.getElementById('imc_ideal_range').textContent = `${minIdeal} kg - ${maxIdeal} kg`;
     document.getElementById('imc_suggested_ideal').textContent = `${globalSuggestedIdeal} kg`;
     document.getElementById('imc_risk_text').textContent = riskText;
@@ -446,7 +453,7 @@ function calculateLiveProfile() {
         monthsLabel.textContent = '0 Meses';
         targetDateLabel.textContent = 'Peso Atual Mantido';
         badgeEl.textContent = 'Manutenção de Peso';
-        badgeEl.className = 'badge bg-teal text-white';
+        badgeEl.className = 'badge bg-teal text-white px-3 py-1.5 fs-7';
         descEl.textContent = 'Manter o peso estável sem alteração calórica brusca.';
         return;
     }
@@ -467,33 +474,33 @@ function calculateLiveProfile() {
     if (goalType === 'weight_loss') {
         if (rateKg <= 0.25) {
             badgeEl.innerHTML = '<i class="bi bi-info-circle-fill me-1"></i> Conservador / Suave';
-            badgeEl.className = 'badge bg-info text-white';
+            badgeEl.className = 'badge bg-info text-white px-3 py-1.5 fs-7';
             descEl.textContent = 'Ritmo suave e fácil de manter a longo prazo.';
         } else if (rateKg <= 0.75) {
             badgeEl.innerHTML = '<i class="bi bi-check-circle-fill me-1"></i> Recomendado (Saudável)';
-            badgeEl.className = 'badge bg-success text-white';
+            badgeEl.className = 'badge bg-success text-white px-3 py-1.5 fs-7';
             descEl.textContent = 'Ritmo ideal segundo a OMS para queimar gordura preservando massa muscular.';
         } else if (rateKg <= 1.0) {
             badgeEl.innerHTML = '<i class="bi bi-exclamation-triangle-fill me-1"></i> Moderado / Desafiador';
-            badgeEl.className = 'badge bg-warning text-dark';
+            badgeEl.className = 'badge bg-warning text-dark px-3 py-1.5 fs-7';
             descEl.textContent = 'Exige bom controle de ingestão proteica e déficit disciplinado.';
         } else {
             badgeEl.innerHTML = '<i class="bi bi-exclamation-octagon-fill me-1"></i> Agressivo (Cuidados Necessários)';
-            badgeEl.className = 'badge bg-danger text-white';
+            badgeEl.className = 'badge bg-danger text-white px-3 py-1.5 fs-7';
             descEl.textContent = 'Ritmo intenso! Risco de fadiga e perda de massa muscular. Requer atenção.';
         }
     } else {
         if (rateKg <= 0.25) {
             badgeEl.innerHTML = '<i class="bi bi-info-circle-fill me-1"></i> Suave / Limpo';
-            badgeEl.className = 'badge bg-info text-white';
+            badgeEl.className = 'badge bg-info text-white px-3 py-1.5 fs-7';
             descEl.textContent = 'Ganho gradual focado em minimizar acúmulo de gordura.';
         } else if (rateKg <= 0.5) {
             badgeEl.innerHTML = '<i class="bi bi-check-circle-fill me-1"></i> Recomendado (Hipertrofia)';
-            badgeEl.className = 'badge bg-success text-white';
+            badgeEl.className = 'badge bg-success text-white px-3 py-1.5 fs-7';
             descEl.textContent = 'Ritmo recomendado para síntese proteica e hipertrofia muscular.';
         } else {
             badgeEl.innerHTML = '<i class="bi bi-exclamation-triangle-fill me-1"></i> Agressivo / Superávit Alto';
-            badgeEl.className = 'badge bg-warning text-dark';
+            badgeEl.className = 'badge bg-warning text-dark px-3 py-1.5 fs-7';
             descEl.textContent = 'Ganho rápido com maior probabilidade de ganho de gordura associado.';
         }
     }
