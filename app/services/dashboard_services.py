@@ -128,28 +128,36 @@ def get_dashboard_data(user_id, date_str=None):
         'initial_weight': profile['current_weight'] if profile else 70.0,
         'current_weight': profile['current_weight'] if profile else 70.0,
         'target_weight': profile['current_weight'] if profile else 70.0,
+        'weekly_rate_kg': profile['weekly_rate_kg'] if profile else 0.50,
         'weight_change_kg': 0.0,
         'progress_pct': 0,
-        'remaining_kg': 0.0
+        'remaining_kg': 0.0,
+        'planned_weights': []
     }
 
     if profile:
         cur_w = profile['current_weight']
         change_meta = profile.get('target_weight_change_kg', 0.0)
         goal = profile.get('goal_type', 'maintenance')
+        weekly_rate = profile.get('weekly_rate_kg', 0.50)
 
         if weight_history and len(weight_history) > 0:
             init_w = weight_history[0]['weight']
+            try:
+                first_date = datetime.datetime.strptime(weight_history[0]['recorded_date'], '%Y-%m-%d').date()
+            except ValueError:
+                first_date = datetime.date.today()
         else:
             init_w = cur_w
+            first_date = datetime.date.today()
 
         if goal == 'weight_loss':
-            target_w = init_w - change_meta
+            target_w = profile.get('target_weight', init_w - change_meta)
             lost_so_far = max(0.0, init_w - cur_w)
             remaining = max(0.0, cur_w - target_w)
             progress = round((lost_so_far / change_meta * 100), 1) if change_meta > 0 else 100
         elif goal == 'weight_gain':
-            target_w = init_w + change_meta
+            target_w = profile.get('target_weight', init_w + change_meta)
             gained_so_far = max(0.0, cur_w - init_w)
             remaining = max(0.0, target_w - cur_w)
             progress = round((gained_so_far / change_meta * 100), 1) if change_meta > 0 else 100
@@ -158,13 +166,35 @@ def get_dashboard_data(user_id, date_str=None):
             remaining = 0.0
             progress = 100
 
+        # Calculate planned projection curve for history chart
+        planned_weights = []
+        for entry in weight_history:
+            try:
+                e_date = datetime.datetime.strptime(entry['recorded_date'], '%Y-%m-%d').date()
+                days_diff = (e_date - first_date).days
+            except ValueError:
+                days_diff = 0
+            
+            weeks_diff = days_diff / 7.0
+
+            if goal == 'weight_loss':
+                planned_val = max(target_w, round(init_w - (weekly_rate * weeks_diff), 1))
+            elif goal == 'weight_gain':
+                planned_val = min(target_w, round(init_w + (weekly_rate * weeks_diff), 1))
+            else:
+                planned_val = init_w
+                
+            planned_weights.append(planned_val)
+
         weight_stats = {
             'initial_weight': round(init_w, 1),
             'current_weight': round(cur_w, 1),
             'target_weight': round(target_w, 1),
+            'weekly_rate_kg': round(weekly_rate, 2),
             'change_meta': round(change_meta, 1),
             'progress_pct': min(100, max(0, int(progress))),
-            'remaining_kg': round(remaining, 1)
+            'remaining_kg': round(remaining, 1),
+            'planned_weights': planned_weights
         }
 
     return {

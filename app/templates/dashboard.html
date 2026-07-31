@@ -523,6 +523,8 @@ document.addEventListener('DOMContentLoaded', function() {
     if (weightCanvas) {
         const historyData = {{ data.weight_history|tojson }};
         const targetWeight = {{ data.weight_stats.target_weight }};
+        const plannedData = {{ data.weight_stats.planned_weights|tojson }};
+        const weeklyRate = {{ data.weight_stats.weekly_rate_kg }};
 
         const labels = historyData.map(item => item.recorded_date);
         const weights = historyData.map(item => item.weight);
@@ -545,7 +547,17 @@ document.addEventListener('DOMContentLoaded', function() {
                         borderWidth: 3
                     },
                     {
-                        label: 'Meta de Peso (kg)',
+                        label: 'Planejado (Ritmo ' + weeklyRate + ' kg/sem)',
+                        data: plannedData.length > 0 ? plannedData : [{{ data.weight_stats.current_weight }}],
+                        borderColor: '#3b82f6',
+                        borderDash: [3, 3],
+                        fill: false,
+                        pointRadius: 3,
+                        pointBackgroundColor: '#3b82f6',
+                        borderWidth: 2
+                    },
+                    {
+                        label: 'Meta Final (kg)',
                         data: targetLine.length > 0 ? targetLine : [targetWeight],
                         borderColor: '#f59e0b',
                         borderDash: [5, 5],
@@ -553,6 +565,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         pointRadius: 0,
                         borderWidth: 2
                     }
+
                 ]
             },
             options: {

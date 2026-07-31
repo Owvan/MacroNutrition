@@ -146,7 +146,7 @@ def get_user_profile(user_id):
     cursor.execute('''
         SELECT id, user_id, full_name, gender, age, height, current_weight, target_weight,
                goal_type, target_weight_change_kg, target_timeframe_weeks, weekly_pace,
-               activity_level, created_at, updated_at
+               weekly_rate_kg, activity_level, created_at, updated_at
         FROM user_profiles
         WHERE user_id = ?
     ''', (user_id,))
@@ -187,11 +187,15 @@ def get_user_profile(user_id):
     profile['bmi_info'] = bmi_info
     
     # Calculate weekly target rate & weeks
+    saved_rate = profile.get('weekly_rate_kg')
     weeks = profile.get('target_timeframe_weeks') or 1
-    if diff_kg > 0:
+    
+    if saved_rate is not None and float(saved_rate) > 0:
+        weekly_rate = round(float(saved_rate), 2)
+    elif diff_kg > 0:
         weekly_rate = round(diff_kg / max(weeks, 1), 2)
     else:
-        weekly_rate = 0.0
+        weekly_rate = 0.50
 
     profile['weekly_rate_kg'] = weekly_rate
     profile['calculated_weeks'] = max(1, int(round(diff_kg / weekly_rate))) if weekly_rate > 0 else 0
@@ -213,8 +217,8 @@ def save_or_update_user_profile(user_id, full_name, gender, age, height, current
     height = float(height or 170.0)
     current_weight = float(current_weight or 70.0)
     target_weight = float(target_weight or 65.0)
-    weekly_rate_kg = float(weekly_rate_kg or 0.50)
-    activity_level = float(activity_level or 1.2)
+    weekly_rate_kg = float(str(weekly_rate_kg or 0.50).replace(',', '.'))
+    activity_level = float(str(activity_level or 1.2).replace(',', '.'))
     weekly_pace = str(weekly_pace or 'recommended').strip()
 
     # Determine goal type & diff
@@ -249,16 +253,17 @@ def save_or_update_user_profile(user_id, full_name, gender, age, height, current
                 target_weight_change_kg = ?,
                 target_timeframe_weeks = ?,
                 weekly_pace = ?,
+                weekly_rate_kg = ?,
                 activity_level = ?,
                 updated_at = CURRENT_TIMESTAMP
             WHERE user_id = ?
-        ''', (full_name, gender, age, height, current_weight, target_weight, goal_type, target_weight_change_kg, target_timeframe_weeks, weekly_pace, activity_level, user_id))
+        ''', (full_name, gender, age, height, current_weight, target_weight, goal_type, target_weight_change_kg, target_timeframe_weeks, weekly_pace, weekly_rate_kg, activity_level, user_id))
     else:
         cursor.execute('''
             INSERT INTO user_profiles
-            (user_id, full_name, gender, age, height, current_weight, target_weight, goal_type, target_weight_change_kg, target_timeframe_weeks, weekly_pace, activity_level)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        ''', (user_id, full_name, gender, age, height, current_weight, target_weight, goal_type, target_weight_change_kg, target_timeframe_weeks, weekly_pace, activity_level))
+            (user_id, full_name, gender, age, height, current_weight, target_weight, goal_type, target_weight_change_kg, target_timeframe_weeks, weekly_pace, weekly_rate_kg, activity_level)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ''', (user_id, full_name, gender, age, height, current_weight, target_weight, goal_type, target_weight_change_kg, target_timeframe_weeks, weekly_pace, weekly_rate_kg, activity_level))
 
     db.commit()
     return True

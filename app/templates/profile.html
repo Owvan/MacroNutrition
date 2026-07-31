@@ -140,22 +140,23 @@
                             <label for="weekly_rate_kg" class="form-label fw-semibold text-dark mb-1">Ritmo Desejado por Semana</label>
                             <div class="row g-2">
                                 <div class="col-7">
-                                    <select class="form-select fw-semibold" id="weekly_pace_select" onchange="onPaceSelectChanged()">
-                                        <option value="0.25">🔵 Conservador (0.25 kg/sem)</option>
-                                        <option value="0.50" selected>🟢 Recomendado (0.50 kg/sem)</option>
-                                        <option value="0.75">🟡 Moderado (0.75 kg/sem)</option>
-                                        <option value="1.00">🔴 Agressivo (1.00 kg/sem)</option>
-                                        <option value="custom">⚡ Personalizado...</option>
+                                    <select class="form-select fw-semibold" id="weekly_pace_select" name="weekly_pace" onchange="onPaceSelectChanged()">
+                                        <option value="0.25" {% if profile and (profile.weekly_rate_kg == 0.25 or profile.weekly_pace == '0.25' or profile.weekly_pace == 'conservative') %}selected{% endif %}>🔵 Conservador (0.25 kg/sem)</option>
+                                        <option value="0.50" {% if not profile or (profile.weekly_rate_kg == 0.50 or profile.weekly_pace == '0.50' or profile.weekly_pace == 'recommended') %}selected{% endif %}>🟢 Recomendado (0.50 kg/sem)</option>
+                                        <option value="0.75" {% if profile and (profile.weekly_rate_kg == 0.75 or profile.weekly_pace == '0.75' or profile.weekly_pace == 'moderate') %}selected{% endif %}>🟡 Moderado (0.75 kg/sem)</option>
+                                        <option value="1.00" {% if profile and (profile.weekly_rate_kg == 1.00 or profile.weekly_pace == '1.00' or profile.weekly_pace == 'aggressive') %}selected{% endif %}>🔴 Agressivo (1.00 kg/sem)</option>
+                                        <option value="custom" {% if profile and profile.weekly_rate_kg not in [0.25, 0.50, 0.75, 1.00] %}selected{% endif %}>⚡ Personalizado...</option>
                                     </select>
                                 </div>
                                 <div class="col-5">
                                     <div class="input-group">
-                                        <input type="number" step="0.05" min="0.1" max="2.0" class="form-control text-center fw-bold" id="weekly_rate_kg" name="weekly_rate_kg" value="{{ profile.weekly_rate_kg if profile else 0.50 }}" oninput="onCustomRateInput()">
+                                        <input type="number" step="0.05" min="0.1" max="2.0" class="form-control text-center fw-bold text-teal" id="weekly_rate_kg" name="weekly_rate_kg" value="{{ profile.weekly_rate_kg if profile else 0.50 }}" oninput="onCustomRateInput()">
                                         <span class="input-group-text bg-white text-muted px-2 fs-7">kg/sem</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
 
                         <!-- Painel Preditivo: Tempo Necessário Calculado -->
                         <div class="p-3 bg-light rounded-3 border mb-3">
