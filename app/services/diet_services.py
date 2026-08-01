@@ -144,11 +144,12 @@ def add_food_to_meal(user_id, meal_id, taco_food_id=None, amount_g=100, custom_n
             return False, "Alimento não encontrado na tabela nutricional."
 
         food_name = food['name']
-        calories = round(food['energy_kcal'] * factor, 1)
-        protein_g = round(food['protein_g'] * factor, 1)
-        carbs_g = round(food['carbohydrate_g'] * factor, 1)
-        fat_g = round(food['lipid_g'] * factor, 1)
+        calories = round((food.get('energy_kcal') or food.get('energy_kcal', 0.0)) * factor, 1)
+        protein_g = round((food.get('protein_g') if food.get('protein_g') is not None else food.get('protein_g', 0.0)) * factor, 1)
+        carbs_g = round((food.get('carbs_g') if food.get('carbs_g') is not None else food.get('carbohydrate_g', 0.0)) * factor, 1)
+        fat_g = round((food.get('fat_g') if food.get('fat_g') is not None else food.get('lipid_g', 0.0)) * factor, 1)
         t_id = taco_food_id
+
     else:
         if not custom_name:
             return False, "Informe o nome do alimento."
